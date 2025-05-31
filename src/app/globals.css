@@ -1,5 +1,5 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 @theme {
-  --font-arial: "Arial", sans-serif;
+    --font-arial: 'Arial', sans-serif;
 }
