@@ -1,7 +1,10 @@
 import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
-    /* config options here */
+    images: {
+        // TODO: Replace Lorem Picsum with Strapi
+        remotePatterns: [new URL('https://picsum.photos/**')],
+    },
 };
 
 export default nextConfig;

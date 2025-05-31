@@ -1,8 +1,21 @@
 'use client';
 
+import axios from 'axios';
+import Image from 'next/image';
 import { type HTMLAttributes, useEffect, useState } from 'react';
 
 export default function Page() {
+    // TODO: Replace Lorem Picsum with Strapi
+    const [images, setImages] = useState<
+        Array<{
+            id: string;
+            author: string;
+            width: number;
+            height: number;
+            url: string;
+            download_url: string;
+        }>
+    >([]);
     const [isSticky, setIsSticky] = useState(false);
     const [lastScrollY, setLastScrollY] = useState(0);
 
@@ -24,6 +37,21 @@ export default function Page() {
 
         return () => window.removeEventListener('scroll', handleScroll);
     }, [lastScrollY]);
+
+    useEffect(() => {
+        const fetchImages = async () => {
+            try {
+                // TODO: Replace Lorem Picsum with Strapi
+                const response = await axios.get('https://picsum.photos/v2/list');
+
+                setImages(response.data);
+            } catch (error) {
+                console.error('Error fetching images:', error);
+            }
+        };
+
+        fetchImages();
+    }, [images]);
 
     /**
      * The nav is rendered twice to allow for smooth animations on the sticky nav.
@@ -66,12 +94,27 @@ export default function Page() {
             <main>
                 <section id="portfolio">
                     <h2 className="text-center text-3xl tracking-wide uppercase">Portfolio</h2>
+                    <div className="mt-10 columns-1 gap-1 space-y-1 p-1 md:columns-2 lg:columns-3 xl:columns-4">
+                        {images.map((image) => (
+                            <div key={image.id} className="group relative hover:cursor-pointer">
+                                <Image
+                                    className="transition duration-300 group-hover:brightness-50"
+                                    src={image.download_url}
+                                    alt={`Image by ${image.author}`}
+                                    width={image.width}
+                                    height={image.height}
+                                />
+                                <div className="absolute inset-0 flex items-center justify-center opacity-0 transition duration-300 group-hover:opacity-100">
+                                    <h3 className="text-white">{`Image by ${image.author}`}</h3>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
                 </section>
-
-                <section id="about" className="mt-5">
+                <section id="about" className="mt-10">
                     <h2 className="text-center text-3xl tracking-wide uppercase">About</h2>
                 </section>
-                <section id="contact" className="mt-5">
+                <section id="contact" className="mt-10">
                     <h2 className="text-center text-3xl tracking-wide uppercase">Contact</h2>
                 </section>
             </main>
