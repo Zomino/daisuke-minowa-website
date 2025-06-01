@@ -16,18 +16,20 @@ export default function Page() {
             download_url: string;
         }>
     >([]);
-    const [isSticky, setIsSticky] = useState(false);
+    const [userRecentlyNavigated, setUserRecentlyNavigated] = useState(false);
+    const [isStickyNavVisible, setIsStickyNavVisible] = useState(false);
     const [lastScrollY, setLastScrollY] = useState(0);
 
     useEffect(() => {
         const handleScroll = () => {
-            if (
-                window.scrollY < lastScrollY &&
-                window.scrollY > window.innerHeight * 0.75 // Ensure we are past the original nav position
-            ) {
-                setIsSticky(true);
+            // Note that starting position of the static nav is assumed to be roughly 3/4 of the way down viewport height when at the top of the page.
+            const isNavPastOriginalPosition = window.scrollY > window.innerHeight * 0.75;
+
+            // The nav should be visible if the user has recently navigated or if they are past the original position of the nav and scrolling up.
+            if (isNavPastOriginalPosition && (userRecentlyNavigated || window.scrollY < lastScrollY)) {
+                setIsStickyNavVisible(true);
             } else {
-                setIsSticky(false);
+                setIsStickyNavVisible(false);
             }
 
             setLastScrollY(window.scrollY);
@@ -36,7 +38,7 @@ export default function Page() {
         window.addEventListener('scroll', handleScroll);
 
         return () => window.removeEventListener('scroll', handleScroll);
-    }, [lastScrollY]);
+    }, [lastScrollY, userRecentlyNavigated]);
 
     useEffect(() => {
         const fetchImages = async () => {
@@ -57,27 +59,42 @@ export default function Page() {
      * The nav is rendered twice to allow for smooth animations on the sticky nav.
      * When a single nav is used, the addition and removal of animation classes causes the nav to transition in from the sides of the screen.
      */
-    const renderNav = ({ className, ...rest }: HTMLAttributes<HTMLElement>) => (
-        <nav className={`align-center z-50 flex justify-center p-3 ${className}`} {...rest}>
-            <ul className="flex gap-4">
-                <li>
-                    <a href="#portfolio" className="text-md uppercase">
-                        Portfolio
-                    </a>
-                </li>
-                <li>
-                    <a href="#about" className="text-md uppercase">
-                        About
-                    </a>
-                </li>
-                <li>
-                    <a href="#contact" className="text-md uppercase">
-                        Contact
-                    </a>
-                </li>
-            </ul>
-        </nav>
-    );
+    const renderNav = ({ className, ...rest }: HTMLAttributes<HTMLElement>) => {
+        const handleClick = (href: string) => {
+            const element = document.querySelector(href);
+            if (element) {
+                element.scrollIntoView({ behavior: 'smooth' });
+            }
+
+            window.history.pushState(null, '', href);
+
+            setUserRecentlyNavigated(true);
+
+            setTimeout(() => setUserRecentlyNavigated(false), 2000);
+        };
+
+        return (
+            <nav className={`align-center z-50 flex justify-center p-3 ${className}`} {...rest}>
+                <ul className="flex gap-4">
+                    <li>
+                        <a className="text-md cursor-pointer uppercase" onClick={() => handleClick('#portfolio')}>
+                            Portfolio
+                        </a>
+                    </li>
+                    <li>
+                        <a className="text-md cursor-pointer uppercase" onClick={() => handleClick('#about')}>
+                            About
+                        </a>
+                    </li>
+                    <li>
+                        <a className="text-md cursor-pointer uppercase" onClick={() => handleClick('#contact')}>
+                            Contact
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        );
+    };
 
     return (
         <>
@@ -87,7 +104,7 @@ export default function Page() {
                 </h1>
                 {renderNav({ className: 'absolute top-[calc(60%)] left-1/2 -translate-x-1/2 transform' })}
                 {renderNav({
-                    className: `fixed top-0 left-0 w-full bg-white shadow-md transform transition-all duration-300 ease-in-out z-50 ${isSticky ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-full'}`,
+                    className: `fixed top-0 left-0 w-full bg-white shadow-md transform transition-all duration-300 ease-in-out z-50 ${isStickyNavVisible ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-full'}`,
                     'aria-hidden': true,
                 })}
             </header>
@@ -104,7 +121,10 @@ export default function Page() {
                                     width={image.width}
                                     height={image.height}
                                 />
-                                <div className="absolute inset-0 flex items-center justify-center opacity-0 transition duration-300 group-hover:opacity-100">
+                                <div
+                                    aria-hidden
+                                    className="absolute inset-0 flex items-center justify-center opacity-0 transition duration-300 group-hover:opacity-100"
+                                >
                                     <h3 className="text-white">{`Image by ${image.author}`}</h3>
                                 </div>
                             </div>

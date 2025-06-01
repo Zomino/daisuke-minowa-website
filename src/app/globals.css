@@ -2,4 +2,8 @@
 
 @theme {
     --font-arial: 'Arial', sans-serif;
+
+    --scroll-padding-18: calc(var(--spacing) * 18);
+    --scroll-padding-20: calc(var(--spacing) * 20);
+    --scroll-padding-22: calc(var(--spacing) * 22);
 }
