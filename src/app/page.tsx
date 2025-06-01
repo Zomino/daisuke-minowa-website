@@ -2,7 +2,9 @@
 
 import axios from 'axios';
 import Image from 'next/image';
-import { type HTMLAttributes, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
+
+import Nav from './nav';
 
 export default function Page() {
     // TODO: Replace Lorem Picsum with Strapi
@@ -41,59 +43,18 @@ export default function Page() {
     }, [lastScrollY, userRecentlyNavigated]);
 
     useEffect(() => {
-        const fetchImages = async () => {
-            try {
-                // TODO: Replace Lorem Picsum with Strapi
-                const response = await axios.get('https://picsum.photos/v2/list');
-
-                setImages(response.data);
-            } catch (error) {
-                console.error('Error fetching images:', error);
-            }
-        };
+        const fetchImages = () =>
+            axios
+                .get('https://picsum.photos/v2/list')
+                .then((response) => setImages(response.data))
+                .catch((error) => console.error('Error fetching images:', error));
 
         fetchImages();
     }, [images]);
 
-    /**
-     * The nav is rendered twice to allow for smooth animations on the sticky nav.
-     * When a single nav is used, the addition and removal of animation classes causes the nav to transition in from the sides of the screen.
-     */
-    const renderNav = ({ className, ...rest }: HTMLAttributes<HTMLElement>) => {
-        const handleClick = (href: string) => {
-            const element = document.querySelector(href);
-            if (element) {
-                element.scrollIntoView({ behavior: 'smooth' });
-            }
-
-            window.history.pushState(null, '', href);
-
-            setUserRecentlyNavigated(true);
-
-            setTimeout(() => setUserRecentlyNavigated(false), 2000);
-        };
-
-        return (
-            <nav className={`align-center z-50 flex justify-center p-3 ${className}`} {...rest}>
-                <ul className="flex gap-4">
-                    <li>
-                        <a className="text-md cursor-pointer uppercase" onClick={() => handleClick('#portfolio')}>
-                            Portfolio
-                        </a>
-                    </li>
-                    <li>
-                        <a className="text-md cursor-pointer uppercase" onClick={() => handleClick('#about')}>
-                            About
-                        </a>
-                    </li>
-                    <li>
-                        <a className="text-md cursor-pointer uppercase" onClick={() => handleClick('#contact')}>
-                            Contact
-                        </a>
-                    </li>
-                </ul>
-            </nav>
-        );
+    const handleNavigate = () => {
+        setUserRecentlyNavigated(true);
+        setTimeout(() => setUserRecentlyNavigated(false), 2000);
     };
 
     return (
@@ -102,11 +63,16 @@ export default function Page() {
                 <h1 className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 transform text-center text-5xl font-extralight tracking-widest uppercase">
                     Daisuke Minowa
                 </h1>
-                {renderNav({ className: 'absolute top-[calc(60%)] left-1/2 -translate-x-1/2 transform' })}
-                {renderNav({
-                    className: `fixed top-0 left-0 w-full bg-white shadow-md transform transition-all duration-300 ease-in-out z-50 ${isStickyNavVisible ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-full'}`,
-                    'aria-hidden': true,
-                })}
+                {/*
+                  The nav is rendered twice to allow for smooth animations on the sticky nav.
+                  When a single nav is used, the addition and removal of animation classes causes the nav to transition in from the sides of the screen.
+                */}
+                <Nav className="absolute top-[calc(60%)] left-1/2 -translate-x-1/2 transform" onNavigate={handleNavigate} />
+                <Nav
+                    aria-hidden // Ensure only the first nav is accessible to screen readers
+                    className={`fixed top-0 left-0 z-50 w-full transform bg-white shadow-md transition-all duration-300 ease-in-out ${isStickyNavVisible ? 'translate-y-0 opacity-100' : '-translate-y-full opacity-0'}`}
+                    onNavigate={handleNavigate}
+                />
             </header>
             <main>
                 <section id="portfolio">
