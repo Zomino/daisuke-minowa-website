@@ -19,7 +19,7 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
     return (
-        <html className="font-arial scroll-smooth scroll-pt-22" lang="en">
+        <html className="font-arial scroll-pt-22 scroll-smooth bg-black text-white" lang="en">
             <body>{children}</body>
         </html>
     );

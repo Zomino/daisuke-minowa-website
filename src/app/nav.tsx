@@ -15,17 +15,17 @@ export default function Nav({ className = '', onNavigate, ...rest }: HTMLAttribu
         <nav className={`align-center z-50 flex justify-center p-3 ${className}`} {...rest}>
             <ul className="flex gap-4">
                 <li>
-                    <a className="text-md cursor-pointer uppercase hover:text-black/60" onClick={() => handleClick('#portfolio')}>
+                    <a className="text-sm md:text-lg cursor-pointer uppercase hover:text-white/60" onClick={() => handleClick('#portfolio')}>
                         Portfolio
                     </a>
                 </li>
                 <li>
-                    <a className="text-md cursor-pointer uppercase hover:text-black/60" onClick={() => handleClick('#about')}>
+                    <a className="text-sm md:text-lg cursor-pointer uppercase hover:text-white/60" onClick={() => handleClick('#about')}>
                         About
                     </a>
                 </li>
                 <li>
-                    <a className="text-md cursor-pointer uppercase hover:text-black/60" onClick={() => handleClick('#contact')}>
+                    <a className="text-sm md:text-lg cursor-pointer uppercase hover:text-white/60" onClick={() => handleClick('#contact')}>
                         Contact
                     </a>
                 </li>
