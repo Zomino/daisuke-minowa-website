@@ -1,11 +1,12 @@
 'use client';
 
 import axios from 'axios';
+import { AnimatePresence, motion } from 'framer-motion';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 
-import Carousel from './ImageCarousel';
-import Nav from './Nav';
+import Carousel from '../components/ImageCarousel/ImageCarousel';
+import Nav from '../components/Nav/Nav';
 
 export default function Page() {
     // TODO: Replace Lorem Picsum with Strapi
@@ -93,9 +94,18 @@ export default function Page() {
                 />
             </header>
             <main className="mt-10">
-                {images.length > 0 && (
-                    <Carousel images={images} isOpen={isCarouselOpen} onClose={() => setIsCarouselOpen(false)} startIndex={carouselStartIndex} />
-                )}
+                <AnimatePresence>
+                    {isCarouselOpen && (
+                        <motion.div
+                            className="pointer-events-none fixed inset-0 z-50 h-screen bg-black"
+                            animate={{ opacity: 1, scale: 1 }}
+                            initial={{ opacity: 0, scale: 0.95 }}
+                            exit={{ opacity: 0, scale: 0.95 }}
+                        >
+                            <Carousel images={images} onClose={() => setIsCarouselOpen(false)} startIndex={carouselStartIndex} />
+                        </motion.div>
+                    )}
+                </AnimatePresence>
                 <section id="portfolio">
                     <h2 className="text-center text-2xl tracking-wide uppercase md:text-3xl">Portfolio</h2>
                     <div className="mt-10 columns-1 gap-1 space-y-1 p-1 md:columns-2 lg:columns-3 xl:columns-4">
