@@ -28,12 +28,13 @@ interface CarouselBag {
 
 interface CarouselProps<T> extends Omit<EmblaOptions, 'startIndex'> {
     children: (item: T, index: number, carouselBag: CarouselBag) => number | string | JSX.Element;
+    className?: string;
     items: T[];
     onClose?: () => void;
     startIndex?: number; // Optional start index for the carousel
 }
 
-export default function Carousel<T>({ children, onClose, items, startIndex = 0, ...rest }: CarouselProps<T>) {
+export default function Carousel<T>({ children, className, onClose, items, startIndex = 0, ...rest }: CarouselProps<T>) {
     const [emblaRef, emblaApi] = useEmblaCarousel({ startIndex, ...rest });
     const [isFullScreen, setIsFullScreen] = useState(false);
     const [isUserActive, setIsUserActive] = useState(false);
@@ -85,7 +86,8 @@ export default function Carousel<T>({ children, onClose, items, startIndex = 0, 
 
     return (
         <div
-            className="relative h-full w-full" // Ensure the carousel takes full height and width of its container.
+            // Ensure the carousel takes full height and width of its container when .
+            className={`bg-black ${isFullScreen ? 'fixed inset-0 h-screen w-screen' : 'relative h-full w-full'} ${className}`}
             ref={emblaRef}
             onMouseMove={() => setIsUserActive(true)}
             onMouseLeave={() => setIsUserActive(false)}
