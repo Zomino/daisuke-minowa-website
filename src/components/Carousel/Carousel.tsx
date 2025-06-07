@@ -106,7 +106,7 @@ export default function Carousel<T>({ children, className, onClose, items, start
                         <>
                             <MotionCarouselButton
                                 ariaLabel="Close Carousel"
-                                className="absolute top-4 right-4 bg-black/70"
+                                className="absolute top-4 right-4"
                                 title="Close Carousel"
                                 onClick={close}
                                 variants={buttonVariants}
@@ -117,18 +117,19 @@ export default function Carousel<T>({ children, className, onClose, items, start
                                 className="absolute bottom-4 left-1/2 z-50 flex -translate-x-1/2 gap-2 rounded-full bg-black/70 p-2 text-white/70"
                                 variants={buttonVariants}
                             >
-                                <CarouselButton ariaLabel="Previous Image" title="Previous Image" onClick={scrollPrev}>
+                                <CarouselButton ariaLabel="Previous Image" className="bg-transparent" title="Previous Image" onClick={scrollPrev}>
                                     <ChevronLeftIcon className="h-6 w-6" />
                                 </CarouselButton>
                                 <CarouselButton
                                     ariaLabel="Toggle Fullscreen"
                                     aria-pressed={isFullScreen}
+                                    className="bg-transparent"
                                     title={isFullScreen ? 'Exit Fullscreen' : 'Enter Fullscreen'}
                                     onClick={() => setIsFullScreen(!isFullScreen)}
                                 >
                                     {isFullScreen ? <ArrowsPointingInIcon className="h-6 w-6" /> : <ArrowsPointingOutIcon className="h-6 w-6" />}
                                 </CarouselButton>
-                                <CarouselButton ariaLabel="Next Image" title="Next Image" onClick={scrollNext}>
+                                <CarouselButton ariaLabel="Next Image" className="bg-transparent" title="Next Image" onClick={scrollNext}>
                                     <ChevronRightIcon className="h-6 w-6" />
                                 </CarouselButton>
                             </motion.div>

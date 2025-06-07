@@ -2,11 +2,13 @@
 
 import axios from 'axios';
 import { AnimatePresence, motion } from 'framer-motion';
-import Image from 'next/image';
 import { useEffect, useState } from 'react';
 
-import Carousel from '../components/ImageCarousel/ImageCarousel';
-import Nav from '../components/Nav/Nav';
+import Image from '@components/Image/Image';
+import ImageWithSkeleton from '@components/ImageWithSkeleton/ImageWithSkeleton';
+
+import ImageCarousel from 'app/components/ImageCarousel/ImageCarousel';
+import Nav from 'app/components/Nav/Nav';
 
 export default function Page() {
     // TODO: Replace Lorem Picsum with Strapi
@@ -57,6 +59,19 @@ export default function Page() {
         fetchImages();
     }, []);
 
+    // Lock the page scroll when the carousel is open.
+    useEffect(() => {
+        if (isCarouselOpen) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = 'auto';
+        }
+
+        return () => {
+            document.body.style.overflow = 'auto';
+        };
+    }, [isCarouselOpen]);
+
     const handleNavigate = () => {
         setUserRecentlyNavigated(true);
         setTimeout(() => setUserRecentlyNavigated(false), 2000);
@@ -97,12 +112,12 @@ export default function Page() {
                 <AnimatePresence>
                     {isCarouselOpen && (
                         <motion.div
-                            className="pointer-events-none fixed inset-0 z-50 h-screen bg-black"
+                            className="fixed inset-0 z-50 h-screen bg-black"
                             animate={{ opacity: 1, scale: 1 }}
                             initial={{ opacity: 0, scale: 0.95 }}
                             exit={{ opacity: 0, scale: 0.95 }}
                         >
-                            <Carousel images={images} onClose={() => setIsCarouselOpen(false)} startIndex={carouselStartIndex} />
+                            <ImageCarousel images={images} onClose={() => setIsCarouselOpen(false)} startIndex={carouselStartIndex} />
                         </motion.div>
                     )}
                 </AnimatePresence>
@@ -111,7 +126,7 @@ export default function Page() {
                     <div className="mt-10 columns-1 gap-1 space-y-1 p-1 md:columns-2 lg:columns-3 xl:columns-4">
                         {images.map((image, index) => (
                             <div key={image.id} className="group relative hover:cursor-pointer" onClick={() => handleImageClick(index)}>
-                                <Image
+                                <ImageWithSkeleton
                                     className="transition duration-300 group-hover:brightness-50"
                                     src={image.download_url}
                                     alt={`Image by ${image.author}`}

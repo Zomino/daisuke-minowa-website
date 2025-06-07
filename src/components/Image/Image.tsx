@@ -16,7 +16,7 @@ export default function Image(props: React.ComponentProps<typeof I>) {
     };
 
     return (
-        <motion.div initial={{ opacity: 0 }} animate={{ opacity: isLoaded ? 1 : 0 }} transition={{ duration: 0.5 }}>
+        <motion.div initial={{ opacity: 0 }} animate={{ opacity: isLoaded ? 1 : 0 }} transition={{ duration: 1 }}>
             <I onLoad={handleLoad} {...rest} />
         </motion.div>
     );
