@@ -1,9 +1,16 @@
 import useEmblaCarousel from 'embla-carousel-react';
 import { ArrowsPointingInIcon, ArrowsPointingOutIcon, ChevronLeftIcon, ChevronRightIcon, XMarkIcon } from '@heroicons/react/24/solid';
-import { motion } from 'motion/react';
+import { AnimatePresence, motion } from 'motion/react';
 import { type JSX, useCallback, useEffect, useState } from 'react';
 
 import CarouselButton from './CarouselButton';
+
+const MotionCarouselButton = motion.create(CarouselButton);
+
+const buttonVariants = {
+    hidden: { opacity: 0 },
+    visible: { opacity: 1 },
+};
 
 // undefined must be exluded to make the type usable.
 type EmblaOptions = Exclude<Parameters<typeof useEmblaCarousel>[0], undefined>;
@@ -16,7 +23,7 @@ interface CarouselBag {
     close: () => void;
     toggleFullScreen: () => void;
     isFullScreen: boolean;
-    isRecentlyHovered: boolean;
+    isUserActive: boolean;
 }
 
 interface CarouselProps<T> extends Omit<EmblaOptions, 'startIndex'> {
@@ -29,7 +36,7 @@ interface CarouselProps<T> extends Omit<EmblaOptions, 'startIndex'> {
 export default function Carousel<T>({ children, onClose, items, startIndex = 0, ...rest }: CarouselProps<T>) {
     const [emblaRef, emblaApi] = useEmblaCarousel({ startIndex, ...rest });
     const [isFullScreen, setIsFullScreen] = useState(false);
-    const [isRecentlyHovered, setIsRecentlyHovered] = useState(false);
+    const [isUserActive, setIsUserActive] = useState(false);
 
     const close = useCallback(() => {
         onClose?.();
@@ -69,52 +76,64 @@ export default function Carousel<T>({ children, onClose, items, startIndex = 0, 
 
     // Set a timer to hide the hover buttons after 5 seconds of inactivity.
     useEffect(() => {
-        if (!isRecentlyHovered) return;
+        if (!isUserActive) return;
 
-        const timer = setTimeout(() => setIsRecentlyHovered(false), 5000);
+        const timer = setTimeout(() => setIsUserActive(false), 5000);
 
         return () => clearTimeout(timer);
-    }, [isRecentlyHovered]);
+    }, [isUserActive]);
 
     return (
         <div
-            className="relative"
+            className="relative h-full w-full" // Ensure the carousel takes full height and width of its container.
             ref={emblaRef}
-            onMouseMove={() => setIsRecentlyHovered(true)}
-            onMouseLeave={() => setIsRecentlyHovered(false)}
+            onMouseMove={() => setIsUserActive(true)}
+            onMouseLeave={() => setIsUserActive(false)}
         >
-            <div className="flex">
+            {/* Adding height and widtch with overflow-auto allows each item to have its own scrolling context. */}
+            <div className="flex h-full w-full">
                 {items.map((item, i) => (
-                    <div key={i} className="flex-[0_0_100%]">
-                        {children(item, i, { scrollNext, scrollPrev, close, toggleFullScreen, isFullScreen, isRecentlyHovered })}
+                    <div key={i} className="flex-[0_0_100%] overflow-auto">
+                        {children(item, i, { scrollNext, scrollPrev, close, toggleFullScreen, isFullScreen, isUserActive })}
                     </div>
                 ))}
             </div>
-            <motion.div animate={{ opacity: isRecentlyHovered ? 1 : 0 }} transition={{ duration: 0.3 }}>
-                <CarouselButton ariaLabel="Close Carousel" className="absolute top-4 right-4 bg-black/70" title="Close Carousel" onClick={close}>
-                    <XMarkIcon className="h-6 w-6" />
-                </CarouselButton>
-            </motion.div>
-            <motion.div
-                className="absolute bottom-4 left-1/2 z-50 flex -translate-x-1/2 gap-2 rounded-full bg-black/70 p-2 text-white/70"
-                animate={{ opacity: isRecentlyHovered ? 1 : 0 }}
-                transition={{ duration: 0.3 }}
-            >
-                <CarouselButton ariaLabel="Previous Image" title="Previous Image" onClick={scrollPrev}>
-                    <ChevronLeftIcon className="h-6 w-6" />
-                </CarouselButton>
-                <CarouselButton
-                    ariaLabel="Toggle Fullscreen"
-                    aria-pressed={isFullScreen}
-                    title={isFullScreen ? 'Exit Fullscreen' : 'Enter Fullscreen'}
-                    onClick={() => setIsFullScreen(!isFullScreen)}
-                >
-                    {isFullScreen ? <ArrowsPointingInIcon className="h-6 w-6" /> : <ArrowsPointingOutIcon className="h-6 w-6" />}
-                </CarouselButton>
-                <CarouselButton ariaLabel="Next Image" title="Next Image" onClick={scrollNext}>
-                    <ChevronRightIcon className="h-6 w-6" />
-                </CarouselButton>
-            </motion.div>
+            <AnimatePresence>
+                {isUserActive && (
+                    <motion.div variants={buttonVariants} initial="hidden" animate="visible" exit="hidden">
+                        <>
+                            <MotionCarouselButton
+                                ariaLabel="Close Carousel"
+                                className="absolute top-4 right-4 bg-black/70"
+                                title="Close Carousel"
+                                onClick={close}
+                                variants={buttonVariants}
+                            >
+                                <XMarkIcon className="h-6 w-6" />
+                            </MotionCarouselButton>
+                            <motion.div
+                                className="absolute bottom-4 left-1/2 z-50 flex -translate-x-1/2 gap-2 rounded-full bg-black/70 p-2 text-white/70"
+                                variants={buttonVariants}
+                            >
+                                <CarouselButton ariaLabel="Previous Image" title="Previous Image" onClick={scrollPrev}>
+                                    <ChevronLeftIcon className="h-6 w-6" />
+                                </CarouselButton>
+                                <CarouselButton
+                                    ariaLabel="Toggle Fullscreen"
+                                    aria-pressed={isFullScreen}
+                                    title={isFullScreen ? 'Exit Fullscreen' : 'Enter Fullscreen'}
+                                    onClick={() => setIsFullScreen(!isFullScreen)}
+                                >
+                                    {isFullScreen ? <ArrowsPointingInIcon className="h-6 w-6" /> : <ArrowsPointingOutIcon className="h-6 w-6" />}
+                                </CarouselButton>
+                                <CarouselButton ariaLabel="Next Image" title="Next Image" onClick={scrollNext}>
+                                    <ChevronRightIcon className="h-6 w-6" />
+                                </CarouselButton>
+                            </motion.div>
+                        </>
+                    </motion.div>
+                )}
+            </AnimatePresence>
         </div>
     );
 }
