@@ -1,6 +1,9 @@
 @import 'tailwindcss';
 
 @theme {
+    --color-dark-gray: #232323;
+    --color-darker-gray: #2d2d2d;
+
     --font-arial: 'Arial', sans-serif;
 
     --scroll-padding-18: calc(var(--spacing) * 18);
