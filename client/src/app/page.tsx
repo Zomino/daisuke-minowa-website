@@ -66,7 +66,6 @@ export default function Page() {
         } else {
             document.body.style.overflow = 'auto';
         }
-
         return () => {
             document.body.style.overflow = 'auto';
         };
@@ -112,7 +111,7 @@ export default function Page() {
                 <AnimatePresence>
                     {isCarouselOpen && (
                         <motion.div
-                            className="fixed inset-0 z-50 h-screen bg-black"
+                            className="fixed inset-0 z-50 h-screen w-screen bg-black"
                             animate={{ opacity: 1, scale: 1 }}
                             initial={{ opacity: 0, scale: 0.95 }}
                             exit={{ opacity: 0, scale: 0.95 }}

@@ -35,9 +35,15 @@ interface CarouselProps<T> extends Omit<EmblaOptions, 'startIndex'> {
 }
 
 export default function Carousel<T>({ children, className, onClose, items, startIndex = 0, ...rest }: CarouselProps<T>) {
-    const [emblaRef, emblaApi] = useEmblaCarousel({ startIndex, ...rest });
+    const [emblaRef, emblaApi] = useEmblaCarousel(rest);
     const [isFullScreen, setIsFullScreen] = useState(false);
     const [isUserActive, setIsUserActive] = useState(false);
+
+    // Scroll to the startIndex without animation.
+    // This must be done n a useEffect to prevent scroll bars from popping in and out when the carousel is first rendered.
+    useEffect(() => {
+        emblaApi?.scrollTo(startIndex, true);
+    }, [emblaApi, startIndex]);
 
     const close = useCallback(() => {
         onClose?.();
@@ -87,7 +93,7 @@ export default function Carousel<T>({ children, className, onClose, items, start
     return (
         <div
             // Ensure the carousel takes full height and width of its container when .
-            className={`bg-black ${isFullScreen ? 'fixed inset-0 h-screen w-screen' : 'relative h-full w-full'} ${className}`}
+            className={`overflow-hidden bg-black ${isFullScreen ? 'fixed inset-0 h-screen w-screen' : 'relative h-full w-full'} ${className}`}
             ref={emblaRef}
             onMouseMove={() => setIsUserActive(true)}
             onMouseLeave={() => setIsUserActive(false)}
