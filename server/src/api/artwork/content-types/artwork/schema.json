@@ -1,0 +1,49 @@
+{
+  "kind": "collectionType",
+  "collectionName": "artworks",
+  "info": {
+    "singularName": "artwork",
+    "pluralName": "artworks",
+    "displayName": "Artwork"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "maxLength": 200,
+      "required": true
+    },
+    "height": {
+      "type": "biginteger",
+      "required": true
+    },
+    "width": {
+      "type": "biginteger",
+      "required": true
+    },
+    "image": {
+      "type": "media",
+      "multiple": false,
+      "required": true,
+      "allowedTypes": [
+        "images",
+        "files"
+      ]
+    },
+    "description": {
+      "type": "text",
+      "maxLength": 1000
+    },
+    "alt": {
+      "type": "string",
+      "default": "Artwork by Daisuke Minowa",
+      "required": false
+    },
+    "date": {
+      "type": "date"
+    }
+  }
+}
