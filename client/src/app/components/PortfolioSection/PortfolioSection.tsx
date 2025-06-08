@@ -14,9 +14,7 @@ export default async function PortfolioSection(props: React.ComponentProps<'sect
     return (
         <section id="portfolio" {...props}>
             <h2 className="text-center text-2xl tracking-widest uppercase md:text-3xl">Portfolio</h2>
-            <div className="mt-10 columns-1 gap-1 space-y-1 md:columns-2 lg:columns-3 xl:columns-4">
-                <Artwork artwork={images} />
-            </div>
+            <Artwork className="mt-10" artwork={images} />
         </section>
     );
 }

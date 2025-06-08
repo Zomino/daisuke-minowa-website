@@ -31,7 +31,9 @@ export default function ImageWithSkeleton(props: React.ComponentProps<typeof Ima
             {!isLoaded && hasError && (
                 <div className="absolute inset-0 h-full w-full">
                     <div className="flex h-full w-full items-center justify-center">
-                        <span role="alert" className="text-sm whitespace-nowrap text-gray-500">Image failed to load</span>
+                        <span role="alert" className="text-sm whitespace-nowrap text-gray-500">
+                            Image failed to load
+                        </span>
                     </div>
                 </div>
             )}

@@ -4,7 +4,10 @@ import { motion } from 'framer-motion';
 import I from 'next/image';
 import { useState } from 'react';
 
-/** An abstraction for loading images that fades the image in when it loads. */
+/**
+ * An abstraction for loading images that fades the image in when it loads.
+ * This is a workaround for the fact that Nex JS's Image component does not
+ */
 export default function Image(props: React.ComponentProps<typeof I>) {
     const { onLoad, ...rest } = props;
 

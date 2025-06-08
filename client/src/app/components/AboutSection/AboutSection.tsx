@@ -2,8 +2,9 @@ import strapiClient from '@lib/strapiClient';
 import { type About } from 'genTypes/About';
 import { type EducationEntry } from 'genTypes/EducationEntry';
 import { type ExhibitionEntry } from 'genTypes/ExhibitionEntry';
+// The new implementation only supports blurDataURL as a base64 string, not a URL.
+import Image from 'next/legacy/image';
 
-import Image from '@components/Image/Image';
 import { STRAPI_BASE_URL } from '@config/env';
 
 export default async function AboutSection(props: React.ComponentProps<'section'>) {
@@ -33,11 +34,17 @@ export default async function AboutSection(props: React.ComponentProps<'section'
         <section id="about" {...props}>
             <h2 className="text-center text-2xl tracking-widest uppercase md:text-3xl">About</h2>
             <Image
-                className="mx-auto mt-10 max-w-70 rounded-full object-contain"
+                className="mx-auto mt-10 max-w-70 object-contain"
                 src={`${STRAPI_BASE_URL}${about?.profileImage?.url || ''}`}
                 alt={about?.profileImage?.alternativeText || 'Photo of Daisuke Minowa'}
                 width={about?.profileImage?.width}
                 height={about?.profileImage?.height}
+                placeholder="blur"
+                blurDataURL={`${STRAPI_BASE_URL}${about?.profileImage?.formats?.thumbnail?.url || ''}`}
+                // Responsive image sizes: If the viewport is less than 768px, the image will 100vw; otherwise, it will use 70vw.
+                // These are approximate values to help Next JS optimize the image loading.
+                // Ensure that the sizes roughly correspond to the layout and media queries in the CSS.
+                sizes="(max-width: 768px) 100vw, 70vw"
             />
             <p className="mx-auto mt-5 max-w-100 p-5 text-center">{about?.bio}</p>
             <div className="mt-5 px-5 md:flex md:justify-center md:space-x-5">

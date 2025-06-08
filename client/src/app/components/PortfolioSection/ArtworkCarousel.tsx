@@ -3,9 +3,9 @@
 import { STRAPI_BASE_URL } from '@config/env';
 import { AnimatePresence, motion } from 'framer-motion';
 import { type Artwork } from 'genTypes/Artwork';
+import Image from 'next/image';
 
 import Carousel from '@components/Carousel/Carousel';
-import ImageWithSkeleton from '@components/ImageWithSkeleton/ImageWithSkeleton';
 
 interface ArtworkCarouselProps extends Omit<React.ComponentProps<typeof Carousel>, 'children' | 'items'> {
     artwork: Artwork[];
@@ -21,12 +21,16 @@ export default function ArtworkCarousel({ artwork, ...rest }: ArtworkCarouselPro
                         onClick={toggleFullScreen}
                         layout
                     >
-                        <ImageWithSkeleton
+                        <Image
                             className={`object-contain ${isFullScreen ? 'h-screen w-screen' : 'h-full w-full'}`}
                             src={`${STRAPI_BASE_URL}${item.image?.url || ''}`}
                             alt={item.image?.alternativeText || 'Artwork by Daisuke Minowa'}
                             height={item.image?.height}
                             width={item.image?.width}
+                            // TODO: Fix the type of blurDataURL to be a base64 string.
+                            // The new implementation only supports blurDataURL as a base64 string, not a URL.
+                            placeholder="blur"
+                            blurDataURL={`${STRAPI_BASE_URL}${item.image?.formats?.thumbnail?.url || ''}`}
                         />
                     </motion.div>
                     {!isFullScreen && (

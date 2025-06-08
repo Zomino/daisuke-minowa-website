@@ -2,18 +2,19 @@
 
 import { AnimatePresence, motion } from 'framer-motion';
 import { type Artwork as A } from 'genTypes/Artwork';
+// The new implementation only supports blurDataURL as a base64 string, not a URL.
+import Image from 'next/legacy/image';
 import { useEffect, useState } from 'react';
 
 import { STRAPI_BASE_URL } from '@config/env';
-import ImageWithSkeleton from '@components/ImageWithSkeleton/ImageWithSkeleton';
 
 import ArtworkCarousel from 'app/components/PortfolioSection/ArtworkCarousel';
 
-interface ArtworkProps {
+interface ArtworkProps extends React.ComponentProps<'div'> {
     artwork: A[];
 }
 
-export default function Artwork({ artwork }: ArtworkProps) {
+export default function Artwork({ artwork, className, ...rest }: ArtworkProps) {
     const [isCarouselOpen, setIsCarouselOpen] = useState(false);
     const [carouselStartIndex, setCarouselStartIndex] = useState(0);
 
@@ -35,7 +36,7 @@ export default function Artwork({ artwork }: ArtworkProps) {
     };
 
     return (
-        <>
+        <div className={`mt-10 columns-1 gap-1 space-y-1 md:columns-2 lg:columns-3 xl:columns-4 ${className}`} {...rest}>
             <AnimatePresence>
                 {isCarouselOpen && (
                     <motion.div
@@ -50,12 +51,17 @@ export default function Artwork({ artwork }: ArtworkProps) {
             </AnimatePresence>
             {artwork.map((a, index) => (
                 <div key={a.id} className="group relative hover:cursor-pointer" onClick={() => handleImageClick(index)}>
-                    <ImageWithSkeleton
+                    <Image
                         className="transition duration-300 group-hover:brightness-50"
                         src={`${STRAPI_BASE_URL}${a.image?.url || ''}`}
                         alt={a.image?.alternativeText || 'Artwork by Daisuke Minowa'}
                         width={a.image?.width}
                         height={a.image?.height}
+                        placeholder="blur"
+                        blurDataURL={`${STRAPI_BASE_URL}${a.image?.formats?.thumbnail?.url || ''}`}
+                        // Match the sizes to the grid media queries.
+                        // These are approximate values to help Next.js optimize the image loading.
+                        sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 25vw"
                     />
                     <div
                         aria-hidden
@@ -65,6 +71,6 @@ export default function Artwork({ artwork }: ArtworkProps) {
                     </div>
                 </div>
             ))}
-        </>
+        </div>
     );
 }
