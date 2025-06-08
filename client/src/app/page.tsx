@@ -11,6 +11,7 @@ export default function Page() {
         <>
             <header className="relative h-screen">
                 <Image
+                    aria-hidden // This image is decorative, so we can hide it from assistive technologies. This also prevents the alt text from showing up in the page.
                     alt="Hero background image"
                     className="absolute inset-0 object-cover"
                     fill // Use fill to prevent layout shift without needing to specify width and height.
