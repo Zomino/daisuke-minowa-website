@@ -1,5 +1,7 @@
+'use client';
+
 import useEmblaCarousel from 'embla-carousel-react';
-import { ArrowsPointingInIcon, ArrowsPointingOutIcon, ChevronLeftIcon, ChevronRightIcon, XMarkIcon } from '@heroicons/react/24/solid';
+import { FiMaximize, FiMinimize, FiChevronLeft, FiChevronRight, FiX } from 'react-icons/fi';
 import { AnimatePresence, motion } from 'motion/react';
 import { type JSX, useCallback, useEffect, useState } from 'react';
 
@@ -117,14 +119,14 @@ export default function Carousel<T>({ children, className, onClose, items, start
                                 onClick={close}
                                 variants={buttonVariants}
                             >
-                                <XMarkIcon className="h-6 w-6" />
+                                <FiX className="h-6 w-6" />
                             </MotionCarouselButton>
                             <motion.div
                                 className="absolute bottom-4 left-1/2 z-50 flex -translate-x-1/2 gap-2 rounded-full bg-black/70 p-2 text-white/70"
                                 variants={buttonVariants}
                             >
                                 <CarouselButton ariaLabel="Previous Image" className="bg-transparent" title="Previous Image" onClick={scrollPrev}>
-                                    <ChevronLeftIcon className="h-6 w-6" />
+                                    <FiChevronLeft className="h-6 w-6" />
                                 </CarouselButton>
                                 <CarouselButton
                                     ariaLabel="Toggle Fullscreen"
@@ -133,10 +135,10 @@ export default function Carousel<T>({ children, className, onClose, items, start
                                     title={isFullScreen ? 'Exit Fullscreen' : 'Enter Fullscreen'}
                                     onClick={() => setIsFullScreen(!isFullScreen)}
                                 >
-                                    {isFullScreen ? <ArrowsPointingInIcon className="h-6 w-6" /> : <ArrowsPointingOutIcon className="h-6 w-6" />}
+                                    {isFullScreen ? <FiMinimize className="h-6 w-6" /> : <FiMaximize className="h-6 w-6" />}
                                 </CarouselButton>
                                 <CarouselButton ariaLabel="Next Image" className="bg-transparent" title="Next Image" onClick={scrollNext}>
-                                    <ChevronRightIcon className="h-6 w-6" />
+                                    <FiChevronRight className="h-6 w-6" />
                                 </CarouselButton>
                             </motion.div>
                         </>

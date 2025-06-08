@@ -1,3 +1,5 @@
+'use client';
+
 import { forwardRef } from 'react';
 
 interface CarouselButtonProps extends React.PropsWithChildren<Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'aria-label'>> {

@@ -2,8 +2,12 @@ import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
     images: {
-        // TODO: Replace Lorem Picsum with Strapi
-        remotePatterns: [new URL('https://picsum.photos/**')],
+        remotePatterns: [{
+            protocol: 'http',
+            hostname: 'localhost',
+            port: '1337',
+            pathname: '/uploads/**',
+        }],
     },
 };
 

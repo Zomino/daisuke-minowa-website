@@ -21,9 +21,12 @@
         ],
         "paths": {
             "@/*": ["./src/*"],
-            "@components/*": ["components/*"]
+            "@components/*": ["components/*"],
+            "@config/*": ["config/*"],
+            "@lib/*": ["lib/*"],
+            "genTypes/*": ["../../genTypes/*"],
         }
     },
-    "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+    "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "../../genTypes/**/*.ts"],
     "exclude": ["node_modules"]
 }
