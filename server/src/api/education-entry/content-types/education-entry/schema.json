@@ -1,0 +1,30 @@
+{
+  "kind": "collectionType",
+  "collectionName": "education_entries",
+  "info": {
+    "singularName": "education-entry",
+    "pluralName": "education-entries",
+    "displayName": "Education Entry"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "experience_name": {
+      "type": "string",
+      "required": true
+    },
+    "year_from": {
+      "type": "integer",
+      "required": true
+    },
+    "year_to": {
+      "type": "integer"
+    },
+    "notes": {
+      "type": "text",
+      "maxLength": 200
+    }
+  }
+}

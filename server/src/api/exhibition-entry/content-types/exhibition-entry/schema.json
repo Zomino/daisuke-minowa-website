@@ -1,0 +1,33 @@
+{
+  "kind": "collectionType",
+  "collectionName": "exhibition_entries",
+  "info": {
+    "singularName": "exhibition-entry",
+    "pluralName": "exhibition-entries",
+    "displayName": "Exhibition Entry"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "event_name": {
+      "type": "string",
+      "required": true
+    },
+    "date_from": {
+      "type": "date",
+      "required": true
+    },
+    "date_to": {
+      "type": "date"
+    },
+    "location": {
+      "type": "string"
+    },
+    "notes": {
+      "type": "text",
+      "maxLength": 200
+    }
+  }
+}
