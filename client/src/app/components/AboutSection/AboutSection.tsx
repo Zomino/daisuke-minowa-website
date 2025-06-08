@@ -1,7 +1,7 @@
 import strapiClient from '@lib/strapiClient';
-import { type About } from 'genTypes/About';
-import { type EducationEntry } from 'genTypes/EducationEntry';
-import { type ExhibitionEntry } from 'genTypes/ExhibitionEntry';
+import { type About } from 'genTypes/about';
+import { type EducationEntry } from 'genTypes/educationEntry';
+import { type ExhibitionEntry } from 'genTypes/exhibitionEntry';
 // The new implementation only supports blurDataURL as a base64 string, not a URL.
 import Image from 'next/legacy/image';
 

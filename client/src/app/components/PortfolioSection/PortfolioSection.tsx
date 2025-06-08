@@ -1,5 +1,5 @@
 import strapiClient from '@lib/strapiClient';
-import { type Artwork as A } from 'genTypes/Artwork';
+import { type Artwork as A } from 'genTypes/artwork';
 
 import Artwork from './Artwork';
 

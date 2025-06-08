@@ -2,7 +2,7 @@ export default ({ env }) => ({
   "gen-types": {
     enabled: true,
     config: {
-      outputLocation: "../genTypes",
+      outputLocation: "../client/src/genTypes",
     },
   },
   upload: {

@@ -1,7 +1,7 @@
 'use client';
 
 import { AnimatePresence, motion } from 'framer-motion';
-import { type Artwork as A } from 'genTypes/Artwork';
+import { type Artwork as A } from 'genTypes/artwork';
 // The new implementation only supports blurDataURL as a base64 string, not a URL.
 import Image from 'next/legacy/image';
 import { useEffect, useState } from 'react';
