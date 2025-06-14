@@ -28,7 +28,9 @@ export default function Page() {
             <main className="mt-10 p-1">
                 <PortfolioSection />
                 <div className="my-10 h-px w-full bg-gradient-to-r from-transparent via-white/30 to-transparent" />
-                <AboutSection className="mt-10" />
+                <div className="mt-10">
+                    <AboutSection />
+                </div>
                 <div className="my-10 h-px w-full bg-gradient-to-r from-transparent via-white/30 to-transparent" />
                 <ContactSection className="mt-10" />
             </main>

@@ -7,7 +7,7 @@ import Image from 'next/legacy/image';
 
 import { STRAPI_BASE_URL } from '@config/env';
 
-export default async function AboutSection(props: React.ComponentProps<'section'>) {
+export default async function AboutSection() {
     const aboutPromise = strapiClient
         .single('about')
         .find({ populate: ['profileImage'] })
@@ -31,7 +31,7 @@ export default async function AboutSection(props: React.ComponentProps<'section'
     ]);
 
     return (
-        <section id="about" {...props}>
+        <section id="about">
             <h2 className="text-center text-2xl tracking-widest uppercase md:text-3xl">About</h2>
             <Image
                 className="mx-auto mt-10 max-w-70 object-contain"
