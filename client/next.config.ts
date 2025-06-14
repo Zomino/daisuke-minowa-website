@@ -1,5 +1,9 @@
 import type { NextConfig } from 'next';
 
+if (!process.env.STRAPI_BASE_URL) {
+    throw new Error('Missing STRAPI_BASE_URL environment variable');
+}
+
 const nextConfig: NextConfig = {
     images: {
         remotePatterns: [
@@ -11,7 +15,7 @@ const nextConfig: NextConfig = {
             },
             {
                 protocol: 'https',
-                hostname: `${process.env.AWS_BUCKET}.s3.${process.env.AWS_REGION}.amazonaws.com`,
+                hostname: process.env.STRAPI_BASE_URL,
                 pathname: '/**',
             },
         ],
