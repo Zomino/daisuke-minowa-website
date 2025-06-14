@@ -6,8 +6,6 @@ import { type Artwork as A } from 'genTypes/artwork';
 import Image from 'next/legacy/image';
 import { useEffect, useState } from 'react';
 
-import { STRAPI_BASE_URL } from '@config/env';
-
 import ArtworkCarousel from 'app/components/PortfolioSection/ArtworkCarousel';
 
 interface ArtworkProps extends React.ComponentProps<'div'> {

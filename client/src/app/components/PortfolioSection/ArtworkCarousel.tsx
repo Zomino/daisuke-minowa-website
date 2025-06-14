@@ -1,6 +1,5 @@
 'use client';
 
-import { STRAPI_BASE_URL } from '@config/env';
 import { AnimatePresence, motion } from 'framer-motion';
 import { type Artwork } from 'genTypes/artwork';
 import Image from 'next/image';
