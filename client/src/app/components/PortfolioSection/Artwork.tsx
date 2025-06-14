@@ -58,12 +58,12 @@ export default function Artwork({ artwork, className, ...rest }: ArtworkProps) {
                 <div key={a.id} className="group relative hover:cursor-pointer" onClick={() => handleImageClick(index)}>
                     <Image
                         className="transition duration-300 group-hover:brightness-50"
-                        src={`${STRAPI_BASE_URL}${a.image?.url || ''}`}
+                        src={`${a.image?.url || ''}`}
                         alt={a.image?.alternativeText || 'Artwork by Daisuke Minowa'}
                         width={a.image?.width}
                         height={a.image?.height}
                         placeholder="blur"
-                        blurDataURL={`${STRAPI_BASE_URL}${a.image?.formats?.thumbnail?.url || ''}`}
+                        blurDataURL={`${a.image?.formats?.thumbnail?.url || ''}`}
                         // Match the sizes to the grid media queries.
                         // These are approximate values to help Next.js optimize the image loading.
                         sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 25vw"
