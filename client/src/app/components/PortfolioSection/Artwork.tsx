@@ -18,6 +18,11 @@ export default function Artwork({ artwork, className, ...rest }: ArtworkProps) {
     const [isCarouselOpen, setIsCarouselOpen] = useState(false);
     const [carouselStartIndex, setCarouselStartIndex] = useState(0);
 
+    // TODO: Remove
+    useEffect(() => {
+        console.log('Portfolio images:', artwork);
+    }, [artwork]);
+
     // Lock the page scroll when the carousel is open.
     useEffect(() => {
         if (isCarouselOpen) {
