@@ -2,7 +2,7 @@ import strapiClient from '@lib/strapiClient';
 import { type ContactInfo } from 'genTypes/contactInfo';
 import { FaInstagram, FaEnvelope } from 'react-icons/fa';
 
-export default async function ContactSection(props: React.ComponentProps<'section'>) {
+export default async function ContactSection() {
     const contactInfo = await strapiClient
         .collection('contact-info')
         .find()
@@ -10,7 +10,7 @@ export default async function ContactSection(props: React.ComponentProps<'sectio
         .catch(console.error);
 
     return (
-        <section id="contact" {...props}>
+        <section id="contact">
             <h2 className="text-center text-2xl tracking-widest uppercase md:text-3xl">Contact</h2>
             <div className="mt-10 flex flex-col items-center justify-center gap-5 md:flex-row">
                 {contactInfo?.email && (

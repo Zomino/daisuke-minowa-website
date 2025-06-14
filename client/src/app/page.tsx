@@ -32,7 +32,9 @@ export default function Page() {
                     <AboutSection />
                 </div>
                 <div className="my-10 h-px w-full bg-gradient-to-r from-transparent via-white/30 to-transparent" />
-                <ContactSection className="mt-10" />
+                <div className="mt-10">
+                    <ContactSection />
+                </div>
             </main>
             <footer className="mt-15">
                 <p className="text-center text-xs md:text-sm">
