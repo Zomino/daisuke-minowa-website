@@ -5,8 +5,6 @@ import { type ExhibitionEntry } from 'genTypes/exhibitionEntry';
 // The new implementation only supports blurDataURL as a base64 string, not a URL.
 import Image from 'next/legacy/image';
 
-import { STRAPI_BASE_URL } from '@config/env';
-
 export default async function AboutSection() {
     const aboutPromise = strapiClient
         .single('about')
