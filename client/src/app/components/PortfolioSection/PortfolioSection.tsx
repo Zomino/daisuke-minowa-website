@@ -3,7 +3,7 @@ import { type Artwork as A } from 'genTypes/artwork';
 
 import Artwork from './Artwork';
 
-export default async function PortfolioSection(props: React.ComponentProps<'section'>) {
+export default async function PortfolioSection() {
     const images =
         (await strapiClient
             .collection('artworks')
@@ -12,7 +12,7 @@ export default async function PortfolioSection(props: React.ComponentProps<'sect
             .catch(console.error)) || [];
 
     return (
-        <section id="portfolio" {...props}>
+        <section id="portfolio">
             <h2 className="text-center text-2xl tracking-widest uppercase md:text-3xl">Portfolio</h2>
             <Artwork className="mt-10" artwork={images} />
         </section>
