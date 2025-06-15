@@ -1,21 +1,14 @@
 import type { NextConfig } from 'next';
+import { URL } from 'url';
 
-if (!process.env.STRAPI_BASE_URL) {
-    throw new Error('Missing STRAPI_BASE_URL environment variable');
-}
+const strapiBaseUrl = new URL(process.env.STRAPI_BASE_URL || 'http://localhost:1337');
 
 const nextConfig: NextConfig = {
     images: {
         remotePatterns: [
             {
-                protocol: 'http',
-                hostname: 'localhost',
-                port: '1337',
-                pathname: '/uploads/**',
-            },
-            {
                 protocol: 'https',
-                hostname: process.env.STRAPI_BASE_URL,
+                hostname: strapiBaseUrl.hostname,
                 pathname: '/**',
             },
         ],
