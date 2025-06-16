@@ -10,7 +10,8 @@ const nextConfig: NextConfig = {
         remotePatterns: [
             {
                 protocol: 'https',
-                hostname: strapiBaseUrl.hostname,
+                hostname: 'graceful-peace-347db111aa.media.strapiapp.com',
+                // hostname: strapiBaseUrl.hostname,
                 pathname: '/**',
             },
         ],
