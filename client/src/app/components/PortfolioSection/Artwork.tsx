@@ -17,9 +17,9 @@ export default function Artwork({ artwork, className, ...rest }: ArtworkProps) {
     const [carouselStartIndex, setCarouselStartIndex] = useState(0);
 
     // TODO: Remove
-    useEffect(() => {
-        console.log('Portfolio images:', artwork);
-    }, [artwork]);
+    // useEffect(() => {
+    //     console.log('Portfolio images:', artwork);
+    // }, [artwork]);
 
     // Lock the page scroll when the carousel is open.
     useEffect(() => {
