@@ -1,8 +1,6 @@
 import { strapi } from '@strapi/client';
 
-import { STRAPI_BASE_URL } from '@config/env';
-
-// The NEXT_PUBLIC prefix is used to expose the environment variable to the client-side code.
-const client = strapi({ baseURL: `${STRAPI_BASE_URL}/api` });
+// This URL has been hardcoded as it had to be hardcoded in the Next JS config anyway.
+const client = strapi({ baseURL: `https://graceful-peace-347db111aa.strapiapp.com/api` });
 
 export default client;
