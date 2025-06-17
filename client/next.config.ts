@@ -1,40 +1,11 @@
-// import type { NextConfig } from 'next';
-
-// const nextConfig: NextConfig = {
-//     images: {
-//         remotePatterns: [
-//             {
-//                 protocol: 'http',
-//                 hostname: 'localhost',
-//                 port: '1337', // Default Strapi port
-//                 pathname: '/**', // Allow all paths
-//             },
-//             {
-//                 protocol: 'https',
-//                 hostname: 'graceful-peace-347db111aa.strapiapp.com', // I could not get this to work with an environment variable, so I hardcoded it for now.
-//                 pathname: '/**', // Allow all paths
-//             },
-//         ],
-//     },
-// };
-
-// export default nextConfig;
-
-
 import type { NextConfig } from 'next';
-import { URL } from 'url';
-
-const strapiBaseUrl = new URL(process.env.STRAPI_BASE_URL || 'http://localhost:1337');
-
-console.log(strapiBaseUrl, strapiBaseUrl.hostname);
 
 const nextConfig: NextConfig = {
     images: {
         remotePatterns: [
             {
                 protocol: 'https',
-                hostname: 'graceful-peace-347db111aa.media.strapiapp.com',
-                // hostname: strapiBaseUrl.hostname,
+                hostname: `${process.env.AWS_BUCKET}.s3.${process.env.AWS_REGION}.amazonaws.com`,
                 pathname: '/**',
             },
         ],
