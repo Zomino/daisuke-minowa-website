@@ -11,6 +11,7 @@ export default function Nav() {
     useEffect(() => {
         const handleScroll = () => {
             // Note that starting position of the static nav is assumed to be roughly 3/4 of the way down viewport height when at the top of the page.
+            // Ensure that this aligns with the actual position of the static nav in the layout.
             const isNavPastOriginalPosition = window.scrollY > window.innerHeight * 0.75;
 
             // The nav should be visible if the user has recently navigated or if they are past the original position of the nav and scrolling up.
@@ -62,6 +63,7 @@ export default function Nav() {
             {/*
                 The nav is rendered twice to allow for smooth animations on the sticky nav.
                 When a single nav is used, the addition and removal of animation classes causes the nav to transition in from the sides of the screen.
+                This is not the most modular design, but it works for this simple case.
             */}
             {renderNav('absolute top-[calc(60%)] left-1/2 -translate-x-1/2 transform')}
             {renderNav(
