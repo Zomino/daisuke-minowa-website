@@ -4,7 +4,7 @@ import heroImage from '../../public/images/hero.jpg';
 
 import AboutSection from './components/AboutSection/AboutSection';
 import ContactSection from './components/ContactSection/ContactSection';
-import Divider from './components/Divider/Divider';
+import Divider from '../components/Divider/Divider';
 import Nav from './components/Nav/Nav';
 import PortfolioSection from './components/PortfolioSection/PortfolioSection';
 

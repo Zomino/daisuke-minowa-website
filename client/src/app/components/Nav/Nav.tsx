@@ -36,21 +36,33 @@ export default function Nav() {
         setTimeout(() => setUserRecentlyNavigated(false), 2000);
     };
 
-    const renderNav = (className: string) => (
-        <nav className={`align-center z-50 flex justify-center p-3 ${className}`}>
+    const renderNav = ({ className, ...rest }: React.ComponentProps<'nav'>) => (
+        <nav className={`align-center z-50 flex justify-center p-3 ${className}`} {...rest}>
             <ul className="flex gap-4">
                 <li>
-                    <a className="cursor-pointer text-sm uppercase hover:text-white/60 md:text-lg" onClick={() => handleClick('#portfolio')}>
+                    <a
+                        className="cursor-pointer text-sm uppercase hover:text-white/60 md:text-lg"
+                        href="portfolio"
+                        onClick={() => handleClick('#portfolio')}
+                    >
                         Portfolio
                     </a>
                 </li>
                 <li>
-                    <a className="cursor-pointer text-sm uppercase hover:text-white/60 md:text-lg" onClick={() => handleClick('#about')}>
+                    <a
+                        className="cursor-pointer text-sm uppercase hover:text-white/60 md:text-lg"
+                        href="#about"
+                        onClick={() => handleClick('#about')}
+                    >
                         About
                     </a>
                 </li>
                 <li>
-                    <a className="cursor-pointer text-sm uppercase hover:text-white/60 md:text-lg" onClick={() => handleClick('#contact')}>
+                    <a
+                        className="cursor-pointer text-sm uppercase hover:text-white/60 md:text-lg"
+                        href="#contact"
+                        onClick={() => handleClick('#contact')}
+                    >
                         Contact
                     </a>
                 </li>
@@ -65,10 +77,11 @@ export default function Nav() {
                 When a single nav is used, the addition and removal of animation classes causes the nav to transition in from the sides of the screen.
                 This is not the most modular design, but it works for this simple case.
             */}
-            {renderNav('absolute top-[calc(60%)] left-1/2 -translate-x-1/2 transform')}
-            {renderNav(
-                `fixed top-0 left-0 w-full bg-black shadow-md transition-all duration-300 ease-in-out ${isStickyNavVisible ? 'translate-y-0 opacity-100' : 'pointer-events-none -translate-y-full opacity-0'}`
-            )}
+            {renderNav({ className: 'absolute top-[calc(60%)] left-1/2 -translate-x-1/2 transform' })}
+            {renderNav({
+                className: `fixed top-0 left-0 w-full bg-black shadow-md transition-all duration-300 ease-in-out ${isStickyNavVisible ? 'translate-y-0 opacity-100' : 'pointer-events-none -translate-y-full opacity-0'}`,
+                'aria-hidden': true, // This nav is not necessary for screen readers as it duplicates the content of the static nav.
+            })}
         </>
     );
 }

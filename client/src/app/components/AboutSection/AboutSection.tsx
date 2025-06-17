@@ -3,6 +3,7 @@ import Image from 'next/image';
 
 import profileImage from '../../../../public/images/profile.jpg';
 
+import AccessibleEnDash from '@components/AccessibleEnDash/AccessibleEnDash';
 import { type EducationEntry } from 'genTypes/educationEntry';
 import { type ExhibitionEntry } from 'genTypes/exhibitionEntry';
 
@@ -37,7 +38,7 @@ export default async function AboutSection() {
                 {/* Gradient overlay for top and bottom. */}
                 <div className="pointer-events-none absolute inset-0 z-10 bg-gradient-to-b from-black/50 via-transparent to-black/50" />
             </div>
-            <p className="mt-5 text-center text-lg tracking-widest text-white/70 italic px-5">An unrepentant, stupid old man</p>
+            <p className="mt-5 px-5 text-center text-lg tracking-widest text-white/70 italic">An unrepentant, stupid old man</p>
             <h3 className="mt-10 text-center text-xl tracking-widest uppercase">Bio</h3>
             <p className="mx-auto mt-5 max-w-150 px-5 text-center">Born in Tokyo in 1966. Moved to the UK in 1986. Living and working in London.</p>
             <div className="mt-15 px-5 md:flex md:justify-center md:space-x-5">
@@ -55,10 +56,7 @@ export default async function AboutSection() {
                                         </time>
                                         {entry.date_to && (
                                             <>
-                                                {/* A non-breaking space followed by an en dash and another non-breaking space. */}
-                                                {'\u00A0'}
-                                                {'\u2013'}
-                                                {'\u00A0'}
+                                                <AccessibleEnDash />
                                                 <time dateTime={new Date(entry.date_to).toISOString()}>
                                                     {new Date(entry.date_to).toLocaleDateString()}
                                                 </time>
@@ -83,11 +81,8 @@ export default async function AboutSection() {
                                         <time dateTime={entry.year_from.toString()}>{entry.year_from}</time>
                                         {entry.year_to && (
                                             <>
-                                                {/* A non-breaking space followed by an en dash and another non-breaking space. */}
-                                                {'\u00A0'}
-                                                {'\u2013'}
-                                                {'\u00A0'}
-                                                <time dateTime={entry.year_to?.toString() || entry.year_to.toString()}>{entry.year_to}</time>
+                                                <AccessibleEnDash />
+                                                <time dateTime={entry.year_to.toString()}>{entry.year_to}</time>
                                             </>
                                         )}
                                     </span>
