@@ -1,12 +1,13 @@
 'use client';
 
 import { AnimatePresence, motion } from 'framer-motion';
-import { type Artwork as A } from 'genTypes/artwork';
-// The new implementation only supports blurDataURL as a base64 string, not a URL.
+// The up-to-date Image implementation frustratingly only supports blurDataURL as a base64 string, not a URL.
+// It is not worth the effort to come up with a workaround for now.
 import Image from 'next/legacy/image';
 import { useEffect, useState } from 'react';
 
 import ArtworkCarousel from 'app/components/PortfolioSection/ArtworkCarousel';
+import { type Artwork as A } from 'genTypes/artwork';
 
 interface ArtworkProps extends React.ComponentProps<'div'> {
     artwork: A[];
@@ -16,12 +17,8 @@ export default function Artwork({ artwork, className, ...rest }: ArtworkProps) {
     const [isCarouselOpen, setIsCarouselOpen] = useState(false);
     const [carouselStartIndex, setCarouselStartIndex] = useState(0);
 
-    // TODO: Remove
-    // useEffect(() => {
-    //     console.log('Portfolio images:', artwork);
-    // }, [artwork]);
-
     // Lock the page scroll when the carousel is open.
+    // This is done here and not in the carousel component to ensure that the carousel remains loosely coupled with the context in which it is used.
     useEffect(() => {
         if (isCarouselOpen) {
             document.body.style.overflow = 'hidden';

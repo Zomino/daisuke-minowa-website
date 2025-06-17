@@ -1,10 +1,12 @@
 'use client';
 
 import { AnimatePresence, motion } from 'framer-motion';
-import { type Artwork } from 'genTypes/artwork';
+// The up-to-date Image implementation frustratingly only supports blurDataURL as a base64 string, not a URL.
+// It is not worth the effort to come up with a workaround for now.
 import Image from 'next/image';
 
 import Carousel from '@components/Carousel/Carousel';
+import { type Artwork } from 'genTypes/artwork';
 
 interface ArtworkCarouselProps extends Omit<React.ComponentProps<typeof Carousel>, 'children' | 'items'> {
     artwork: Artwork[];
@@ -26,8 +28,6 @@ export default function ArtworkCarousel({ artwork, ...rest }: ArtworkCarouselPro
                             alt={item.image?.alternativeText || 'Artwork by Daisuke Minowa'}
                             height={item.image?.height}
                             width={item.image?.width}
-                            // TODO: Fix the type of blurDataURL to be a base64 string.
-                            // The new implementation only supports blurDataURL as a base64 string, not a URL.
                             placeholder="blur"
                             blurDataURL={item.image?.formats?.thumbnail?.url || ''}
                         />
@@ -39,12 +39,8 @@ export default function ArtworkCarousel({ artwork, ...rest }: ArtworkCarouselPro
                                 {item.description && <p className="mt-5">{item.description}</p>}
                                 <dl className="mt-5 grid grid-cols-[auto_1fr] gap-2">
                                     <dt>Dimensions:</dt>
-                                    {/*
-                                        Use the multiplication symbol.
-                                        Although the auto-generated types do not reflect this, the image width and height should be defined.
-                                        This is because they are uploaded through the Strapi Upload plugin, which provides these properties.
-                                    */}
-                                    <dd>{`${item.image?.width} \u00D7 ${item.image?.height}`}</dd>
+                                    {/* Use the multiplication symbol. */}
+                                    <dd>{`${item.width_cm} \u00D7 ${item.height_cm} cm`}</dd>
                                     <dt>Date:</dt>
                                     <dd>
                                         {item.date ? (
