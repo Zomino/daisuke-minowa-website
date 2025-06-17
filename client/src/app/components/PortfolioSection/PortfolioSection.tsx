@@ -9,6 +9,7 @@ export default async function PortfolioSection() {
             .collection('artworks')
             .find({ populate: ['image'] })
             .then((res) => res.data as unknown as A[])
+            .then((images) => images.sort((a, b) => new Date(b.date || '1970-01-01').getTime() - new Date(a.date || '1970-01-01').getTime()))
             .catch(console.error)) || [];
 
     return (

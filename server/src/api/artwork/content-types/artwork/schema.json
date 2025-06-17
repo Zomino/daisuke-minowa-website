@@ -26,11 +26,11 @@
       ]
     },
     "height_cm": {
-      "type": "biginteger",
+      "type": "decimal",
       "required": true
     },
     "width_cm": {
-      "type": "biginteger",
+      "type": "decimal",
       "required": true
     },
     "description": {
