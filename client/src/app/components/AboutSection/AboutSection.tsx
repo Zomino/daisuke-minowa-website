@@ -21,9 +21,9 @@ export default async function AboutSection() {
     const [educationEntries = [], exhibitionEntries = []] = await Promise.all([educationEntriesPromise, exhibitionEntriesPromise]);
 
     return (
-        <section id="about" className="p-5">
+        <section id="about">
             <h2 className="text-center text-2xl tracking-widest uppercase md:text-3xl">About</h2>
-            <div className="relative mx-auto mt-10 w-full max-w-[400px] md:w-1/2 lg:w-1/4">
+            <div className="relative mx-auto mt-10 w-full max-w-[500px] md:w-1/2 lg:w-1/4">
                 <Image
                     alt="Photo of Daisuke Minowa" // This is a mandatory prop for Next.js Image.
                     className="object-contain"
@@ -37,8 +37,10 @@ export default async function AboutSection() {
                 {/* Gradient overlay for top and bottom. */}
                 <div className="pointer-events-none absolute inset-0 z-10 bg-gradient-to-b from-black/50 via-transparent to-black/50" />
             </div>
-            <p className="mx-auto mt-10 max-w-150 text-center">Born in Tokyo in 1966. Moved to the UK in 1986. Living and working in London.</p>
-            <div className="mt-15 md:flex md:justify-center md:space-x-5">
+            <p className="mt-5 text-center text-lg tracking-widest text-white/70 italic px-5">An unrepentant, stupid old man</p>
+            <h3 className="mt-10 text-center text-xl tracking-widest uppercase">Bio</h3>
+            <p className="mx-auto mt-5 max-w-150 px-5 text-center">Born in Tokyo in 1966. Moved to the UK in 1986. Living and working in London.</p>
+            <div className="mt-15 px-5 md:flex md:justify-center md:space-x-5">
                 <div className="text-center md:w-1/2 md:text-right">
                     <h3 className="text-xl tracking-widest uppercase">Exhibitions</h3>
                     <ul className="mt-5 space-y-6">
