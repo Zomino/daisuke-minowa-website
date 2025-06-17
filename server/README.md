@@ -1,61 +1,27 @@
-# 🚀 Getting started with Strapi
+# Strapi S3 Backend Server
 
-Strapi comes with a full featured [Command Line Interface](https://docs.strapi.io/dev-docs/cli) (CLI) which lets you scaffold and manage your project in seconds.
+This is a Strapi backend server configured to use Amazon S3 for file uploads.
+TS types for the API are auto-generated using `strapi-plugin-gen-types` and output directly into the client folder.
 
-### `develop`
+## Environment Variables
+Set the following environment variables in the `.env` file or deployment environment:
 
-Start your Strapi application with autoReload enabled. [Learn more](https://docs.strapi.io/dev-docs/cli#strapi-develop)
+|Variable|Required|Description|
+|-|-|-|
+|AWS_ACCESS_KEY_ID|Yes|AWS access key for S3|
+|AWS_SECRET_ACCESS_KEY|Yes|AWS secret key for S3|
+|AWS_REGION|Yes|AWS region where the S3 bucket is located|
+|AWS_BUCKET|Yes|Name of S3 bucket|
 
-```
-npm run develop
-# or
-yarn develop
-```
+**Where these are used:**
+- All AWS variables are used in `plugins.ts` to configure the S3 upload provider.
+- The CSP is set in `middlewares.ts` to allow the S3 bucket as an image/media source.
 
-### `start`
+**Note**
+- Make sure your environment variables are set before starting the server.
+- Make sure that your S3 bucket’s CORS and permissions are configured to allow Strapi to upload and fetch files.
+- The same bucket will be used for development and production. This is not ideal but the additional setup is not worth it for such a simple app.
 
-Start your Strapi application with autoReload disabled. [Learn more](https://docs.strapi.io/dev-docs/cli#strapi-start)
-
-```
-npm run start
-# or
-yarn start
-```
-
-### `build`
-
-Build your admin panel. [Learn more](https://docs.strapi.io/dev-docs/cli#strapi-build)
-
-```
-npm run build
-# or
-yarn build
-```
-
-## ⚙️ Deployment
-
-Strapi gives you many possible deployment options for your project including [Strapi Cloud](https://cloud.strapi.io). Browse the [deployment section of the documentation](https://docs.strapi.io/dev-docs/deployment) to find the best solution for your use case.
-
-```
-yarn strapi deploy
-```
-
-## 📚 Learn more
-
-- [Resource center](https://strapi.io/resource-center) - Strapi resource center.
-- [Strapi documentation](https://docs.strapi.io) - Official Strapi documentation.
-- [Strapi tutorials](https://strapi.io/tutorials) - List of tutorials made by the core team and the community.
-- [Strapi blog](https://strapi.io/blog) - Official Strapi blog containing articles made by the Strapi team and the community.
-- [Changelog](https://strapi.io/changelog) - Find out about the Strapi product updates, new features and general improvements.
-
-Feel free to check out the [Strapi GitHub repository](https://github.com/strapi/strapi). Your feedback and contributions are welcome!
-
-## ✨ Community
-
-- [Discord](https://discord.strapi.io) - Come chat with the Strapi community including the core team.
-- [Forum](https://forum.strapi.io/) - Place to discuss, ask questions and find answers, show your Strapi project and get feedback or just talk with other Community members.
-- [Awesome Strapi](https://github.com/strapi/awesome-strapi) - A curated list of awesome things related to Strapi.
-
----
-
-<sub>🤫 Psst! [Strapi is hiring](https://strapi.io/careers).</sub>
+## Type Generation
+- The `strapi-plugin-gen-types` plugin is enabled.
+- It outputs generated TypeScript types to `../client/src/genTypes` (relative to the server folder).
