@@ -25,6 +25,14 @@
         "files"
       ]
     },
+    "height_cm": {
+      "type": "biginteger",
+      "required": true
+    },
+    "width_cm": {
+      "type": "biginteger",
+      "required": true
+    },
     "description": {
       "type": "text",
       "maxLength": 1000
