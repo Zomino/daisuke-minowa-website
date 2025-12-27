@@ -95,7 +95,7 @@ export default function Carousel<T>({ children, className, onClose, items, start
     return (
         <div
             // Ensure the carousel takes full height and width of its container when .
-            className={`overflow-hidden bg-black ${isFullScreen ? 'fixed inset-0 h-screen w-screen' : 'relative h-full w-full'} ${className}`}
+            className={`overflow-hidden bg-black text-white ${isFullScreen ? 'fixed inset-0 h-screen w-screen' : 'relative h-full w-full'} ${className}`}
             ref={emblaRef}
             onMouseMove={() => setIsUserActive(true)}
             onMouseLeave={() => setIsUserActive(false)}
