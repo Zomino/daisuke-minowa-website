@@ -3,8 +3,8 @@ import { type Metadata, type Viewport } from 'next';
 import './globals.css';
 
 export const metadata: Metadata = {
-    title: 'Daisuke Minowa',
-    description: 'The website of Daisuke Minowa, a London-based Japanese artist. Here you find a list of my recent and previous artwork.',
+    title: 'Zou Minowa',
+    description: 'The website of Zou Minowa, a London-based Japanese artist. Here you find a list of my recent and previous artwork.',
     keywords: 'art, painting, illustration, portfolio, japanese artist, london artist',
     authors: [{ name: 'Zou Minowa', url: 'https://github.com/Zomino' }],
     creator: 'Zou Minowa',

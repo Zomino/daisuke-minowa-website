@@ -54,7 +54,7 @@ export default function Artwork({ artwork, className, ...rest }: ArtworkProps) {
                     <Image
                         className="transition duration-300 group-hover:brightness-50"
                         src={a.image?.url || ''}
-                        alt={a.image?.alternativeText || 'Artwork by Daisuke Minowa'}
+                        alt={a.image?.alternativeText || 'Artwork by Zou Minowa'}
                         width={a.image?.width}
                         height={a.image?.height}
                         placeholder="blur"

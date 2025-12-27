@@ -33,7 +33,7 @@ export default async function AboutSection() {
             <h2 className="text-center text-2xl tracking-widest uppercase md:text-3xl">About</h2>
             <div className="relative mx-auto mt-10 w-full max-w-[500px] md:w-1/2 lg:w-1/4">
                 <Image
-                    alt="Photo of Daisuke Minowa" // This is a mandatory prop for Next.js Image.
+                    alt="Photo of Zou Minowa" // This is a mandatory prop for Next.js Image.
                     className="object-contain"
                     // Make sure the height and width match the original image dimensions.
                     // The height is necessary for the image to actually be visible.
