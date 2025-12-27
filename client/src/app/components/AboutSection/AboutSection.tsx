@@ -56,7 +56,7 @@ export default async function AboutSection() {
                                 {/* Use flexbox to reverse the name and date visually for style, but maintain proper page structure. */}
                                 <div className="flex flex-col-reverse">
                                     <h4 className="text-lg font-extralight tracking-wider">{entry.event_name}</h4>
-                                    <p className="text-white/70 italic">
+                                    <p className="text-black/70 italic">
                                         {(() => {
                                             const { date, display } = formatDate(entry.date_from);
                                             return <time dateTime={date.toISOString()}>{display}</time>;
@@ -72,7 +72,7 @@ export default async function AboutSection() {
                                         )}
                                     </p>
                                 </div>
-                                {entry.notes && <p className="text-sm text-white/70 italic">{entry.notes}</p>}
+                                {entry.notes && <p className="text-sm text-black/70 italic">{entry.notes}</p>}
                             </li>
                         ))}
                     </ul>
@@ -85,7 +85,7 @@ export default async function AboutSection() {
                                 {/* Use flexbox to reverse the name and date visually for style, but maintain proper page structure. */}
                                 <div className="flex flex-col-reverse">
                                     <h4 className="text-lg font-extralight tracking-wider">{entry.experience_name}</h4>
-                                    <span className="text-white/70 italic">
+                                    <span className="text-black/70 italic">
                                         {(() => {
                                             const { date, display } = formatDate(entry.year_from);
                                             return <time dateTime={date.toISOString()}>{display}</time>;
@@ -101,7 +101,7 @@ export default async function AboutSection() {
                                         )}
                                     </span>
                                 </div>
-                                {entry.notes && <p className="text-sm text-white/70 italic">{entry.notes}</p>}
+                                {entry.notes && <p className="text-sm text-black/70 italic">{entry.notes}</p>}
                             </li>
                         ))}
                     </ul>

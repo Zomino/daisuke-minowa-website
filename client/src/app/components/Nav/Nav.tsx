@@ -41,7 +41,7 @@ export default function Nav() {
             <ul className="flex gap-4">
                 <li>
                     <a
-                        className="cursor-pointer text-base uppercase hover:text-white/60 md:text-lg"
+                        className="cursor-pointer text-base uppercase hover:text-black/60 md:text-lg"
                         href="portfolio"
                         onClick={() => handleClick('#portfolio')}
                     >
@@ -50,7 +50,7 @@ export default function Nav() {
                 </li>
                 <li>
                     <a
-                        className="cursor-pointer text-base uppercase hover:text-white/60 md:text-lg"
+                        className="cursor-pointer text-base uppercase hover:text-black/60 md:text-lg"
                         href="#about"
                         onClick={() => handleClick('#about')}
                     >
@@ -59,7 +59,7 @@ export default function Nav() {
                 </li>
                 <li>
                     <a
-                        className="cursor-pointer text-base uppercase hover:text-white/60 md:text-lg"
+                        className="cursor-pointer text-base uppercase hover:text-black/60 md:text-lg"
                         href="#contact"
                         onClick={() => handleClick('#contact')}
                     >
@@ -79,7 +79,7 @@ export default function Nav() {
             */}
             {renderNav({ className: 'absolute top-[calc(60%)] left-1/2 -translate-x-1/2 transform' })}
             {renderNav({
-                className: `fixed top-0 left-0 w-full bg-black shadow-md transition-all duration-300 ease-in-out ${isStickyNavVisible ? 'translate-y-0 opacity-100' : 'pointer-events-none -translate-y-full opacity-0'}`,
+                className: `fixed top-0 left-0 w-full bg-white shadow-md transition-all duration-300 ease-in-out ${isStickyNavVisible ? 'translate-y-0 opacity-100' : 'pointer-events-none -translate-y-full opacity-0'}`,
                 'aria-hidden': true, // This nav is not necessary for screen readers as it duplicates the content of the static nav.
             })}
         </>
