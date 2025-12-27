@@ -42,7 +42,7 @@ export default function Nav() {
                 <li>
                     <a
                         className="cursor-pointer text-base uppercase hover:opacity-70 md:text-lg"
-                        href="portfolio"
+                        href="#portfolio"
                         onClick={() => handleClick('#portfolio')}
                     >
                         Portfolio
