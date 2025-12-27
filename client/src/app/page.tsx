@@ -22,8 +22,8 @@ export default function Page() {
                     src={heroImage} // Pass the imported image directly to the src prop to ensure Next.js optimizes it correctly.
                 />
                 {/* Render overlay for the image to add light contrast so the heading stays readable. */}
-                <div className="pointer-events-none absolute bottom-0 left-0 h-full w-full bg-gradient-to-t from-white via-white/70 to-transparent" />
-                <h1 className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 transform text-center text-4xl font-extralight tracking-widest uppercase drop-shadow-lg md:text-5xl">
+                <div className="pointer-events-none absolute bottom-0 left-0 h-full w-full bg-gradient-to-t from-black/50 via-black/20 to-transparent" />
+                <h1 className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 transform text-center text-4xl font-extralight tracking-widest uppercase text-white drop-shadow-lg md:text-5xl">
                     Daisuke Minowa
                 </h1>
                 <Nav />
