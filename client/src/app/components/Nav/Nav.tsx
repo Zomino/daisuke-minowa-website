@@ -41,7 +41,7 @@ export default function Nav() {
             <ul className="flex gap-4">
                 <li>
                     <a
-                        className="cursor-pointer text-sm uppercase hover:text-white/60 md:text-lg"
+                        className="cursor-pointer text-base uppercase hover:text-white/60 md:text-lg"
                         href="portfolio"
                         onClick={() => handleClick('#portfolio')}
                     >
@@ -50,7 +50,7 @@ export default function Nav() {
                 </li>
                 <li>
                     <a
-                        className="cursor-pointer text-sm uppercase hover:text-white/60 md:text-lg"
+                        className="cursor-pointer text-base uppercase hover:text-white/60 md:text-lg"
                         href="#about"
                         onClick={() => handleClick('#about')}
                     >
@@ -59,7 +59,7 @@ export default function Nav() {
                 </li>
                 <li>
                     <a
-                        className="cursor-pointer text-sm uppercase hover:text-white/60 md:text-lg"
+                        className="cursor-pointer text-base uppercase hover:text-white/60 md:text-lg"
                         href="#contact"
                         onClick={() => handleClick('#contact')}
                     >
