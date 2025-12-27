@@ -28,8 +28,12 @@ export default function Page() {
                 </h1>
                 <Nav />
             </header>
-            {/* Soft gradient bridge between dark hero and light page background. */}
-            <div aria-hidden className="h-12 bg-gradient-to-b from-black via-black/30 to-white" />
+            {/* Soft, extended gradient bridge between dark hero and light page background. */}
+            <div
+                aria-hidden
+                className="h-16"
+                style={{ background: 'linear-gradient(180deg, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.25) 35%, rgba(0,0,0,0.1) 65%, #fff 100%)' }}
+            />
             <main className="mt-10 p-1">
                 <PortfolioSection />
                 <Divider />
