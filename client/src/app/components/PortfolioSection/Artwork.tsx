@@ -50,9 +50,13 @@ export default function Artwork({ artwork, className, ...rest }: ArtworkProps) {
                 )}
             </AnimatePresence>
             {artwork.map((a, index) => (
-                <div key={a.id} className="group relative hover:cursor-pointer" onClick={() => handleImageClick(index)}>
+                <div
+                    key={a.id}
+                    className="group relative overflow-hidden shadow-[0_18px_40px_-18px_rgba(0,0,0,0.45)] hover:cursor-pointer"
+                    onClick={() => handleImageClick(index)}
+                >
                     <Image
-                        className="transition duration-300 group-hover:brightness-50 shadow-lg shadow-black/30"
+                        className="transition duration-300 group-hover:brightness-50"
                         src={a.image?.url || ''}
                         alt={a.image?.alternativeText || 'Artwork by Daisuke Minowa'}
                         width={a.image?.width}
