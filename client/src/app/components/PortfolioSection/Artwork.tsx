@@ -52,7 +52,7 @@ export default function Artwork({ artwork, className, ...rest }: ArtworkProps) {
             {artwork.map((a, index) => (
                 <div key={a.id} className="group relative hover:cursor-pointer" onClick={() => handleImageClick(index)}>
                     <Image
-                        className="transition duration-300 group-hover:brightness-50"
+                        className="transition duration-300 group-hover:brightness-50 shadow-sm shadow-black/10"
                         src={a.image?.url || ''}
                         alt={a.image?.alternativeText || 'Artwork by Daisuke Minowa'}
                         width={a.image?.width}
