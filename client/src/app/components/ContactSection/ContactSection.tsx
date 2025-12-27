@@ -7,7 +7,7 @@ export default async function ContactSection() {
             <div className="mt-10 flex flex-col items-center justify-center gap-5 md:flex-row">
                 <span className="flex cursor-pointer items-center gap-2 hover:text-black/60">
                     <FaEnvelope aria-hidden className="h-6 w-6" />
-                    <a href="mailto:dminowa@gmail.com" aria-label="Email Zou Minowa">
+                    <a href="mailto:dminowa@gmail.com" aria-label="Email Daisuke Minowa">
                         dminowa@gmail.com
                     </a>
                 </span>
@@ -18,7 +18,7 @@ export default async function ContactSection() {
                         target="_blank"
                         rel="noopener noreferrer"
                         className="hover:text-black/60"
-                        aria-label="Instagram profile of Zou Minowa"
+                        aria-label="Instagram profile of Daisuke Minowa"
                     >
                         Instagram
                     </a>

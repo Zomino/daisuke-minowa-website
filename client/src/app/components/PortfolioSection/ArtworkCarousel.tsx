@@ -28,7 +28,7 @@ export default function ArtworkCarousel({ artwork, ...rest }: ArtworkCarouselPro
                             <Image
                                 className={`object-contain ${isFullScreen ? 'h-screen w-screen' : 'h-full w-full'}`}
                                 src={item.image?.url || ''}
-                                alt={item.image?.alternativeText || 'Artwork by Zou Minowa'}
+                                alt={item.image?.alternativeText || 'Artwork by Daisuke Minowa'}
                                 height={item.image?.height}
                                 width={item.image?.width}
                                 placeholder="blur"
