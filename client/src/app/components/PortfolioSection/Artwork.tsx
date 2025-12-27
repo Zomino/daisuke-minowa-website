@@ -63,11 +63,8 @@ export default function Artwork({ artwork, className, ...rest }: ArtworkProps) {
                         // These are approximate values to help Next.js optimize the image loading.
                         sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 25vw"
                     />
-                    <div
-                        aria-hidden
-                        className="absolute inset-0 flex items-center justify-center opacity-0 transition duration-300 group-hover:opacity-100"
-                    >
-                        <h3>{a.title}</h3>
+                    <div aria-hidden className="absolute inset-0 flex items-center justify-center opacity-0 transition duration-300 group-hover:opacity-100">
+                        <h3 className="text-white">{a.title}</h3>
                     </div>
                 </div>
             ))}
