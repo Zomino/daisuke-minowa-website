@@ -20,6 +20,13 @@ export default async function AboutSection() {
         .catch(console.error);
 
     const [educationEntries = [], exhibitionEntries = []] = await Promise.all([educationEntriesPromise, exhibitionEntriesPromise]);
+    const formatDate = (value: Date | string | number) => {
+        const date = typeof value === 'number' ? new Date(value, 0, 1) : new Date(value);
+        return {
+            date,
+            display: date.toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' }),
+        };
+    };
 
     return (
         <section id="about">
@@ -51,15 +58,17 @@ export default async function AboutSection() {
                                 <div className="flex flex-col-reverse">
                                     <h4 className="text-lg font-extralight tracking-wider">{entry.event_name}</h4>
                                     <p className="text-white/70 italic">
-                                        <time dateTime={new Date(entry.date_from).toISOString()}>
-                                            {new Date(entry.date_from).toLocaleDateString()}
-                                        </time>
+                                        {(() => {
+                                            const { date, display } = formatDate(entry.date_from);
+                                            return <time dateTime={date.toISOString()}>{display}</time>;
+                                        })()}
                                         {entry.date_to && (
                                             <>
                                                 <AccessibleEnDash />
-                                                <time dateTime={new Date(entry.date_to).toISOString()}>
-                                                    {new Date(entry.date_to).toLocaleDateString()}
-                                                </time>
+                                                {(() => {
+                                                    const { date, display } = formatDate(entry.date_to);
+                                                    return <time dateTime={date.toISOString()}>{display}</time>;
+                                                })()}
                                             </>
                                         )}
                                     </p>
@@ -78,11 +87,17 @@ export default async function AboutSection() {
                                 <div className="flex flex-col-reverse">
                                     <h4 className="text-lg font-extralight tracking-wider">{entry.experience_name}</h4>
                                     <span className="text-white/70 italic">
-                                        <time dateTime={entry.year_from.toString()}>{entry.year_from}</time>
+                                        {(() => {
+                                            const { date, display } = formatDate(entry.year_from);
+                                            return <time dateTime={date.toISOString()}>{display}</time>;
+                                        })()}
                                         {entry.year_to && (
                                             <>
                                                 <AccessibleEnDash />
-                                                <time dateTime={entry.year_to.toString()}>{entry.year_to}</time>
+                                                {(() => {
+                                                    const { date, display } = formatDate(entry.year_to);
+                                                    return <time dateTime={date.toISOString()}>{display}</time>;
+                                                })()}
                                             </>
                                         )}
                                     </span>
