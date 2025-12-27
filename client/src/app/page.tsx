@@ -28,6 +28,8 @@ export default function Page() {
                 </h1>
                 <Nav />
             </header>
+            {/* Soft gradient bridge between dark hero and light page background. */}
+            <div aria-hidden className="h-12 bg-gradient-to-b from-black via-black/30 to-white" />
             <main className="mt-10 p-1">
                 <PortfolioSection />
                 <Divider />
