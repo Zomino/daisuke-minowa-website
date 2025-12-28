@@ -36,11 +36,11 @@ export default function Artwork({ artwork, className, ...rest }: ArtworkProps) {
     };
 
     return (
-        <div className={`mt-10 columns-1 gap-1 space-y-1 md:columns-2 lg:columns-3 xl:columns-4 ${className}`} {...rest}>
+        <div className={`mt-10 columns-1 gap-2 space-y-2 md:columns-2 lg:columns-3 xl:columns-4 ${className}`} {...rest}>
             <AnimatePresence>
                 {isCarouselOpen && (
                     <motion.div
-                        className="fixed inset-0 z-50 h-screen w-screen bg-black"
+                        className="fixed inset-0 z-50 h-screen w-screen bg-black/70 backdrop-blur-md"
                         animate={{ opacity: 1, scale: 1 }}
                         initial={{ opacity: 0, scale: 0.95 }}
                         exit={{ opacity: 0, scale: 0.95 }}

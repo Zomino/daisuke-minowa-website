@@ -8,7 +8,7 @@ export default async function ContactSection() {
                 <span className="flex cursor-pointer items-center gap-2 hover:text-black/60">
                     <FaEnvelope aria-hidden className="h-6 w-6" />
                     <a href="mailto:dminowa@gmail.com" aria-label="Email Daisuke Minowa">
-                        dminowa@gmail.com
+                        Email
                     </a>
                 </span>
                 <span className="flex cursor-pointer items-center gap-2 hover:text-black/60">
