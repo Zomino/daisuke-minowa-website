@@ -40,7 +40,7 @@ export default function Artwork({ artwork, className, ...rest }: ArtworkProps) {
             <AnimatePresence>
                 {isCarouselOpen && (
                     <motion.div
-                        className="fixed inset-0 z-50 h-screen w-screen bg-black"
+                        className="fixed inset-0 z-50 h-screen w-screen bg-black/70 backdrop-blur-md"
                         animate={{ opacity: 1, scale: 1 }}
                         initial={{ opacity: 0, scale: 0.95 }}
                         exit={{ opacity: 0, scale: 0.95 }}
