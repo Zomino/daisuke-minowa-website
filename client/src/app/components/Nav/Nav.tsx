@@ -66,7 +66,7 @@ export default function Nav() {
             <ul className="flex gap-4">
                 <li>
                     <a
-                        className="cursor-pointer text-base uppercase hover:text-white/60 md:text-lg"
+                        className="cursor-pointer text-lg uppercase hover:opacity-70 md:text-xl"
                         href="#portfolio"
                         onClick={(event) => handleClick(event, '#portfolio')}
                     >
