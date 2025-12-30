@@ -36,11 +36,11 @@ export default function Artwork({ artwork, className, ...rest }: ArtworkProps) {
     };
 
     return (
-        <div className={`mt-10 columns-1 gap-1 space-y-1 md:columns-2 lg:columns-3 xl:columns-4 ${className}`} {...rest}>
+        <div className={`mt-10 columns-1 gap-2 space-y-2 md:columns-2 lg:columns-3 xl:columns-4 ${className}`} {...rest}>
             <AnimatePresence>
                 {isCarouselOpen && (
                     <motion.div
-                        className="fixed inset-0 z-50 h-screen w-screen bg-black"
+                        className="fixed inset-0 z-50 h-screen w-screen bg-black/70 backdrop-blur-md"
                         animate={{ opacity: 1, scale: 1 }}
                         initial={{ opacity: 0, scale: 0.95 }}
                         exit={{ opacity: 0, scale: 0.95 }}
@@ -50,7 +50,11 @@ export default function Artwork({ artwork, className, ...rest }: ArtworkProps) {
                 )}
             </AnimatePresence>
             {artwork.map((a, index) => (
-                <div key={a.id} className="group relative hover:cursor-pointer" onClick={() => handleImageClick(index)}>
+                <div
+                    key={a.id}
+                    className="group relative overflow-hidden shadow-[0_18px_40px_-18px_rgba(0,0,0,0.45)] hover:cursor-pointer"
+                    onClick={() => handleImageClick(index)}
+                >
                     <Image
                         className="transition duration-300 group-hover:brightness-50"
                         src={a.image?.url || ''}
@@ -63,11 +67,8 @@ export default function Artwork({ artwork, className, ...rest }: ArtworkProps) {
                         // These are approximate values to help Next.js optimize the image loading.
                         sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 25vw"
                     />
-                    <div
-                        aria-hidden
-                        className="absolute inset-0 flex items-center justify-center opacity-0 transition duration-300 group-hover:opacity-100"
-                    >
-                        <h3>{a.title}</h3>
+                    <div aria-hidden className="absolute inset-0 flex items-center justify-center opacity-0 transition duration-300 group-hover:opacity-100">
+                        <h3 className="text-white">{a.title}</h3>
                     </div>
                 </div>
             ))}

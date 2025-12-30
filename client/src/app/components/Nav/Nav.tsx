@@ -75,7 +75,7 @@ export default function Nav() {
                 </li>
                 <li>
                     <a
-                        className="cursor-pointer text-base uppercase hover:text-white/60 md:text-lg"
+                        className="cursor-pointer text-lg uppercase hover:opacity-70 md:text-xl"
                         href="#about"
                         onClick={(event) => handleClick(event, '#about')}
                     >
@@ -84,7 +84,7 @@ export default function Nav() {
                 </li>
                 <li>
                     <a
-                        className="cursor-pointer text-base uppercase hover:text-white/60 md:text-lg"
+                        className="cursor-pointer text-lg uppercase hover:opacity-70 md:text-xl"
                         href="#contact"
                         onClick={(event) => handleClick(event, '#contact')}
                     >
@@ -102,9 +102,9 @@ export default function Nav() {
                 When a single nav is used, the addition and removal of animation classes causes the nav to transition in from the sides of the screen.
                 This is not the most modular design, but it works for this simple case.
             */}
-            {renderNav({ className: 'absolute top-[calc(60%)] left-1/2 -translate-x-1/2 transform' })}
+            {renderNav({ className: 'absolute top-[calc(60%)] left-1/2 -translate-x-1/2 transform text-white' })}
             {renderNav({
-                className: `fixed top-0 left-0 w-full bg-black shadow-md transition-all duration-300 ease-in-out ${isStickyNavVisible ? 'translate-y-0 opacity-100' : 'pointer-events-none -translate-y-full opacity-0'}`,
+                className: `fixed top-0 left-0 w-full bg-white text-black shadow-md transition-all duration-300 ease-in-out ${isStickyNavVisible ? 'translate-y-0 opacity-100' : 'pointer-events-none -translate-y-full opacity-0'}`,
                 'aria-hidden': true, // This nav is not necessary for screen readers as it duplicates the content of the static nav.
             })}
         </>

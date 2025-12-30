@@ -1,7 +1,7 @@
+import { Analytics } from '@vercel/analytics/next';
 import { type Metadata, type Viewport } from 'next';
 
 import './globals.css';
-
 export const metadata: Metadata = {
     title: 'Daisuke Minowa',
     description: 'The website of Daisuke Minowa, a London-based Japanese artist. Here you find a list of my recent and previous artwork.',
@@ -18,8 +18,11 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
     return (
-        <html className="font-arial scroll-pt-22 scroll-smooth bg-black text-white" lang="en">
-            <body>{children}</body>
+        <html className="font-arial scroll-pt-22 scroll-smooth bg-white text-black" lang="en">
+            <body>
+                {children}
+                <Analytics />
+            </body>
         </html>
     );
 }

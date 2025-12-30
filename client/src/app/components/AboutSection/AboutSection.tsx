@@ -34,7 +34,7 @@ export default async function AboutSection() {
             <div className="relative mx-auto mt-10 w-full max-w-[500px] md:w-1/2 lg:w-1/4">
                 <Image
                     alt="Photo of Daisuke Minowa" // This is a mandatory prop for Next.js Image.
-                    className="object-contain"
+                    className="object-contain shadow-xl shadow-black/20"
                     // Make sure the height and width match the original image dimensions.
                     // The height is necessary for the image to actually be visible.
                     height={3264}
@@ -47,8 +47,8 @@ export default async function AboutSection() {
             </div>
             <h3 className="mt-10 text-center text-xl tracking-widest uppercase">Bio</h3>
             <p className="mx-auto mt-5 max-w-150 px-5 text-center">Born in Tokyo in 1966. Moved to the UK in 1986. Living and working in London.</p>
-            <div className="mt-15 px-5 md:flex md:justify-center md:space-x-5">
-                <div className="text-center md:w-1/2 md:text-right">
+            <div className="mt-15 flex flex-col items-center gap-15 px-5">
+                <div className="w-full max-w-4xl text-center">
                     <h3 className="text-xl tracking-widest uppercase">Exhibitions</h3>
                     <ul className="mt-5 space-y-6">
                         {exhibitionEntries.map((entry) => (
@@ -56,7 +56,7 @@ export default async function AboutSection() {
                                 {/* Use flexbox to reverse the name and date visually for style, but maintain proper page structure. */}
                                 <div className="flex flex-col-reverse">
                                     <h4 className="text-lg font-extralight tracking-wider">{entry.event_name}</h4>
-                                    <p className="text-white/70 italic">
+                                    <p className="text-black/70 italic">
                                         {(() => {
                                             const { date, display } = formatDate(entry.date_from);
                                             return <time dateTime={date.toISOString()}>{display}</time>;
@@ -72,12 +72,12 @@ export default async function AboutSection() {
                                         )}
                                     </p>
                                 </div>
-                                {entry.notes && <p className="text-sm text-white/70 italic">{entry.notes}</p>}
+                                {entry.notes && <p className="text-sm text-black/70 italic">{entry.notes}</p>}
                             </li>
                         ))}
                     </ul>
                 </div>
-                <div className="mt-15 text-center md:mt-0 md:ml-10 md:w-1/2 md:text-left">
+                <div className="w-full max-w-4xl text-center">
                     <h3 className="text-xl tracking-widest uppercase">Education</h3>
                     <ul className="mt-5 space-y-6">
                         {educationEntries.map((entry) => (
@@ -85,7 +85,7 @@ export default async function AboutSection() {
                                 {/* Use flexbox to reverse the name and date visually for style, but maintain proper page structure. */}
                                 <div className="flex flex-col-reverse">
                                     <h4 className="text-lg font-extralight tracking-wider">{entry.experience_name}</h4>
-                                    <span className="text-white/70 italic">
+                                    <span className="text-black/70 italic">
                                         {(() => {
                                             const { date, display } = formatDate(entry.year_from);
                                             return <time dateTime={date.toISOString()}>{display}</time>;
@@ -101,7 +101,7 @@ export default async function AboutSection() {
                                         )}
                                     </span>
                                 </div>
-                                {entry.notes && <p className="text-sm text-white/70 italic">{entry.notes}</p>}
+                                {entry.notes && <p className="text-sm text-black/70 italic">{entry.notes}</p>}
                             </li>
                         ))}
                     </ul>
