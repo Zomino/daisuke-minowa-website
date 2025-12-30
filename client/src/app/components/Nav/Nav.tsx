@@ -1,39 +1,64 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+
+const SCROLL_KEYS = ['ArrowUp', 'ArrowDown', 'PageUp', 'PageDown', 'Home', 'End', 'Space'];
 
 /** Note that this nav assumes that the correct anchors have been set up in the rest of the page. */
 export default function Nav() {
     const [isStickyNavVisible, setIsStickyNavVisible] = useState(false);
-    const [lastScrollY, setLastScrollY] = useState(0);
-    const [userRecentlyNavigated, setUserRecentlyNavigated] = useState(false);
+    const lastScrollYRef = useRef(0);
+    const navigationActiveRef = useRef(false);
 
     useEffect(() => {
         const handleScroll = () => {
-            // Note that starting position of the static nav is assumed to be roughly 3/4 of the way down viewport height when at the top of the page.
-            // Ensure that this aligns with the actual position of the static nav in the layout.
             const isNavPastOriginalPosition = window.scrollY > window.innerHeight * 0.75;
+            const isScrollingUp = window.scrollY < lastScrollYRef.current;
 
-            // The nav should be visible if the user has recently navigated or if they are past the original position of the nav and scrolling up.
-            if (isNavPastOriginalPosition && (userRecentlyNavigated || window.scrollY < lastScrollY)) {
+            // Show while navigating programmatically, or when past the hero and scrolling up.
+            if (navigationActiveRef.current || (isNavPastOriginalPosition && isScrollingUp)) {
                 setIsStickyNavVisible(true);
             } else {
                 setIsStickyNavVisible(false);
             }
 
-            setLastScrollY(window.scrollY);
+            lastScrollYRef.current = window.scrollY;
         };
 
-        window.addEventListener('scroll', handleScroll);
+        const cancelNavigationIfUserScrolls = () => {
+            if (!navigationActiveRef.current) return;
 
-        return () => window.removeEventListener('scroll', handleScroll);
-    }, [lastScrollY, userRecentlyNavigated]);
+            navigationActiveRef.current = false;
+            handleScroll();
+        };
 
-    const handleClick = (href: string) => {
+        const handleKeydown = (event: KeyboardEvent) => {
+            if (SCROLL_KEYS.includes(event.code)) {
+                cancelNavigationIfUserScrolls();
+            }
+        };
+
+        window.addEventListener('scroll', handleScroll, { passive: true });
+        window.addEventListener('wheel', cancelNavigationIfUserScrolls, { passive: true });
+        window.addEventListener('touchmove', cancelNavigationIfUserScrolls, { passive: true });
+        window.addEventListener('keydown', handleKeydown, { passive: true });
+
+        handleScroll(); // Set initial visibility based on starting position.
+
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+            window.removeEventListener('wheel', cancelNavigationIfUserScrolls);
+            window.removeEventListener('touchmove', cancelNavigationIfUserScrolls);
+            window.removeEventListener('keydown', handleKeydown);
+        };
+    }, []);
+
+    const handleClick = (event: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+        event.preventDefault();
+        navigationActiveRef.current = true;
+        setIsStickyNavVisible(true);
         document.querySelector(href)?.scrollIntoView({ behavior: 'smooth' });
         window.history.pushState(null, '', href);
-        setUserRecentlyNavigated(true);
-        setTimeout(() => setUserRecentlyNavigated(false), 2000);
     };
 
     const renderNav = ({ className, ...rest }: React.ComponentProps<'nav'>) => (
@@ -42,8 +67,8 @@ export default function Nav() {
                 <li>
                     <a
                         className="cursor-pointer text-base uppercase hover:text-white/60 md:text-lg"
-                        href="portfolio"
-                        onClick={() => handleClick('#portfolio')}
+                        href="#portfolio"
+                        onClick={(event) => handleClick(event, '#portfolio')}
                     >
                         Portfolio
                     </a>
@@ -52,7 +77,7 @@ export default function Nav() {
                     <a
                         className="cursor-pointer text-base uppercase hover:text-white/60 md:text-lg"
                         href="#about"
-                        onClick={() => handleClick('#about')}
+                        onClick={(event) => handleClick(event, '#about')}
                     >
                         About
                     </a>
@@ -61,7 +86,7 @@ export default function Nav() {
                     <a
                         className="cursor-pointer text-base uppercase hover:text-white/60 md:text-lg"
                         href="#contact"
-                        onClick={() => handleClick('#contact')}
+                        onClick={(event) => handleClick(event, '#contact')}
                     >
                         Contact
                     </a>
