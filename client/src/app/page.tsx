@@ -27,7 +27,7 @@ export default function Page() {
                 <Nav />
             </header>
             <main className="px-4 sm:px-6 md:px-8">
-                <div className="mt-20">
+                <div className="mt-28">
                     <PortfolioSection />
                 </div>
                 <div className="my-20 md:my-24">
