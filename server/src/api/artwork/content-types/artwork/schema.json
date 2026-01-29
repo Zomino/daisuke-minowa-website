@@ -33,12 +33,15 @@
       "type": "decimal",
       "required": true
     },
-    "description": {
+    "technique": {
       "type": "text",
       "maxLength": 1000
     },
     "date": {
       "type": "date"
+    },
+    "description": {
+      "type": "text"
     }
   }
 }

@@ -388,10 +388,7 @@ export interface ApiArtworkArtwork extends Struct.CollectionTypeSchema {
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
     date: Schema.Attribute.Date;
-    description: Schema.Attribute.Text &
-      Schema.Attribute.SetMinMaxLength<{
-        maxLength: 1000;
-      }>;
+    description: Schema.Attribute.Text;
     height_cm: Schema.Attribute.Decimal & Schema.Attribute.Required;
     image: Schema.Attribute.Media<'images' | 'files'> &
       Schema.Attribute.Required;
@@ -402,6 +399,10 @@ export interface ApiArtworkArtwork extends Struct.CollectionTypeSchema {
     > &
       Schema.Attribute.Private;
     publishedAt: Schema.Attribute.DateTime;
+    technique: Schema.Attribute.Text &
+      Schema.Attribute.SetMinMaxLength<{
+        maxLength: 1000;
+      }>;
     title: Schema.Attribute.String &
       Schema.Attribute.Required &
       Schema.Attribute.SetMinMaxLength<{

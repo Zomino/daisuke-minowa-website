@@ -11,6 +11,7 @@ export interface Artwork {
   image: Media | null;
   height_cm: number;
   width_cm: number;
-  description?: string;
+  technique?: string;
   date?: Date | string;
+  description?: string;
 };

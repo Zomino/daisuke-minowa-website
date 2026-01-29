@@ -39,7 +39,8 @@ export default function ArtworkCarousel({ artwork, ...rest }: ArtworkCarouselPro
                             <AnimatePresence>
                                 <motion.figcaption className="p-5 md:w-1/3" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
                                     <h3 className="text-xl font-extralight uppercase">{item.title ?? '(untitled)'}</h3>
-                                    {item.description && <p className="mt-5">{item.description}</p>}
+                                    {item.technique && <p className="mt-5 text-sm uppercase tracking-wide text-black/70">{item.technique}</p>}
+                                    {item.description && <p className={item.technique ? 'mt-3' : 'mt-5'}>{item.description}</p>}
                                     <dl className="mt-5 grid grid-cols-[auto_1fr] gap-2">
                                         <dt>Dimensions:</dt>
                                         {/* Use the multiplication symbol. */}
