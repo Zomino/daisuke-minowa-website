@@ -31,10 +31,10 @@ export default async function AboutSection() {
     return (
         <section id="about">
             <h2 className="text-center text-2xl tracking-widest uppercase md:text-3xl">About</h2>
-            <div className="relative mx-auto mt-14 w-full max-w-[420px] overflow-hidden rounded-lg border border-black/5 bg-white shadow-[0_6px_18px_-18px_rgba(0,0,0,0.25)] md:w-2/5 lg:w-1/4 xl:w-1/6 2xl:w-1/6">
+            <div className="relative mx-auto mt-14 w-full overflow-hidden shadow-[0_18px_40px_-18px_rgba(0,0,0,0.45)] md:w-1/2 lg:w-1/3 xl:w-1/4 2xl:w-1/5">
                 <Image
                     alt="Photo of Daisuke Minowa" // This is a mandatory prop for Next.js Image.
-                    className="rounded-lg object-contain saturate-60"
+                    className="object-contain saturate-60"
                     // Make sure the height and width match the original image dimensions.
                     // The height is necessary for the image to actually be visible.
                     height={3264}
@@ -43,7 +43,7 @@ export default async function AboutSection() {
                     src={profileImage} // Pass the imported image directly to the src prop to ensure Next.js optimizes it correctly.
                 />
                 {/* Gradient overlay for top and bottom. */}
-                <div className="pointer-events-none absolute inset-0 z-10 rounded-lg bg-gradient-to-b from-black/50 via-transparent to-black/50" />
+                <div className="pointer-events-none absolute inset-0 z-10 bg-gradient-to-b from-black/50 via-transparent to-black/50" />
             </div>
             <h3 className="sr-only">Bio</h3>
             <p className="mx-auto mt-20 max-w-120 px-5 text-center">Born in Tokyo in 1966. Moved to the UK in 1986. Living and working in London.</p>
