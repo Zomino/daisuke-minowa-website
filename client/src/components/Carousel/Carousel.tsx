@@ -95,7 +95,7 @@ export default function Carousel<T>({ children, className, onClose, items, start
     return (
         <div
             // Ensure the carousel takes full height and width of its container when .
-            className={`overflow-hidden bg-black/30 backdrop-blur-md text-white ${
+            className={`overflow-hidden bg-white text-black ${
                 isFullScreen ? 'fixed inset-0 h-screen w-screen' : 'relative h-full w-full'
             } ${className}`}
             ref={emblaRef}
@@ -124,7 +124,7 @@ export default function Carousel<T>({ children, className, onClose, items, start
                                 <FiX className="h-6 w-6" />
                             </MotionCarouselButton>
                             <motion.div
-                                className="absolute bottom-4 left-1/2 z-50 flex -translate-x-1/2 gap-2 rounded-full bg-black/40 p-2 text-white/90 backdrop-blur-sm"
+                                className="absolute bottom-4 left-1/2 z-50 flex -translate-x-1/2 gap-2 rounded-full bg-white p-2 text-black/80 shadow-sm"
                                 variants={buttonVariants}
                             >
                                 <CarouselButton ariaLabel="Previous Image" className="bg-transparent" title="Previous Image" onClick={scrollPrev}>

@@ -12,7 +12,7 @@ const CarouselButton = forwardRef<HTMLButtonElement, CarouselButtonProps>(({ ari
         <button
             ref={ref}
             aria-label={ariaLabel}
-            className={`cursor-pointer rounded-full bg-black/70 p-3 text-white/70 hover:bg-white/20 ${className}`}
+            className={`cursor-pointer rounded-full border border-black/10 bg-white p-3 text-black/70 shadow-sm hover:bg-black/5 ${className}`}
             onClick={onClick}
             {...rest}
         >
