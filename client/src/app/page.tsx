@@ -22,7 +22,7 @@ export default function Page() {
                     src={heroImage} // Pass the imported image directly to the src prop to ensure Next.js optimizes it correctly.
                 />
                 {/* Render overlay for the image to add light contrast so the heading stays readable. */}
-                <div className="pointer-events-none absolute bottom-0 left-0 h-full w-full bg-gradient-to-t from-black/50 via-black/20 to-transparent" />
+                <div className="pointer-events-none absolute bottom-0 left-0 h-full w-full bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
                 <h1 className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 transform text-center text-4xl font-extralight tracking-widest uppercase text-white drop-shadow-lg md:text-5xl">
                     Daisuke Minowa
                 </h1>
@@ -31,17 +31,23 @@ export default function Page() {
             {/* Soft, extended gradient bridge between dark hero and light page background. */}
             <div
                 aria-hidden
-                className="h-16"
-                style={{ background: 'linear-gradient(180deg, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.25) 35%, rgba(0,0,0,0.1) 65%, #fff 100%)' }}
+                className="h-20"
+                style={{ background: 'linear-gradient(180deg, #000 0%, rgba(0,0,0,0.6) 35%, rgba(0,0,0,0.25) 60%, #fff 100%)' }}
             />
-            <main className="mt-10 p-1">
-                <PortfolioSection />
-                <Divider />
-                <div className="mt-10">
+            <main className="mt-18 px-4 sm:px-6 md:px-8">
+                <div className="pt-10">
+                    <PortfolioSection />
+                </div>
+                <div className="my-20 md:my-24">
+                    <Divider />
+                </div>
+                <div className="mt-20">
                     <AboutSection />
                 </div>
-                <Divider />
-                <div className="mt-10">
+                <div className="my-20 md:my-24">
+                    <Divider />
+                </div>
+                <div className="mt-20">
                     <ContactSection />
                 </div>
             </main>

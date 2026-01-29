@@ -15,7 +15,7 @@ export default async function PortfolioSection() {
     return (
         <section id="portfolio">
             <h2 className="text-center text-2xl tracking-widest uppercase md:text-3xl">Portfolio</h2>
-            <Artwork className="mt-10" artwork={images} />
+            <Artwork className="mt-14" artwork={images} />
         </section>
     );
 }

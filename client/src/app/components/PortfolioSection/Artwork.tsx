@@ -36,7 +36,7 @@ export default function Artwork({ artwork, className, ...rest }: ArtworkProps) {
     };
 
     return (
-        <div className={`mt-10 columns-1 gap-2 space-y-2 md:columns-2 lg:columns-3 xl:columns-4 ${className}`} {...rest}>
+        <div className={`mt-10 columns-1 gap-4 space-y-4 md:columns-2 lg:columns-3 xl:columns-4 ${className}`} {...rest}>
             <AnimatePresence>
                 {isCarouselOpen && (
                     <motion.div

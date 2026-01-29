@@ -4,7 +4,7 @@ export default async function ContactSection() {
     return (
         <section id="contact">
             <h2 className="text-center text-2xl tracking-widest uppercase md:text-3xl">Contact</h2>
-            <div className="mt-10 flex flex-col items-center justify-center gap-5 md:flex-row">
+            <div className="mt-14 flex flex-col items-center justify-center gap-5 md:flex-row">
                 <span className="flex cursor-pointer items-center gap-2 hover:text-black/60">
                     <FaEnvelope aria-hidden className="h-6 w-6" />
                     <a href="mailto:dminowa@gmail.com" aria-label="Email Daisuke Minowa">
