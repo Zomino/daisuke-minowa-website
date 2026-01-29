@@ -20,6 +20,10 @@ export default async function AboutSection() {
         .catch(console.error);
 
     const [educationEntries = [], exhibitionEntries = []] = await Promise.all([educationEntriesPromise, exhibitionEntriesPromise]);
+    const compareDatesDesc = (a?: string | number | Date | null, b?: string | number | Date | null) =>
+        new Date(b ?? 0).getTime() - new Date(a ?? 0).getTime();
+    const sortedExhibitions = [...exhibitionEntries].sort((a, b) => compareDatesDesc(a.date_from, b.date_from));
+    const sortedEducation = [...educationEntries].sort((a, b) => compareDatesDesc(a.year_from, b.year_from));
     const formatDate = (value: Date | string | number) => {
         const date = typeof value === 'number' ? new Date(value, 0, 1) : new Date(value);
         return {
@@ -51,7 +55,7 @@ export default async function AboutSection() {
                 <div className="w-full max-w-4xl text-center">
                     <h3 className="text-xl tracking-widest uppercase">Exhibitions</h3>
                     <ul className="mt-8 space-y-6">
-                        {exhibitionEntries.map((entry) => (
+                        {sortedExhibitions.map((entry) => (
                             <li key={entry.id}>
                                 {/* Use flexbox to reverse the name and date visually for style, but maintain proper page structure. */}
                                 <div className="flex flex-col-reverse">
@@ -80,7 +84,7 @@ export default async function AboutSection() {
                 <div className="w-full max-w-4xl text-center">
                     <h3 className="text-xl tracking-widest uppercase">Education</h3>
                     <ul className="mt-8 space-y-6">
-                        {educationEntries.map((entry) => (
+                        {sortedEducation.map((entry) => (
                             <li key={entry.id}>
                                 {/* Use flexbox to reverse the name and date visually for style, but maintain proper page structure. */}
                                 <div className="flex flex-col-reverse">
