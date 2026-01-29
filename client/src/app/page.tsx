@@ -23,19 +23,17 @@ export default function Page() {
                 />
                 {/* Render overlay for the image to add light contrast so the heading stays readable. */}
                 <div className="pointer-events-none absolute bottom-0 left-0 h-full w-full bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
+                {/* Fade the bottom of the hero into the white page background. */}
+                <div className="pointer-events-none absolute bottom-0 left-0 h-[12.5%] w-full bg-[linear-gradient(0deg,#fff_0%,rgba(255,255,255,0.85)_40%,rgba(255,255,255,0.35)_75%,rgba(255,255,255,0)_100%)]" />
                 <h1 className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 transform text-center text-4xl font-extralight tracking-widest uppercase text-white drop-shadow-lg md:text-5xl">
                     Daisuke Minowa
                 </h1>
                 <Nav />
             </header>
             {/* Soft, extended gradient bridge between dark hero and light page background. */}
-            <div
-                aria-hidden
-                className="h-20"
-                style={{ background: 'linear-gradient(180deg, #000 0%, rgba(0,0,0,0.6) 35%, rgba(0,0,0,0.25) 60%, #fff 100%)' }}
-            />
-            <main className="mt-18 px-4 sm:px-6 md:px-8">
-                <div className="pt-10">
+            <div aria-hidden className="h-16 bg-white" />
+            <main className="mt-12 px-4 sm:px-6 md:px-8">
+                <div className="pt-4">
                     <PortfolioSection />
                 </div>
                 <div className="my-20 md:my-24">

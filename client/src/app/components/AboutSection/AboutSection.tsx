@@ -31,7 +31,7 @@ export default async function AboutSection() {
     return (
         <section id="about">
             <h2 className="text-center text-2xl tracking-widest uppercase md:text-3xl">About</h2>
-            <div className="relative mx-auto mt-14 w-full max-w-[500px] overflow-hidden rounded-lg border border-black/5 bg-white shadow-[0_6px_18px_-18px_rgba(0,0,0,0.25)] md:w-1/2 lg:w-1/4">
+            <div className="relative mx-auto mt-14 w-full max-w-[420px] overflow-hidden rounded-lg border border-black/5 bg-white shadow-[0_6px_18px_-18px_rgba(0,0,0,0.25)] md:w-2/5 lg:w-1/4 xl:w-1/6 2xl:w-1/6">
                 <Image
                     alt="Photo of Daisuke Minowa" // This is a mandatory prop for Next.js Image.
                     className="rounded-lg object-contain saturate-60"
@@ -46,7 +46,7 @@ export default async function AboutSection() {
                 <div className="pointer-events-none absolute inset-0 z-10 rounded-lg bg-gradient-to-b from-black/50 via-transparent to-black/50" />
             </div>
             <h3 className="sr-only">Bio</h3>
-            <p className="mx-auto mt-8 max-w-150 px-5 text-center">Born in Tokyo in 1966. Moved to the UK in 1986. Living and working in London.</p>
+            <p className="mx-auto mt-20 max-w-120 px-5 text-center">Born in Tokyo in 1966. Moved to the UK in 1986. Living and working in London.</p>
             <div className="mt-18 flex flex-col items-center gap-15 px-5">
                 <div className="w-full max-w-4xl text-center">
                     <h3 className="text-xl tracking-widest uppercase">Exhibitions</h3>
