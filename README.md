@@ -1,4 +1,4 @@
-# Daisuke Minowa Potfolio Website
+# Daisuke Minowa Portfolio Website
 
 This is a full stack web application that serves as a portfolio website for my father, Daisuke Minowa, enabling him to showcase his artwork and exhibitions.
 It has been built with a Next.js frontend and a Strapi backend.
