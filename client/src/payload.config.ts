@@ -6,6 +6,8 @@ import { buildConfig } from 'payload';
 import { fileURLToPath } from 'url';
 
 import { Artworks } from './collections/Artworks';
+import { EducationEntries } from './collections/EducationEntries';
+import { ExhibitionEntries } from './collections/ExhibitionEntries';
 import { Media } from './collections/Media';
 import { Users } from './collections/Users';
 
@@ -19,7 +21,7 @@ export default buildConfig({
             baseDir: path.resolve(dirname),
         },
     },
-    collections: [Artworks, Media, Users],
+    collections: [Artworks, ExhibitionEntries, EducationEntries, Media, Users],
     i18n: {
         // Each user can pick a language on their account page; Japanese is used when the browser's language is not supported.
         supportedLanguages: { ja, en },

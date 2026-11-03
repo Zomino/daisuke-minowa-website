@@ -68,6 +68,8 @@ export interface Config {
   blocks: {};
   collections: {
     artworks: Artwork;
+    'exhibition-entries': ExhibitionEntry;
+    'education-entries': EducationEntry;
     media: Media;
     users: User;
     'payload-kv': PayloadKv;
@@ -78,6 +80,8 @@ export interface Config {
   collectionsJoins: {};
   collectionsSelect: {
     artworks: ArtworksSelect<false> | ArtworksSelect<true>;
+    'exhibition-entries': ExhibitionEntriesSelect<false> | ExhibitionEntriesSelect<true>;
+    'education-entries': EducationEntriesSelect<false> | EducationEntriesSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
@@ -157,6 +161,35 @@ export interface Media {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "exhibition-entries".
+ */
+export interface ExhibitionEntry {
+  id: number;
+  event_name: string;
+  date_from: string;
+  date_to?: string | null;
+  location?: string | null;
+  notes?: string | null;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "education-entries".
+ */
+export interface EducationEntry {
+  id: number;
+  experience_name: string;
+  year_from: number;
+  year_to?: number | null;
+  notes?: string | null;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "users".
  */
 export interface User {
@@ -208,6 +241,14 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'artworks';
         value: number | Artwork;
+      } | null)
+    | ({
+        relationTo: 'exhibition-entries';
+        value: number | ExhibitionEntry;
+      } | null)
+    | ({
+        relationTo: 'education-entries';
+        value: number | EducationEntry;
       } | null)
     | ({
         relationTo: 'media';
@@ -271,6 +312,33 @@ export interface ArtworksSelect<T extends boolean = true> {
   technique?: T;
   date?: T;
   description?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "exhibition-entries_select".
+ */
+export interface ExhibitionEntriesSelect<T extends boolean = true> {
+  event_name?: T;
+  date_from?: T;
+  date_to?: T;
+  location?: T;
+  notes?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "education-entries_select".
+ */
+export interface EducationEntriesSelect<T extends boolean = true> {
+  experience_name?: T;
+  year_from?: T;
+  year_to?: T;
+  notes?: T;
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
