@@ -1,4 +1,6 @@
 import { postgresAdapter } from '@payloadcms/db-postgres';
+import { en } from '@payloadcms/translations/languages/en';
+import { ja } from '@payloadcms/translations/languages/ja';
 import path from 'path';
 import { buildConfig } from 'payload';
 import { fileURLToPath } from 'url';
@@ -16,6 +18,11 @@ export default buildConfig({
         },
     },
     collections: [Users],
+    i18n: {
+        // Each user can pick a language on their account page; Japanese is used when the browser's language is not supported.
+        supportedLanguages: { ja, en },
+        fallbackLanguage: 'ja',
+    },
     secret: process.env.PAYLOAD_SECRET || '',
     db: postgresAdapter({
         pool: {
