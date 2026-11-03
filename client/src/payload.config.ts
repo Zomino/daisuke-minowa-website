@@ -5,6 +5,7 @@ import path from 'path';
 import { buildConfig } from 'payload';
 import { fileURLToPath } from 'url';
 
+import { Media } from './collections/Media';
 import { Users } from './collections/Users';
 
 const filename = fileURLToPath(import.meta.url);
@@ -17,7 +18,7 @@ export default buildConfig({
             baseDir: path.resolve(dirname),
         },
     },
-    collections: [Users],
+    collections: [Users, Media],
     i18n: {
         // Each user can pick a language on their account page; Japanese is used when the browser's language is not supported.
         supportedLanguages: { ja, en },
