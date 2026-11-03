@@ -1,0 +1,21 @@
+/* Copied from the official Payload template. Do not modify; it may need to be replaced when Payload is upgraded. */
+import config from '@payload-config';
+import { generatePageMetadata, RootPage } from '@payloadcms/next/views';
+import type { Metadata } from 'next';
+
+import { importMap } from '../importMap';
+
+type Args = {
+    params: Promise<{
+        segments: string[];
+    }>;
+    searchParams: Promise<{
+        [key: string]: string | string[];
+    }>;
+};
+
+export const generateMetadata = ({ params, searchParams }: Args): Promise<Metadata> => generatePageMetadata({ config, params, searchParams });
+
+const Page = ({ params, searchParams }: Args) => RootPage({ config, params, searchParams, importMap });
+
+export default Page;

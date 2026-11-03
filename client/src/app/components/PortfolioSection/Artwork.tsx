@@ -6,7 +6,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import Image from 'next/legacy/image';
 import { useEffect, useState } from 'react';
 
-import ArtworkCarousel from 'app/components/PortfolioSection/ArtworkCarousel';
+import ArtworkCarousel from './ArtworkCarousel';
 import { type Artwork as A } from 'genTypes/artwork';
 
 interface ArtworkProps extends React.ComponentProps<'div'> {
