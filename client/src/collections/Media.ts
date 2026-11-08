@@ -18,6 +18,7 @@ export const Media: CollectionConfig = {
                 height: 4000,
                 fit: 'inside',
                 withoutEnlargement: true,
+                formatOptions: { format: 'jpeg', options: { quality: 90 } },
             },
             {
                 name: 'thumb',
