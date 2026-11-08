@@ -43,6 +43,7 @@ export default buildConfig({
         vercelBlobStorage({
             collections: { media: true },
             token: process.env.BLOB_READ_WRITE_TOKEN || '',
+            clientUploads: true, // Browser uploads straight to Blob, avoiding Vercel's 4.5MB request limit.
         }),
     ],
 });
