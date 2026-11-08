@@ -3,6 +3,7 @@ import { en } from '@payloadcms/translations/languages/en';
 import { ja } from '@payloadcms/translations/languages/ja';
 import path from 'path';
 import { buildConfig } from 'payload';
+import sharp from 'sharp';
 import { fileURLToPath } from 'url';
 
 import { Artworks } from './collections/Artworks';
@@ -28,6 +29,7 @@ export default buildConfig({
         fallbackLanguage: 'ja',
     },
     secret: process.env.PAYLOAD_SECRET || '',
+    sharp, // Used to generate the image sizes declared on upload collections.
     typescript: {
         outputFile: path.resolve(dirname, 'payload-types.ts'),
     },

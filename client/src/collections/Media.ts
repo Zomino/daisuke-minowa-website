@@ -11,6 +11,19 @@ export const Media: CollectionConfig = {
     },
     upload: {
         mimeTypes: ['image/*'],
+        imageSizes: [
+            {
+                name: 'display',
+                width: 4000,
+                height: 4000,
+                fit: 'inside',
+                withoutEnlargement: true,
+            },
+            {
+                name: 'thumb',
+                width: 32,
+            },
+        ],
     },
     fields: [
         {
