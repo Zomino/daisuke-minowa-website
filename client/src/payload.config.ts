@@ -1,4 +1,5 @@
 import { postgresAdapter } from '@payloadcms/db-postgres';
+import { vercelBlobStorage } from '@payloadcms/storage-vercel-blob';
 import { en } from '@payloadcms/translations/languages/en';
 import { ja } from '@payloadcms/translations/languages/ja';
 import path from 'path';
@@ -38,4 +39,10 @@ export default buildConfig({
             connectionString: process.env.DATABASE_URI || '',
         },
     }),
+    plugins: [
+        vercelBlobStorage({
+            collections: { media: true },
+            token: process.env.BLOB_READ_WRITE_TOKEN || '',
+        }),
+    ],
 });
