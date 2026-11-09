@@ -48,9 +48,14 @@ export default buildConfig({
     }),
     plugins: [
         vercelBlobStorage({
-            collections: { media: true },
+            collections: {
+                // Store Blob's public URL so images are not proxied through Payload.
+                media: { disablePayloadAccessControl: true },
+            },
             token: process.env.BLOB_READ_WRITE_TOKEN || '',
             clientUploads: true, // Browser uploads straight to Blob, avoiding Vercel's 4.5MB request limit.
+            // Default is a year. A day limits how long a re-uploaded image with the same filename can be stale.
+            cacheControlMaxAge: 60 * 60 * 24,
         }),
     ],
 });
