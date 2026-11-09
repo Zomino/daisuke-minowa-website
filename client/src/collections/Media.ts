@@ -1,7 +1,13 @@
 import type { CollectionConfig } from 'payload';
 
+import { revalidateHome } from './utils';
+
 export const Media: CollectionConfig = {
     slug: 'media',
+    hooks: {
+        afterChange: [revalidateHome],
+        afterDelete: [revalidateHome],
+    },
     labels: {
         singular: { ja: '写真', en: 'Image' },
         plural: { ja: '写真', en: 'Images' },

@@ -1,7 +1,13 @@
 import type { CollectionConfig } from 'payload';
 
+import { revalidateHome } from './utils';
+
 export const Artworks: CollectionConfig = {
     slug: 'artworks',
+    hooks: {
+        afterChange: [revalidateHome],
+        afterDelete: [revalidateHome],
+    },
     labels: {
         singular: { ja: '作品', en: 'Artwork' },
         plural: { ja: '作品', en: 'Artworks' },

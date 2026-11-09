@@ -1,7 +1,13 @@
 import type { CollectionConfig } from 'payload';
 
+import { revalidateHome } from './utils';
+
 export const EducationEntries: CollectionConfig = {
     slug: 'education-entries',
+    hooks: {
+        afterChange: [revalidateHome],
+        afterDelete: [revalidateHome],
+    },
     labels: {
         singular: { ja: '学歴', en: 'Education' },
         plural: { ja: '学歴', en: 'Education' },

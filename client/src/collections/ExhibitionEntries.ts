@@ -1,7 +1,13 @@
 import type { CollectionConfig } from 'payload';
 
+import { revalidateHome } from './utils';
+
 export const ExhibitionEntries: CollectionConfig = {
     slug: 'exhibition-entries',
+    hooks: {
+        afterChange: [revalidateHome],
+        afterDelete: [revalidateHome],
+    },
     labels: {
         singular: { ja: '展示歴', en: 'Exhibition' },
         plural: { ja: '展示歴', en: 'Exhibitions' },
