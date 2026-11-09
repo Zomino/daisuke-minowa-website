@@ -15,7 +15,6 @@
     "@payloadcms/next": "3.92.0",
     "@payloadcms/storage-vercel-blob": "3.92.0",
     "@payloadcms/translations": "3.92.0",
-    "@strapi/client": "^1.4.0",
     "@vercel/analytics": "^1.6.1",
     "embla-carousel-react": "^8.6.0",
     "graphql": "16.14.2",
