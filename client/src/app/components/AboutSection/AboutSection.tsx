@@ -1,46 +1,39 @@
-import strapiClient from '@lib/strapiClient';
+import config from '@payload-config';
 import Image from 'next/image';
+import { getPayload } from 'payload';
 
 import profileImage from '../../../../public/images/profile.jpg';
 
 import AccessibleEnDash from '@components/AccessibleEnDash/AccessibleEnDash';
-import { type EducationEntry } from 'genTypes/educationEntry';
-import { type ExhibitionEntry } from 'genTypes/exhibitionEntry';
 
 export default async function AboutSection() {
-    const educationEntriesPromise = strapiClient
-        .collection('education-entries')
-        .find()
-        .then((res) => res.data as EducationEntry[])
-        .catch(console.error);
-    const exhibitionEntriesPromise = strapiClient
-        .collection('exhibition-entries')
-        .find()
-        .then((res) => res.data as ExhibitionEntry[])
-        .catch(console.error);
-
-    const [educationEntries = [], exhibitionEntries = []] = await Promise.all([
-        educationEntriesPromise,
-        exhibitionEntriesPromise,
+    const payload = await getPayload({ config });
+    const published = { _status: { equals: 'published' } } as const;
+    const [{ docs: sortedExhibitions }, { docs: sortedEducation }] = await Promise.all([
+        payload.find({
+            collection: 'exhibition-entries',
+            where: published,
+            sort: '-date_from',
+            limit: 0,
+        }),
+        payload.find({
+            collection: 'education-entries',
+            where: published,
+            sort: '-year_from',
+            limit: 0,
+        }),
     ]);
-    const compareDatesDesc = (
-        a?: string | number | Date | null,
-        b?: string | number | Date | null
-    ) => new Date(b ?? 0).getTime() - new Date(a ?? 0).getTime();
-    const sortedExhibitions = [...exhibitionEntries].sort((a, b) =>
-        compareDatesDesc(a.date_from, b.date_from)
-    );
-    const sortedEducation = [...educationEntries].sort((a, b) =>
-        compareDatesDesc(a.year_from, b.year_from)
-    );
-    const formatDate = (value: Date | string | number) => {
-        const date = typeof value === 'number' ? new Date(value, 0, 1) : new Date(value);
+
+    // Years become 1 January in UTC; dates are stored at noon UTC. Format in UTC so the day never shifts.
+    const formatDate = (value: string | number) => {
+        const date = typeof value === 'number' ? new Date(Date.UTC(value, 0, 1)) : new Date(value);
         return {
             date,
             display: date.toLocaleDateString('en-GB', {
                 day: '2-digit',
                 month: '2-digit',
                 year: 'numeric',
+                timeZone: 'UTC',
             }),
         };
     };

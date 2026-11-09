@@ -6,11 +6,14 @@ import { AnimatePresence, motion } from 'framer-motion';
 import Image from 'next/legacy/image';
 import { useEffect, useState } from 'react';
 
+import { type Artwork as PayloadArtwork, type Media } from '@/payload-types';
+
 import ArtworkCarousel from './ArtworkCarousel';
-import { type Artwork as A } from 'genTypes/artwork';
+
+export type ArtworkItem = PayloadArtwork & { image: Media; blurDataURL?: string };
 
 interface ArtworkProps extends React.ComponentProps<'div'> {
-    artwork: A[];
+    artwork: ArtworkItem[];
 }
 
 export default function Artwork({ artwork, className, ...rest }: ArtworkProps) {
@@ -64,12 +67,13 @@ export default function Artwork({ artwork, className, ...rest }: ArtworkProps) {
                 >
                     <Image
                         className="transition duration-300 group-hover:brightness-50"
-                        src={a.image?.url || ''}
-                        alt={a.image?.alternativeText || 'Artwork by Daisuke Minowa'}
-                        width={a.image?.width}
-                        height={a.image?.height}
-                        placeholder="blur"
-                        blurDataURL={a.image?.formats?.thumbnail?.url || ''}
+                        src={a.image.sizes?.display?.url || ''}
+                        alt={a.image.alt || a.title}
+                        width={a.image.sizes?.display?.width ?? undefined}
+                        height={a.image.sizes?.display?.height ?? undefined}
+                        quality={90}
+                        placeholder={a.blurDataURL ? 'blur' : 'empty'}
+                        blurDataURL={a.blurDataURL}
                         // Match the sizes to the grid media queries.
                         // These are approximate values to help Next.js optimize the image loading.
                         sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 25vw"

@@ -6,11 +6,12 @@ import { AnimatePresence, motion } from 'framer-motion';
 import Image from 'next/image';
 
 import Carousel from '@components/Carousel/Carousel';
-import { type Artwork } from 'genTypes/artwork';
+
+import { type ArtworkItem } from './Artwork';
 
 interface ArtworkCarouselProps
     extends Omit<React.ComponentProps<typeof Carousel>, 'children' | 'items'> {
-    artwork: Artwork[];
+    artwork: ArtworkItem[];
 }
 
 export default function ArtworkCarousel({ artwork, ...rest }: ArtworkCarouselProps) {
@@ -30,12 +31,13 @@ export default function ArtworkCarousel({ artwork, ...rest }: ArtworkCarouselPro
                         >
                             <Image
                                 className={`object-contain ${isFullScreen ? 'h-screen w-screen' : 'h-full w-full'}`}
-                                src={item.image?.url || ''}
-                                alt={item.image?.alternativeText || 'Artwork by Daisuke Minowa'}
-                                height={item.image?.height}
-                                width={item.image?.width}
-                                placeholder="blur"
-                                blurDataURL={item.image?.formats?.thumbnail?.url || ''}
+                                src={item.image.sizes?.display?.url || ''}
+                                alt={item.image.alt || item.title}
+                                height={item.image.sizes?.display?.height ?? undefined}
+                                width={item.image.sizes?.display?.width ?? undefined}
+                                quality={90}
+                                placeholder={item.blurDataURL ? 'blur' : 'empty'}
+                                blurDataURL={item.blurDataURL}
                             />
                         </motion.div>
                         {!isFullScreen && (
@@ -71,6 +73,8 @@ export default function ArtworkCarousel({ artwork, ...rest }: ArtworkCarouselPro
                                                         day: 'numeric',
                                                         month: 'long',
                                                         year: 'numeric',
+                                                        // Dates are stored at noon UTC; read them in UTC so the day never shifts.
+                                                        timeZone: 'UTC',
                                                     })}
                                                 </time>
                                             ) : (
