@@ -1,0 +1,10 @@
+# Managed by npm (it rewrites these with its own formatting)
+package.json
+package-lock.json
+
+# Generated files
+src/payload-types.ts
+src/app/(payload)/admin/importMap.js
+src/genTypes/
+.next/
+node_modules/

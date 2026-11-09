@@ -36,7 +36,14 @@ interface CarouselProps<T> extends Omit<EmblaOptions, 'startIndex'> {
     startIndex?: number; // Optional start index for the carousel
 }
 
-export default function Carousel<T>({ children, className, onClose, items, startIndex = 0, ...rest }: CarouselProps<T>) {
+export default function Carousel<T>({
+    children,
+    className,
+    onClose,
+    items,
+    startIndex = 0,
+    ...rest
+}: CarouselProps<T>) {
     const [emblaRef, emblaApi] = useEmblaCarousel(rest);
     const [isFullScreen, setIsFullScreen] = useState(false);
     const [isUserActive, setIsUserActive] = useState(false);
@@ -81,7 +88,16 @@ export default function Carousel<T>({ children, className, onClose, items, start
             window.removeEventListener('keydown', handleKeyDown);
             window.removeEventListener('popstate', close);
         };
-    }, [close, emblaApi, isFullScreen, onClose, scrollNext, scrollPrev, startIndex, toggleFullScreen]);
+    }, [
+        close,
+        emblaApi,
+        isFullScreen,
+        onClose,
+        scrollNext,
+        scrollPrev,
+        startIndex,
+        toggleFullScreen,
+    ]);
 
     // Set a timer to hide the hover buttons after 5 seconds of inactivity.
     useEffect(() => {
@@ -106,13 +122,25 @@ export default function Carousel<T>({ children, className, onClose, items, start
             <div className="flex h-full w-full">
                 {items.map((item, i) => (
                     <div key={i} className="flex-[0_0_100%] overflow-auto">
-                        {children(item, i, { scrollNext, scrollPrev, close, toggleFullScreen, isFullScreen, isUserActive })}
+                        {children(item, i, {
+                            scrollNext,
+                            scrollPrev,
+                            close,
+                            toggleFullScreen,
+                            isFullScreen,
+                            isUserActive,
+                        })}
                     </div>
                 ))}
             </div>
             <AnimatePresence>
                 {isUserActive && (
-                    <motion.div variants={buttonVariants} initial="hidden" animate="visible" exit="hidden">
+                    <motion.div
+                        variants={buttonVariants}
+                        initial="hidden"
+                        animate="visible"
+                        exit="hidden"
+                    >
                         <>
                             <MotionCarouselButton
                                 ariaLabel="Close Carousel"
@@ -127,7 +155,12 @@ export default function Carousel<T>({ children, className, onClose, items, start
                                 className="absolute bottom-4 left-1/2 z-50 flex -translate-x-1/2 gap-2 rounded-full bg-white p-2 text-black/80 shadow-sm"
                                 variants={buttonVariants}
                             >
-                                <CarouselButton ariaLabel="Previous Image" className="bg-transparent" title="Previous Image" onClick={scrollPrev}>
+                                <CarouselButton
+                                    ariaLabel="Previous Image"
+                                    className="bg-transparent"
+                                    title="Previous Image"
+                                    onClick={scrollPrev}
+                                >
                                     <FiChevronLeft className="h-6 w-6" />
                                 </CarouselButton>
                                 <CarouselButton
@@ -137,9 +170,18 @@ export default function Carousel<T>({ children, className, onClose, items, start
                                     title={isFullScreen ? 'Exit Fullscreen' : 'Enter Fullscreen'}
                                     onClick={() => setIsFullScreen(!isFullScreen)}
                                 >
-                                    {isFullScreen ? <FiMinimize className="h-6 w-6" /> : <FiMaximize className="h-6 w-6" />}
+                                    {isFullScreen ? (
+                                        <FiMinimize className="h-6 w-6" />
+                                    ) : (
+                                        <FiMaximize className="h-6 w-6" />
+                                    )}
                                 </CarouselButton>
-                                <CarouselButton ariaLabel="Next Image" className="bg-transparent" title="Next Image" onClick={scrollNext}>
+                                <CarouselButton
+                                    ariaLabel="Next Image"
+                                    className="bg-transparent"
+                                    title="Next Image"
+                                    onClick={scrollNext}
+                                >
                                     <FiChevronRight className="h-6 w-6" />
                                 </CarouselButton>
                             </motion.div>

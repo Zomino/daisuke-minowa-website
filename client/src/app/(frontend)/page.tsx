@@ -21,7 +21,7 @@ export default function Page() {
                     priority // Ensure the image is loaded immediately.
                     src={heroImage} // Pass the imported image directly to the src prop to ensure Next.js optimizes it correctly.
                 />
-                <h1 className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 transform text-center text-4xl font-extralight tracking-widest uppercase text-white drop-shadow-lg md:text-5xl">
+                <h1 className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 transform text-center text-4xl font-extralight tracking-widest text-white uppercase drop-shadow-lg md:text-5xl">
                     Daisuke Minowa
                 </h1>
                 <Nav />
@@ -45,7 +45,11 @@ export default function Page() {
             </main>
             <footer className="mt-15">
                 <p className="text-center text-xs md:text-sm">
-                    &copy; <time dateTime={new Date().getFullYear().toString()}>{new Date().getFullYear()}</time> Daisuke Minowa. All rights reserved.
+                    &copy;{' '}
+                    <time dateTime={new Date().getFullYear().toString()}>
+                        {new Date().getFullYear()}
+                    </time>{' '}
+                    Daisuke Minowa. All rights reserved.
                 </p>
             </footer>
         </>
