@@ -28,13 +28,6 @@ export default buildConfig({
         // Each user can pick a language on their account page; Japanese is used when the browser's language is not supported.
         supportedLanguages: { ja, en },
         fallbackLanguage: 'ja',
-        translations: {
-            ja: {
-                version: {
-                    draft: '下書き', // Payload ships "ドラフト"; "下書き" is the everyday word.
-                },
-            },
-        },
     },
     secret: process.env.PAYLOAD_SECRET || '',
     sharp, // Used to generate the image sizes declared on upload collections.
