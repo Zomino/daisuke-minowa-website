@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build",
+    "ci": "payload migrate && next build",
     "start": "next start",
     "lint": "next lint",
     "format": "prettier --write ."
