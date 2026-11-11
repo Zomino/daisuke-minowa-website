@@ -1,2 +1,5 @@
 # Playwright MCP page snapshots and logs
 /.playwright-mcp
+
+# Original artwork photos (repo is public; photos go to Vercel Blob via the admin)
+/rescue/images/
