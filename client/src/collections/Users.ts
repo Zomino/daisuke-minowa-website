@@ -14,6 +14,7 @@ export const Users: CollectionConfig = {
         read: ({ req }) => req.user?.role === 'admin' || { id: { equals: req.user?.id } },
         update: ({ req }) => req.user?.role === 'admin' || { id: { equals: req.user?.id } },
         delete: ({ req }) => req.user?.role === 'admin',
+        unlock: ({ req }) => req.user?.role === 'admin',
     },
     admin: {
         useAsTitle: 'email',
