@@ -6,11 +6,14 @@ import { AnimatePresence, motion } from 'framer-motion';
 import Image from 'next/legacy/image';
 import { useEffect, useState } from 'react';
 
-import ArtworkCarousel from 'app/components/PortfolioSection/ArtworkCarousel';
-import { type Artwork as A } from 'genTypes/artwork';
+import { type Artwork as PayloadArtwork, type Media } from '@/payload-types';
+
+import ArtworkCarousel from './ArtworkCarousel';
+
+export type ArtworkItem = PayloadArtwork & { image: Media; blurDataURL?: string };
 
 interface ArtworkProps extends React.ComponentProps<'div'> {
-    artwork: A[];
+    artwork: ArtworkItem[];
 }
 
 export default function Artwork({ artwork, className, ...rest }: ArtworkProps) {
@@ -36,7 +39,10 @@ export default function Artwork({ artwork, className, ...rest }: ArtworkProps) {
     };
 
     return (
-        <div className={`mt-10 columns-1 gap-4 space-y-4 md:columns-2 lg:columns-3 xl:columns-4 2xl:columns-5 ${className}`} {...rest}>
+        <div
+            className={`mt-10 columns-1 gap-4 space-y-4 md:columns-2 lg:columns-3 xl:columns-4 2xl:columns-5 ${className}`}
+            {...rest}
+        >
             <AnimatePresence>
                 {isCarouselOpen && (
                     <motion.div
@@ -45,7 +51,11 @@ export default function Artwork({ artwork, className, ...rest }: ArtworkProps) {
                         initial={{ opacity: 0, scale: 0.95 }}
                         exit={{ opacity: 0, scale: 0.95 }}
                     >
-                        <ArtworkCarousel artwork={artwork} onClose={() => setIsCarouselOpen(false)} startIndex={carouselStartIndex} />
+                        <ArtworkCarousel
+                            artwork={artwork}
+                            onClose={() => setIsCarouselOpen(false)}
+                            startIndex={carouselStartIndex}
+                        />
                     </motion.div>
                 )}
             </AnimatePresence>
@@ -57,17 +67,21 @@ export default function Artwork({ artwork, className, ...rest }: ArtworkProps) {
                 >
                     <Image
                         className="transition duration-300 group-hover:brightness-50"
-                        src={a.image?.url || ''}
-                        alt={a.image?.alternativeText || 'Artwork by Daisuke Minowa'}
-                        width={a.image?.width}
-                        height={a.image?.height}
-                        placeholder="blur"
-                        blurDataURL={a.image?.formats?.thumbnail?.url || ''}
+                        src={a.image.sizes?.display?.url || ''}
+                        alt={a.image.alt || a.title}
+                        width={a.image.sizes?.display?.width ?? undefined}
+                        height={a.image.sizes?.display?.height ?? undefined}
+                        quality={90}
+                        placeholder={a.blurDataURL ? 'blur' : 'empty'}
+                        blurDataURL={a.blurDataURL}
                         // Match the sizes to the grid media queries.
                         // These are approximate values to help Next.js optimize the image loading.
                         sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 25vw"
                     />
-                    <div aria-hidden className="absolute inset-0 flex items-center justify-center opacity-0 transition duration-300 group-hover:opacity-100">
+                    <div
+                        aria-hidden
+                        className="absolute inset-0 flex items-center justify-center opacity-0 transition duration-300 group-hover:opacity-100"
+                    >
                         <h3 className="text-white">{a.title}</h3>
                     </div>
                 </div>

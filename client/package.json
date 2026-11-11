@@ -2,22 +2,30 @@
   "name": "daisuke-minowa-website",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build",
+    "ci": "payload migrate && next build",
     "start": "next start",
     "lint": "next lint",
     "format": "prettier --write ."
   },
   "dependencies": {
-    "@strapi/client": "^1.4.0",
+    "@payloadcms/db-postgres": "3.92.0",
+    "@payloadcms/next": "3.92.0",
+    "@payloadcms/storage-vercel-blob": "3.92.0",
+    "@payloadcms/translations": "3.92.0",
     "@vercel/analytics": "^1.6.1",
     "embla-carousel-react": "^8.6.0",
+    "graphql": "16.14.2",
     "motion": "^12.16.0",
-    "next": "15.3.8",
+    "next": "15.3.9",
+    "payload": "3.92.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "react-icons": "^5.5.0"
+    "react-icons": "^5.5.0",
+    "sharp": "0.35.5"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",

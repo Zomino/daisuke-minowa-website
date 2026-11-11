@@ -1,6 +1,5 @@
 {
     "compilerOptions": {
-        "baseUrl": "./src",
         "target": "ES2017",
         "lib": ["dom", "dom.iterable", "esnext"],
         "allowJs": true,
@@ -21,12 +20,10 @@
         ],
         "paths": {
             "@/*": ["./src/*"],
-            "@components/*": ["components/*"],
-            "@config/*": ["config/*"],
-            "@lib/*": ["lib/*"],
-            "genTypes/*": ["genTypes/*"]
+            "@components/*": ["./src/components/*"],
+            "@payload-config": ["./src/payload.config.ts"]
         }
     },
-    "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "../../genTypes/**/*.ts"],
+    "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
     "exclude": ["node_modules"]
 }

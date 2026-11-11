@@ -1,34 +1,40 @@
-import strapiClient from '@lib/strapiClient';
+import config from '@payload-config';
 import Image from 'next/image';
+import { getPayload } from 'payload';
 
 import profileImage from '../../../../public/images/profile.jpg';
 
 import AccessibleEnDash from '@components/AccessibleEnDash/AccessibleEnDash';
-import { type EducationEntry } from 'genTypes/educationEntry';
-import { type ExhibitionEntry } from 'genTypes/exhibitionEntry';
 
 export default async function AboutSection() {
-    const educationEntriesPromise = strapiClient
-        .collection('education-entries')
-        .find()
-        .then((res) => res.data as EducationEntry[])
-        .catch(console.error);
-    const exhibitionEntriesPromise = strapiClient
-        .collection('exhibition-entries')
-        .find()
-        .then((res) => res.data as ExhibitionEntry[])
-        .catch(console.error);
+    const payload = await getPayload({ config });
+    const published = { _status: { equals: 'published' } } as const;
+    const [{ docs: sortedExhibitions }, { docs: sortedEducation }] = await Promise.all([
+        payload.find({
+            collection: 'exhibition-entries',
+            where: published,
+            sort: '-date_from',
+            limit: 0,
+        }),
+        payload.find({
+            collection: 'education-entries',
+            where: published,
+            sort: '-year_from',
+            limit: 0,
+        }),
+    ]);
 
-    const [educationEntries = [], exhibitionEntries = []] = await Promise.all([educationEntriesPromise, exhibitionEntriesPromise]);
-    const compareDatesDesc = (a?: string | number | Date | null, b?: string | number | Date | null) =>
-        new Date(b ?? 0).getTime() - new Date(a ?? 0).getTime();
-    const sortedExhibitions = [...exhibitionEntries].sort((a, b) => compareDatesDesc(a.date_from, b.date_from));
-    const sortedEducation = [...educationEntries].sort((a, b) => compareDatesDesc(a.year_from, b.year_from));
-    const formatDate = (value: Date | string | number) => {
-        const date = typeof value === 'number' ? new Date(value, 0, 1) : new Date(value);
+    // Years become 1 January in UTC; dates are stored at noon UTC. Format in UTC so the day never shifts.
+    const formatDate = (value: string | number) => {
+        const date = typeof value === 'number' ? new Date(Date.UTC(value, 0, 1)) : new Date(value);
         return {
             date,
-            display: date.toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' }),
+            display: date.toLocaleDateString('en-GB', {
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric',
+                timeZone: 'UTC',
+            }),
         };
     };
 
@@ -50,7 +56,9 @@ export default async function AboutSection() {
                 <div className="pointer-events-none absolute inset-0 z-10 bg-gradient-to-b from-black/50 via-transparent to-black/50" />
             </div>
             <h3 className="sr-only">Bio</h3>
-            <p className="mx-auto mt-20 max-w-120 px-5 text-center">Born in Tokyo in 1966. Moved to the UK in 1986. Living and working in London.</p>
+            <p className="mx-auto mt-20 max-w-120 px-5 text-center">
+                Born in Tokyo in 1966. Moved to the UK in 1986. Living and working in London.
+            </p>
             <div className="mt-18 flex flex-col items-center gap-15 px-5">
                 <div className="w-full max-w-4xl text-center">
                     <h3 className="text-xl tracking-widest uppercase">Exhibitions</h3>
@@ -59,24 +67,36 @@ export default async function AboutSection() {
                             <li key={entry.id}>
                                 {/* Use flexbox to reverse the name and date visually for style, but maintain proper page structure. */}
                                 <div className="flex flex-col-reverse">
-                                    <h4 className="text-lg font-extralight tracking-wider">{entry.event_name}</h4>
+                                    <h4 className="text-lg font-extralight tracking-wider">
+                                        {entry.event_name}
+                                    </h4>
                                     <p className="text-black/70 italic">
                                         {(() => {
                                             const { date, display } = formatDate(entry.date_from);
-                                            return <time dateTime={date.toISOString()}>{display}</time>;
+                                            return (
+                                                <time dateTime={date.toISOString()}>{display}</time>
+                                            );
                                         })()}
                                         {entry.date_to && (
                                             <>
                                                 <AccessibleEnDash />
                                                 {(() => {
-                                                    const { date, display } = formatDate(entry.date_to);
-                                                    return <time dateTime={date.toISOString()}>{display}</time>;
+                                                    const { date, display } = formatDate(
+                                                        entry.date_to
+                                                    );
+                                                    return (
+                                                        <time dateTime={date.toISOString()}>
+                                                            {display}
+                                                        </time>
+                                                    );
                                                 })()}
                                             </>
                                         )}
                                     </p>
                                 </div>
-                                {entry.notes && <p className="text-sm text-black/70 italic">{entry.notes}</p>}
+                                {entry.notes && (
+                                    <p className="text-sm text-black/70 italic">{entry.notes}</p>
+                                )}
                             </li>
                         ))}
                     </ul>
@@ -88,24 +108,36 @@ export default async function AboutSection() {
                             <li key={entry.id}>
                                 {/* Use flexbox to reverse the name and date visually for style, but maintain proper page structure. */}
                                 <div className="flex flex-col-reverse">
-                                    <h4 className="text-lg font-extralight tracking-wider">{entry.experience_name}</h4>
+                                    <h4 className="text-lg font-extralight tracking-wider">
+                                        {entry.experience_name}
+                                    </h4>
                                     <span className="text-black/70 italic">
                                         {(() => {
                                             const { date, display } = formatDate(entry.year_from);
-                                            return <time dateTime={date.toISOString()}>{display}</time>;
+                                            return (
+                                                <time dateTime={date.toISOString()}>{display}</time>
+                                            );
                                         })()}
                                         {entry.year_to && (
                                             <>
                                                 <AccessibleEnDash />
                                                 {(() => {
-                                                    const { date, display } = formatDate(entry.year_to);
-                                                    return <time dateTime={date.toISOString()}>{display}</time>;
+                                                    const { date, display } = formatDate(
+                                                        entry.year_to
+                                                    );
+                                                    return (
+                                                        <time dateTime={date.toISOString()}>
+                                                            {display}
+                                                        </time>
+                                                    );
                                                 })()}
                                             </>
                                         )}
                                     </span>
                                 </div>
-                                {entry.notes && <p className="text-sm text-black/70 italic">{entry.notes}</p>}
+                                {entry.notes && (
+                                    <p className="text-sm text-black/70 italic">{entry.notes}</p>
+                                )}
                             </li>
                         ))}
                     </ul>
