@@ -13,13 +13,13 @@ export default function Page() {
         <>
             <header className="relative h-screen">
                 <Image
-                    alt="Hero background image" // This is a mandatory prop for Next.js Image.
-                    aria-hidden // This image is decorative, so we can hide it from assistive technologies. This also prevents the alt text from showing up in the page.
+                    alt="Hero background image" // Next.js の Image では必須の項目。
+                    aria-hidden // 飾りの画像なので、支援技術からは隠す。代替テキストがページに出てしまうのも防ぐ。
                     className="absolute inset-0 object-cover"
-                    fill // Use fill to prevent layout shift without needing to specify width and height.
-                    placeholder="blur" // Use blur placeholder for a smooth loading experience.
-                    priority // Ensure the image is loaded immediately.
-                    src={heroImage} // Pass the imported image directly to the src prop to ensure Next.js optimizes it correctly.
+                    fill // fill にすると、幅と高さを指定しなくてもレイアウトのずれを防げる。
+                    placeholder="blur" // 読み込み中はぼかした画像を出して、なめらかに表示する。
+                    priority // この画像はすぐに読み込む。
+                    src={heroImage} // 読み込んだ画像をそのまま src に渡す。Next.js が正しく最適化できるようにするため。
                 />
                 <h1 className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 transform text-center text-4xl font-extralight tracking-widest text-white uppercase drop-shadow-lg md:text-5xl">
                     Daisuke Minowa

@@ -14,11 +14,11 @@ const buttonVariants = {
     visible: { opacity: 1 },
 };
 
-// undefined must be exluded to make the type usable.
+// 型として使えるよう、undefined を除く必要がある。
 type EmblaOptions = Exclude<Parameters<typeof useEmblaCarousel>[0], undefined>;
 
-// The CarouselBag interface provides methods and state for controlling the carousel.
-// This is inspired by Formik's bag of methods and state, which is passed to the children render function.
+// CarouselBag は、カルーセルを操作するための関数と状態をまとめたもの。
+// Formik が子の描画関数に渡す、関数と状態のまとまり（bag）を参考にしている。
 interface CarouselBag {
     scrollNext: () => void;
     scrollPrev: () => void;
@@ -33,7 +33,7 @@ interface CarouselProps<T> extends Omit<EmblaOptions, 'startIndex'> {
     className?: string;
     items: T[];
     onClose?: () => void;
-    startIndex?: number; // Optional start index for the carousel
+    startIndex?: number; // カルーセルを開いたときに最初に出す番号（省略可）
 }
 
 export default function Carousel<T>({
@@ -48,23 +48,23 @@ export default function Carousel<T>({
     const [isFullScreen, setIsFullScreen] = useState(false);
     const [isUserActive, setIsUserActive] = useState(false);
 
-    // Scroll to the startIndex without animation.
-    // This must be done n a useEffect to prevent scroll bars from popping in and out when the carousel is first rendered.
+    // アニメーションなしで startIndex までスクロールする。
+    // カルーセルを最初に描画したときにスクロールバーが出たり消えたりしないよう、useEffect の中で行う必要がある。
     useEffect(() => {
         emblaApi?.scrollTo(startIndex, true);
     }, [emblaApi, startIndex]);
 
     const close = useCallback(() => {
         onClose?.();
-        // Reset fullscreen state when closing.
-        // This must happen after the onClose callback to prevent flickering in case the onClose callback closes the carousel.
+        // 閉じるときに、全画面の状態を戻す。
+        // onClose がカルーセルを閉じる場合にちらつかないよう、onClose のあとで行う必要がある。
         setIsFullScreen(false);
     }, [onClose]);
     const scrollNext = useCallback(() => emblaApi?.scrollNext(), [emblaApi]);
     const scrollPrev = useCallback(() => emblaApi?.scrollPrev(), [emblaApi]);
     const toggleFullScreen = useCallback(() => setIsFullScreen(!isFullScreen), [isFullScreen]);
 
-    // Handle keyboard events.
+    // キーボードの操作を扱う。
     useEffect(() => {
         const handleKeyDown = (event: KeyboardEvent) => {
             switch (event.key) {
@@ -99,7 +99,7 @@ export default function Carousel<T>({
         toggleFullScreen,
     ]);
 
-    // Set a timer to hide the hover buttons after 5 seconds of inactivity.
+    // 5秒間操作がなければ、ホバーのボタンを隠すタイマーを設定する。
     useEffect(() => {
         if (!isUserActive) return;
 
@@ -110,7 +110,7 @@ export default function Carousel<T>({
 
     return (
         <div
-            // Ensure the carousel takes full height and width of its container when .
+            // カルーセルが、入れ物の高さと幅をいっぱいに使うようにする。
             className={`overflow-hidden bg-white text-black ${
                 isFullScreen ? 'fixed inset-0 h-screen w-screen' : 'relative h-full w-full'
             } ${className}`}
@@ -118,7 +118,7 @@ export default function Carousel<T>({
             onMouseMove={() => setIsUserActive(true)}
             onMouseLeave={() => setIsUserActive(false)}
         >
-            {/* Adding height and widtch with overflow-auto allows each item to have its own scrolling context. */}
+            {/* 高さと幅に overflow-auto を付けると、それぞれの項目が自分でスクロールできるようになる。 */}
             <div className="flex h-full w-full">
                 {items.map((item, i) => (
                     <div key={i} className="flex-[0_0_100%] overflow-auto">

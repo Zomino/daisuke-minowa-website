@@ -1,10 +1,10 @@
 import { revalidatePath } from 'next/cache';
 
-/** Rebuilds the home page. Does nothing outside Next.js (e.g. the seed script). */
+/** トップページを作り直す。Next.js の外（seed のスクリプトなど）では何もしない。 */
 export const revalidateHome = () => {
     try {
         revalidatePath('/');
     } catch {
-        // Not running inside Next.js.
+        // Next.js の中で動いていない。
     }
 };

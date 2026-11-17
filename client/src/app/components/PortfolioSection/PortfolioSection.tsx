@@ -5,8 +5,8 @@ import { type Media } from '@/payload-types';
 
 import Artwork, { type ArtworkItem } from './Artwork';
 
-// next/image only accepts the blur placeholder as inline base64 data, so fetch the tiny thumbnail here.
-// A missing placeholder should never break the page, so failures fall back to no blur.
+// next/image のぼかしは base64 のデータしか受け付けないので、ここで小さいサムネイルを取ってくる。
+// ぼかしがなくてもページが壊れないよう、取れなかったときはぼかしなしにする。
 async function toBlurDataURL(image: Media) {
     const thumbUrl = image.sizes?.thumb?.url;
     if (!thumbUrl) return undefined;

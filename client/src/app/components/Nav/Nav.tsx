@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 
 const SCROLL_KEYS = ['ArrowUp', 'ArrowDown', 'PageUp', 'PageDown', 'Home', 'End', 'Space'];
 
-/** Note that this nav assumes that the correct anchors have been set up in the rest of the page. */
+/** このナビは、ページのほかの場所に正しいアンカーが置かれていることを前提にしている。 */
 export default function Nav() {
     const [isStickyNavVisible, setIsStickyNavVisible] = useState(false);
     const lastScrollYRef = useRef(0);
@@ -15,7 +15,7 @@ export default function Nav() {
             const isNavPastOriginalPosition = window.scrollY > window.innerHeight * 0.75;
             const isScrollingUp = window.scrollY < lastScrollYRef.current;
 
-            // Show while navigating programmatically, or when past the hero and scrolling up.
+            // プログラムで移動している間か、ヒーローより下で上にスクロールしているときに表示する。
             if (navigationActiveRef.current || (isNavPastOriginalPosition && isScrollingUp)) {
                 setIsStickyNavVisible(true);
             } else {
@@ -43,7 +43,7 @@ export default function Nav() {
         window.addEventListener('touchmove', cancelNavigationIfUserScrolls, { passive: true });
         window.addEventListener('keydown', handleKeydown, { passive: true });
 
-        handleScroll(); // Set initial visibility based on starting position.
+        handleScroll(); // 最初の位置に合わせて、表示するかどうかを決める。
 
         return () => {
             window.removeEventListener('scroll', handleScroll);
@@ -98,9 +98,9 @@ export default function Nav() {
     return (
         <>
             {/*
-                The nav is rendered twice to allow for smooth animations on the sticky nav.
-                When a single nav is used, the addition and removal of animation classes causes the nav to transition in from the sides of the screen.
-                This is not the most modular design, but it works for this simple case.
+                固定ナビをなめらかに動かすため、ナビを2つ描画している。
+                1つだけだと、アニメーションのクラスを付け外ししたときに、ナビが画面の横から入ってきてしまう。
+                きれいな設計ではないが、この程度の用途なら十分に動く。
             */}
             {renderNav({
                 className:
@@ -108,7 +108,7 @@ export default function Nav() {
             })}
             {renderNav({
                 className: `fixed top-0 left-0 w-full bg-white text-black shadow-md transition-all duration-300 ease-in-out ${isStickyNavVisible ? 'translate-y-0 opacity-100' : 'pointer-events-none -translate-y-full opacity-0'}`,
-                'aria-hidden': true, // This nav is not necessary for screen readers as it duplicates the content of the static nav.
+                'aria-hidden': true, // 固定でない方のナビと内容が同じなので、スクリーンリーダーには不要。
             })}
         </>
     );

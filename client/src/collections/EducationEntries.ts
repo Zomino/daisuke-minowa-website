@@ -29,7 +29,7 @@ export const EducationEntries: CollectionConfig = {
             name: 'year_from',
             type: 'number',
             required: true,
-            min: 1900, // Guards against typos such as 19911.
+            min: 1900, // 19911 のような打ち間違いを防ぐ。
             max: 2100,
             label: { ja: '入学年', en: 'From (year)' },
         },

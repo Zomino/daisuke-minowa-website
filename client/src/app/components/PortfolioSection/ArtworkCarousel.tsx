@@ -1,8 +1,8 @@
 'use client';
 
 import { AnimatePresence, motion } from 'framer-motion';
-// The up-to-date Image implementation frustratingly only supports blurDataURL as a base64 string, not a URL.
-// It is not worth the effort to come up with a workaround for now.
+// 新しい Image の実装は、残念ながら blurDataURL に base64 の文字列しか受け付けず、URL は使えない。
+// 今のところ、回避策を考えるほどの価値はない。
 import Image from 'next/image';
 
 import Carousel from '@components/Carousel/Carousel';
@@ -63,7 +63,7 @@ export default function ArtworkCarousel({ artwork, ...rest }: ArtworkCarouselPro
                                     )}
                                     <dl className="mt-5 grid grid-cols-[auto_1fr] gap-2">
                                         <dt>Dimensions:</dt>
-                                        {/* Use the multiplication symbol. */}
+                                        {/* 掛け算の記号を使う。 */}
                                         <dd>{`${item.width_cm} \u00D7 ${item.height_cm} cm`}</dd>
                                         <dt>Date:</dt>
                                         <dd>
@@ -73,7 +73,7 @@ export default function ArtworkCarousel({ artwork, ...rest }: ArtworkCarouselPro
                                                         day: 'numeric',
                                                         month: 'long',
                                                         year: 'numeric',
-                                                        // Dates are stored at noon UTC; read them in UTC so the day never shifts.
+                                                        // 日付は UTC の正午で保存しているので、日がずれないよう UTC で読む。
                                                         timeZone: 'UTC',
                                                     })}
                                                 </time>

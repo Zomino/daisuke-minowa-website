@@ -6,7 +6,7 @@ interface CarouselButtonProps
     extends React.PropsWithChildren<
         Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'aria-label'>
     > {
-    ariaLabel: string; // Mandatory aria-label for accessibility.
+    ariaLabel: string; // アクセシビリティのため、aria-label は必須。
     onClick: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
 }
 
@@ -26,7 +26,7 @@ const CarouselButton = forwardRef<HTMLButtonElement, CarouselButtonProps>(
     }
 );
 
-// Set display name for better debugging.
+// デバッグしやすいよう、表示名を付ける。
 CarouselButton.displayName = 'CarouselButton';
 
 export default CarouselButton;

@@ -18,19 +18,19 @@ const dirname = path.dirname(filename);
 
 export default buildConfig({
     admin: {
-        user: Users.slug, // The collection whose members can log in to the admin panel.
+        user: Users.slug, // 管理画面にログインできるユーザーのコレクション。
         importMap: {
             baseDir: path.resolve(dirname),
         },
     },
     collections: [Artworks, ExhibitionEntries, EducationEntries, Media, Users],
     i18n: {
-        // Each user can pick a language on their account page; Japanese is used when the browser's language is not supported.
+        // 言語は、それぞれのユーザーがアカウントのページで選べる。ブラウザの言語に対応していないときは日本語にする。
         supportedLanguages: { ja, en },
         fallbackLanguage: 'ja',
     },
     secret: process.env.PAYLOAD_SECRET || '',
-    sharp, // Used to generate the image sizes declared on upload collections.
+    sharp, // アップロードのコレクションで決めた、写真のサイズ違いを作るのに使う。
     typescript: {
         outputFile: path.resolve(dirname, 'payload-types.ts'),
     },
@@ -42,12 +42,12 @@ export default buildConfig({
     plugins: [
         vercelBlobStorage({
             collections: {
-                // Store Blob's public URL so images are not proxied through Payload.
+                // 写真を Payload 経由で配らないよう、Blob の公開 URL を保存する。
                 media: { disablePayloadAccessControl: true },
             },
             token: process.env.BLOB_READ_WRITE_TOKEN || '',
-            clientUploads: true, // Browser uploads straight to Blob, avoiding Vercel's 4.5MB request limit.
-            // Default is a year. A day limits how long a re-uploaded image with the same filename can be stale.
+            clientUploads: true, // ブラウザから Blob に直接アップロードして、Vercel の 4.5MB の上限を避ける。
+            // 標準は1年。同じファイル名で上げ直した写真が古いまま表示される期間を、1日にとどめる。
             cacheControlMaxAge: 60 * 60 * 24,
         }),
     ],
