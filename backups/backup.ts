@@ -9,7 +9,7 @@ const readEnv = (names: string[]) => {
     const values = names.map((name) => process.env[name] ?? '');
     const missing = names.filter((_, i) => !values[i]);
     if (missing.length > 0) {
-        throw new Error(`Set the following in client/.env.backup: ${missing.join(', ')}`);
+        throw new Error(`Set the following in .env.backup: ${missing.join(', ')}`);
     }
     return values;
 };
