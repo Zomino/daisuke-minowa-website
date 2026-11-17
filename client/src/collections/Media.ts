@@ -3,8 +3,8 @@ import { APIError, type CollectionBeforeDeleteHook, type CollectionConfig } from
 import { revalidateHome } from './utils';
 
 /**
- * Blocks deleting an image that an artwork uses (published or latest draft). Otherwise a published
- * artwork would be left without an image, which can then neither be shown nor unpublished.
+ * 作品（公開中か最新の下書き）で使われている写真は、削除できないようにする。
+ * 削除できると、公開中の作品に写真がなくなり、表示も非公開にもできなくなるため。
  */
 const preventDeletingImagesInUse: CollectionBeforeDeleteHook = async ({ id, req }) => {
     const [published, drafts] = await Promise.all([
@@ -13,7 +13,7 @@ const preventDeletingImagesInUse: CollectionBeforeDeleteHook = async ({ id, req 
             where: { image: { equals: id }, _status: { equals: 'published' } },
             req,
         }),
-        // count() cannot read drafts; find() with draft: true checks the latest version.
+        // count() は下書きを読めないので、find() に draft: true を付けて最新の版を確かめる。
         req.payload.find({
             collection: 'artworks',
             where: { image: { equals: id } },
@@ -45,7 +45,7 @@ export const Media: CollectionConfig = {
         plural: { ja: '写真', en: 'Images' },
     },
     access: {
-        read: () => true, // Site visitors' browsers fetch the image files directly.
+        read: () => true, // サイトを見る人のブラウザが、写真のファイルを直接取りに来るため。
     },
     upload: {
         mimeTypes: ['image/*'],

@@ -1,8 +1,8 @@
 'use client';
 
 import { AnimatePresence, motion } from 'framer-motion';
-// The up-to-date Image implementation frustratingly only supports blurDataURL as a base64 string, not a URL.
-// It is not worth the effort to come up with a workaround for now.
+// 新しい Image の実装は、残念ながら blurDataURL に base64 の文字列しか受け付けず、URL は使えない。
+// 今のところ、回避策を考えるほどの価値はない。
 import Image from 'next/legacy/image';
 import { useEffect, useState } from 'react';
 
@@ -20,8 +20,8 @@ export default function Artwork({ artwork, className, ...rest }: ArtworkProps) {
     const [isCarouselOpen, setIsCarouselOpen] = useState(false);
     const [carouselStartIndex, setCarouselStartIndex] = useState(0);
 
-    // Lock the page scroll when the carousel is open.
-    // This is done here and not in the carousel component to ensure that the carousel remains loosely coupled with the context in which it is used.
+    // カルーセルを開いている間は、ページのスクロールを止める。
+    // カルーセルが使われる場所に依存しないよう、カルーセルの部品ではなく、ここで行う。
     useEffect(() => {
         if (isCarouselOpen) {
             document.body.style.overflow = 'hidden';
@@ -74,8 +74,8 @@ export default function Artwork({ artwork, className, ...rest }: ArtworkProps) {
                         quality={90}
                         placeholder={a.blurDataURL ? 'blur' : 'empty'}
                         blurDataURL={a.blurDataURL}
-                        // Match the sizes to the grid media queries.
-                        // These are approximate values to help Next.js optimize the image loading.
+                        // sizes はグリッドのメディアクエリに合わせる。
+                        // Next.js が画像の読み込みを最適化するための、おおよその値。
                         sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 25vw"
                     />
                     <div

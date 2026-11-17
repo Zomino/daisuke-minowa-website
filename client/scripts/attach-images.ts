@@ -1,6 +1,6 @@
-// Attaches the artwork photos found so far (rescue/images/, named after the artwork title) and publishes those artworks.
-// Run with: npx payload run scripts/attach-images.ts
-// Everything is checked before anything is uploaded, so a mismatch leaves the database and Blob untouched.
+// 見つかった作品の写真（rescue/images/ にあり、ファイル名は作品のタイトル）を作品に付けて、その作品を公開する。
+// 実行方法：npx payload run scripts/attach-images.ts
+// アップロードの前に全件を確かめるので、合わないものがあれば、DB にも Blob にも何も変更しない。
 import { readdir } from 'fs/promises';
 import path from 'path';
 import { getPayload } from 'payload';
@@ -17,7 +17,7 @@ const matches = [];
 const problems = [];
 for (const file of files) {
     const title = path.parse(file).name;
-    // draft: true finds the latest version, which is where the seeded drafts live.
+    // draft: true にすると最新の版から探す。seed で入れた下書きはそこにある。
     const { docs } = await payload.find({
         collection: 'artworks',
         where: { title: { equals: title } },

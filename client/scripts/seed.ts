@@ -1,6 +1,6 @@
-// Loads the content rescued from Strapi Cloud (rescue/*.json) into Payload.
-// Run with: npx payload run scripts/seed.ts
-// Artworks are created as drafts because their images were lost and must be attached by hand later.
+// Strapi Cloud から救出した内容（rescue/*.json）を Payload に入れる。
+// 実行方法：npx payload run scripts/seed.ts
+// 作品は写真が失われたため、下書きとして作る。写真はあとで手で付ける。
 import { readFile } from 'fs/promises';
 import path from 'path';
 import { getPayload } from 'payload';
@@ -36,7 +36,7 @@ const readJson = async <T>(file: string): Promise<T[]> => {
     return JSON.parse(json);
 };
 
-// Dates in the rescued data are plain YYYY-MM-DD; store them at noon UTC so no time zone shifts the day.
+// 救出したデータの日付は YYYY-MM-DD だけなので、UTC の正午で保存する。どのタイムゾーンでも日がずれないようにするため。
 const atNoon = (date: string) => `${date}T12:00:00.000Z`;
 
 const payload = await getPayload({ config });

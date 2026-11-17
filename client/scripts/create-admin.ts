@@ -1,5 +1,5 @@
-// Creates an admin user. Used once per environment so the admin panel never sits open with no users.
-// Run with: ADMIN_EMAIL=... ADMIN_PASSWORD=... npx payload run scripts/create-admin.ts
+// 管理者を作る。ユーザーが1人もいない状態で管理画面が開いたままにならないよう、環境ごとに一度だけ使う。
+// 実行方法：ADMIN_EMAIL=... ADMIN_PASSWORD=... npx payload run scripts/create-admin.ts
 import { getPayload } from 'payload';
 
 import config from '../src/payload.config';

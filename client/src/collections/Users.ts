@@ -6,11 +6,11 @@ export const Users: CollectionConfig = {
         singular: { ja: 'ユーザー', en: 'User' },
         plural: { ja: 'ユーザー', en: 'Users' },
     },
-    auth: true, // Adds email/password login and the account fields.
-    // Only admins can manage users; editors can only view themselves and change their own password.
+    auth: true, // メールとパスワードのログインと、アカウントの項目を足す。
+    // ユーザーを管理できるのは管理者だけ。編集者は、自分の情報を見ることと、自分のパスワードを変えることだけができる。
     access: {
         create: ({ req }) => req.user?.role === 'admin',
-        // Editors can read themselves so the account page loads.
+        // アカウントのページを開けるよう、編集者は自分の情報を読める。
         read: ({ req }) => req.user?.role === 'admin' || { id: { equals: req.user?.id } },
         update: ({ req }) => req.user?.role === 'admin' || { id: { equals: req.user?.id } },
         delete: ({ req }) => req.user?.role === 'admin',
@@ -21,7 +21,7 @@ export const Users: CollectionConfig = {
         hidden: ({ user }) => user?.role !== 'admin',
     },
     fields: [
-        // Merged into Payload's built-in email field. Editors cannot change it, so they cannot lock themselves out.
+        // Payload に最初からあるメールの項目に合わさる。編集者は変えられないので、自分でログインできなくなることはない。
         {
             name: 'email',
             type: 'email',
@@ -40,7 +40,7 @@ export const Users: CollectionConfig = {
             ],
             label: { ja: '役割', en: 'Role' },
             access: {
-                // Otherwise editors could make themselves admins.
+                // これがないと、編集者が自分を管理者にできてしまう。
                 update: ({ req }) => req.user?.role === 'admin',
             },
         },

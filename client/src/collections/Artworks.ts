@@ -12,7 +12,7 @@ export const Artworks: CollectionConfig = {
         singular: { ja: '作品', en: 'Artwork' },
         plural: { ja: '作品', en: 'Artworks' },
     },
-    versions: { drafts: true }, // Required fields are only enforced when publishing.
+    versions: { drafts: true }, // 必須の項目は、公開するときだけ確かめる。
     defaultSort: '-date',
     admin: {
         useAsTitle: 'title',
@@ -58,7 +58,7 @@ export const Artworks: CollectionConfig = {
             type: 'date',
             label: { ja: '制作日', en: 'Date' },
             admin: {
-                // Pick a day only, so time zones cannot shift the date by one.
+                // 日だけを選ぶ。タイムゾーンで日付が1日ずれないようにするため。
                 date: { pickerAppearance: 'dayOnly', displayFormat: 'yyyy/MM/dd' },
             },
         },
