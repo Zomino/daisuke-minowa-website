@@ -1,0 +1,8 @@
+{
+  "sortTailwindcss": { "stylesheet": "./src/app/(frontend)/globals.css" },
+  "ignorePatterns": [
+    "src/payload-types.ts",
+    "src/app/(payload)/admin/importMap.js",
+    "src/migrations/"
+  ]
+}
