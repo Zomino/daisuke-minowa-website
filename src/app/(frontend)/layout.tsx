@@ -1,7 +1,7 @@
 import { Analytics } from '@vercel/analytics/next';
 import { type Metadata, type Viewport } from 'next';
 
-import './globals.css';
+import '@/app/(frontend)/globals.css';
 export const metadata: Metadata = {
     title: 'Daisuke Minowa',
     description:

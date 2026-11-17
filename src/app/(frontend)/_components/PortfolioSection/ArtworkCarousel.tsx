@@ -5,9 +5,9 @@ import { AnimatePresence, motion } from 'framer-motion';
 // 今のところ、回避策を考えるほどの価値はない。
 import Image from 'next/image';
 
-import Carousel from '@components/Carousel/Carousel';
+import Carousel from '@/components/Carousel/Carousel';
 
-import { type ArtworkItem } from './Artwork';
+import { type ArtworkItem } from '@/app/(frontend)/_components/PortfolioSection/Artwork';
 
 interface ArtworkCarouselProps
     extends Omit<React.ComponentProps<typeof Carousel>, 'children' | 'items'> {

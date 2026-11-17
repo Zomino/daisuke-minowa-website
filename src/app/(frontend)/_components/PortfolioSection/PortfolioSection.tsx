@@ -3,7 +3,7 @@ import { getPayload } from 'payload';
 
 import { type Media } from '@/payload-types';
 
-import Artwork, { type ArtworkItem } from './Artwork';
+import Artwork, { type ArtworkItem } from '@/app/(frontend)/_components/PortfolioSection/Artwork';
 
 // next/image のぼかしは base64 のデータしか受け付けないので、ここで小さいサムネイルを取ってくる。
 // ぼかしがなくてもページが壊れないよう、取れなかったときはぼかしなしにする。

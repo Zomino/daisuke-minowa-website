@@ -1,6 +1,6 @@
 import { APIError, type CollectionBeforeDeleteHook, type CollectionConfig } from 'payload';
 
-import { revalidateHome } from './utils';
+import { revalidateHome } from '@/collections/revalidateHome';
 
 /**
  * 作品（公開中か最新の下書き）で使われている写真は、削除できないようにする。

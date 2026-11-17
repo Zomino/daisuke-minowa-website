@@ -1,6 +1,6 @@
 import type { CollectionConfig } from 'payload';
 
-import { revalidateHome } from './utils';
+import { revalidateHome } from '@/collections/revalidateHome';
 
 export const EducationEntries: CollectionConfig = {
     slug: 'education-entries',

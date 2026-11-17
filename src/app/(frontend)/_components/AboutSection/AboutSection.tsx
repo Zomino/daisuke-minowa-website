@@ -2,9 +2,9 @@ import config from '@payload-config';
 import Image from 'next/image';
 import { getPayload } from 'payload';
 
-import profileImage from '../../../../public/images/profile.jpg';
+import profileImage from '@/app/(frontend)/_images/profile.jpg';
 
-import AccessibleEnDash from '@components/AccessibleEnDash/AccessibleEnDash';
+import AccessibleEnDash from '@/components/AccessibleEnDash/AccessibleEnDash';
 
 export default async function AboutSection() {
     const payload = await getPayload({ config });

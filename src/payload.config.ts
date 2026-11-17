@@ -7,11 +7,11 @@ import { buildConfig } from 'payload';
 import sharp from 'sharp';
 import { fileURLToPath } from 'url';
 
-import { Artworks } from './collections/Artworks';
-import { EducationEntries } from './collections/EducationEntries';
-import { ExhibitionEntries } from './collections/ExhibitionEntries';
-import { Media } from './collections/Media';
-import { Users } from './collections/Users';
+import { Artworks } from '@/collections/Artworks';
+import { EducationEntries } from '@/collections/EducationEntries';
+import { ExhibitionEntries } from '@/collections/ExhibitionEntries';
+import { Media } from '@/collections/Media';
+import { Users } from '@/collections/Users';
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);

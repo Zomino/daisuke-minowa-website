@@ -5,7 +5,7 @@ import { FiMaximize, FiMinimize, FiChevronLeft, FiChevronRight, FiX } from 'reac
 import { AnimatePresence, motion } from 'motion/react';
 import { type JSX, useCallback, useEffect, useState } from 'react';
 
-import CarouselButton from './CarouselButton';
+import CarouselButton from '@/components/Carousel/CarouselButton';
 
 const MotionCarouselButton = motion.create(CarouselButton);
 

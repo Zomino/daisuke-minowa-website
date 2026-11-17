@@ -1,8 +1,8 @@
-# Managed by npm (it rewrites these with its own formatting)
+# npm が管理するファイル（npm が独自の書式で書き直すため）
 package.json
 package-lock.json
 
-# Generated files
+# 自動で作られるファイル
 src/payload-types.ts
 src/app/(payload)/admin/importMap.js
 src/migrations/
