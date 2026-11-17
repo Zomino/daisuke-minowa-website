@@ -60,13 +60,14 @@ export default function Artwork({ artwork, className, ...rest }: ArtworkProps) {
         )}
       </AnimatePresence>
       {artwork.map((a, index) => (
-        <div
+        <button
           key={a.id}
-          className="group relative overflow-hidden shadow-[0_18px_40px_-18px_rgba(0,0,0,0.45)] hover:cursor-pointer"
+          type="button"
+          className="group relative block w-full overflow-hidden shadow-[0_18px_40px_-18px_rgba(0,0,0,0.45)] hover:cursor-pointer"
           onClick={() => handleImageClick(index)}
         >
           <Image
-            className="transition duration-300 group-hover:brightness-50"
+            className="transition duration-300 group-hover:brightness-50 group-focus-visible:brightness-50"
             src={a.image.sizes?.display?.url || ""}
             alt={a.image.alt || a.title}
             width={a.image.sizes?.display?.width ?? undefined}
@@ -80,11 +81,11 @@ export default function Artwork({ artwork, className, ...rest }: ArtworkProps) {
           />
           <div
             aria-hidden
-            className="absolute inset-0 flex items-center justify-center opacity-0 transition duration-300 group-hover:opacity-100"
+            className="absolute inset-0 flex items-center justify-center opacity-0 transition duration-300 group-hover:opacity-100 group-focus-visible:opacity-100"
           >
-            <h3 className="text-white">{a.title}</h3>
+            <span className="text-white">{a.title}</span>
           </div>
-        </div>
+        </button>
       ))}
     </div>
   );
