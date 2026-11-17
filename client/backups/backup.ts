@@ -32,7 +32,7 @@ const exportDatabaseAsSql = async (databaseUrl: string) => {
             '--no-privileges',
             `--dbname=${databaseUrl}`,
         ],
-        // stdin: unused, stdout: read as the SQL, stderr: shown in the terminal
+        // 入力：使わない、出力：SQL として受け取る、エラー：画面にそのまま出す
         { stdio: ['ignore', 'pipe', 'inherit'] }
     );
     const [sql, code] = await Promise.all([text(pgDump.stdout), exitCode(pgDump)]);
