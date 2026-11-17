@@ -3,3 +3,7 @@
 
 # Original artwork photos (repo is public; photos go to Vercel Blob via the admin)
 /rescue/images/
+
+# Production backups made with `npm run backup` (repo is public)
+/client/backups/db/
+/client/backups/photos/

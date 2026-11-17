@@ -9,7 +9,8 @@
     "ci": "payload migrate && next build",
     "start": "next start",
     "lint": "next lint",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "backup": "node --env-file=.env.backup backups/backup.ts"
   },
   "dependencies": {
     "@payloadcms/db-postgres": "3.92.0",
