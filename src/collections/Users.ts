@@ -11,8 +11,10 @@ export const Users: CollectionConfig = {
   access: {
     create: ({ req }) => req.user?.role === "admin",
     // アカウントのページを開けるよう、編集者は自分の情報を読める。
-    read: ({ req }) => req.user?.role === "admin" || { id: { equals: req.user?.id } },
-    update: ({ req }) => req.user?.role === "admin" || { id: { equals: req.user?.id } },
+    read: ({ req }) =>
+      req.user?.role === "admin" || (!!req.user && { id: { equals: req.user.id } }),
+    update: ({ req }) =>
+      req.user?.role === "admin" || (!!req.user && { id: { equals: req.user.id } }),
     delete: ({ req }) => req.user?.role === "admin",
     unlock: ({ req }) => req.user?.role === "admin",
   },
