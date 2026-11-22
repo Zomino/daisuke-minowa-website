@@ -1,0 +1,4 @@
+{
+  "plugins": ["typescript", "unicorn", "oxc", "react", "nextjs", "jsx-a11y", "import"],
+  "ignorePatterns": ["src/payload-types.ts", "src/app/(payload)/", "src/migrations/"]
+}

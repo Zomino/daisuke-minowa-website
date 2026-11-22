@@ -1,5 +1,38 @@
-# Playwright MCP page snapshots and logs
+# 無視するファイルの書き方は https://help.github.com/articles/ignoring-files/ を参照
+
+# 依存パッケージ
+/node_modules
+
+# テスト
+/coverage
+
+# Next.js
+/.next/
+/out/
+
+# 本番用のビルド
+/build
+
+# その他
+.DS_Store
+*.pem
+
+# デバッグ
+npm-debug.log*
+
+# 環境変数のファイル（必要なら個別にコミットの対象にできる）
+.env*
+
+# Vercel
+.vercel
+
+# TypeScript
+*.tsbuildinfo
+next-env.d.ts
+
+# Playwright MCP が作る画面のスナップショットとログ
 /.playwright-mcp
 
-# Original artwork photos (repo is public; photos go to Vercel Blob via the admin)
-/rescue/images/
+# `npm run backup` で取った本番の控え（リポジトリは公開なので入れない）
+/backups/db/
+/backups/photos/
