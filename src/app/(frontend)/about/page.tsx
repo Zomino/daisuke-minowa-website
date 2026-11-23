@@ -13,7 +13,7 @@ export default function Page() {
       <header>
         <Nav />
       </header>
-      <main className="mt-12 px-4 sm:px-6 md:px-8">
+      <main className="px-4 pt-12 md:px-8 md:pt-14">
         <AboutSection />
       </main>
     </>

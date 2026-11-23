@@ -1,10 +1,39 @@
 import config from "@payload-config";
-import Image from "next/image";
 import { getPayload } from "payload";
 
-import profileImage from "@/app/(frontend)/_images/profile.jpg";
-
 import AccessibleEnDash from "@/components/AccessibleEnDash/AccessibleEnDash";
+
+// 日付は UTC の正午で保存している。日がずれないよう、UTC で読んで表示する。
+const formatDate = (date: Date, options: Intl.DateTimeFormatOptions) =>
+  date.toLocaleDateString("en-GB", { ...options, timeZone: "UTC" });
+
+/** 「30 July – 4 August 2024」「8 – 12 May 2024」のように、終わりと同じ年や月は始まりから省く。 */
+function ExhibitionDates({ from, to }: { from: string; to?: string | null }) {
+  const start = new Date(from);
+  const end = to ? new Date(to) : null;
+  const isSameYear = end && start.getUTCFullYear() === end.getUTCFullYear();
+  const isSameMonth = isSameYear && start.getUTCMonth() === end.getUTCMonth();
+
+  return (
+    <>
+      <time dateTime={start.toISOString().slice(0, 10)}>
+        {formatDate(start, {
+          day: "numeric",
+          month: isSameMonth ? undefined : "long",
+          year: isSameYear ? undefined : "numeric",
+        })}
+      </time>
+      {end && (
+        <>
+          <AccessibleEnDash />
+          <time dateTime={end.toISOString().slice(0, 10)}>
+            {formatDate(end, { day: "numeric", month: "long", year: "numeric" })}
+          </time>
+        </>
+      )}
+    </>
+  );
+}
 
 export default async function AboutSection() {
   const payload = await getPayload({ config });
@@ -24,103 +53,47 @@ export default async function AboutSection() {
     }),
   ]);
 
-  // 年は UTC の1月1日に、日付は UTC の正午で保存している。日がずれないよう、UTC で表示する。
-  const formatDate = (value: string | number) => {
-    const date = typeof value === "number" ? new Date(Date.UTC(value, 0, 1)) : new Date(value);
-    return {
-      date,
-      display: date.toLocaleDateString("en-GB", {
-        day: "2-digit",
-        month: "2-digit",
-        year: "numeric",
-        timeZone: "UTC",
-      }),
-    };
-  };
-
   return (
-    <section id="about">
-      <h2 className="text-center text-2xl tracking-widest uppercase md:text-3xl">About</h2>
-      <div className="relative mx-auto mt-14 w-full overflow-hidden shadow-[0_18px_40px_-18px_rgba(0,0,0,0.45)] md:w-1/2 lg:w-1/3 xl:w-1/4 2xl:w-1/5">
-        <Image
-          alt="Photo of Daisuke Minowa" // Next.js の Image では必須の項目。
-          className="object-contain saturate-60"
-          // 高さと幅は、元の画像の大きさに合わせる。
-          // 高さがないと、画像が表示されない。
-          height={3264}
-          width={2448}
-          placeholder="blur" // 読み込み中はぼかした画像を出して、なめらかに表示する。
-          src={profileImage} // 読み込んだ画像をそのまま src に渡す。Next.js が正しく最適化できるようにするため。
-        />
-        {/* 上と下に重ねるグラデーション。 */}
-        <div className="pointer-events-none absolute inset-0 z-10 bg-gradient-to-b from-black/50 via-transparent to-black/50" />
-      </div>
-      <h3 className="sr-only">Bio</h3>
-      <p className="mx-auto mt-20 max-w-120 px-5 text-center">
+    <section id="about" className="mx-auto flex max-w-110 flex-col gap-18">
+      <h1 className="sr-only">About</h1>
+      <p className="text-[19px] leading-[1.8] text-pretty md:text-[22px]">
         Born in Tokyo in 1966. Moved to the UK in 1986. Living and working in London.
       </p>
-      <div className="mt-18 flex flex-col items-center gap-15 px-5">
-        <div className="w-full max-w-4xl text-center">
-          <h3 className="text-xl tracking-widest uppercase">Exhibitions</h3>
-          <ul className="mt-8 space-y-6">
-            {sortedExhibitions.map((entry) => (
-              <li key={entry.id}>
-                {/* 見た目では名前と日付の順を flexbox で入れ替えるが、ページの構造は正しい順のままにする。 */}
-                <div className="flex flex-col-reverse">
-                  <h4 className="text-lg font-extralight tracking-wider">{entry.event_name}</h4>
-                  <p className="text-black/70 italic">
-                    {(() => {
-                      const { date, display } = formatDate(entry.date_from);
-                      return <time dateTime={date.toISOString()}>{display}</time>;
-                    })()}
-                    {entry.date_to && (
-                      <>
-                        <AccessibleEnDash />
-                        {(() => {
-                          const { date, display } = formatDate(entry.date_to);
-                          return <time dateTime={date.toISOString()}>{display}</time>;
-                        })()}
-                      </>
-                    )}
-                  </p>
-                </div>
-                {entry.notes && <p className="text-sm text-black/70 italic">{entry.notes}</p>}
-              </li>
-            ))}
-          </ul>
-        </div>
-        <div className="w-full max-w-4xl text-center">
-          <h3 className="text-xl tracking-widest uppercase">Education</h3>
-          <ul className="mt-8 space-y-6">
-            {sortedEducation.map((entry) => (
-              <li key={entry.id}>
-                {/* 見た目では名前と日付の順を flexbox で入れ替えるが、ページの構造は正しい順のままにする。 */}
-                <div className="flex flex-col-reverse">
-                  <h4 className="text-lg font-extralight tracking-wider">
-                    {entry.experience_name}
-                  </h4>
-                  <span className="text-black/70 italic">
-                    {(() => {
-                      const { date, display } = formatDate(entry.year_from);
-                      return <time dateTime={date.toISOString()}>{display}</time>;
-                    })()}
-                    {entry.year_to && (
-                      <>
-                        <AccessibleEnDash />
-                        {(() => {
-                          const { date, display } = formatDate(entry.year_to);
-                          return <time dateTime={date.toISOString()}>{display}</time>;
-                        })()}
-                      </>
-                    )}
-                  </span>
-                </div>
-                {entry.notes && <p className="text-sm text-black/70 italic">{entry.notes}</p>}
-              </li>
-            ))}
-          </ul>
-        </div>
-      </div>
+      <section className="flex flex-col gap-7">
+        <h2 className="font-medium tracking-[0.16em] uppercase md:text-[17px]">Exhibitions</h2>
+        <ul className="flex flex-col gap-6">
+          {sortedExhibitions.map((entry) => (
+            <li key={entry.id} className="flex flex-col">
+              <h3>{entry.event_name}</h3>
+              {entry.location && <p className="text-sm text-muted">{entry.location}</p>}
+              <p className="text-sm text-muted">
+                <ExhibitionDates from={entry.date_from} to={entry.date_to} />
+              </p>
+              {entry.notes && <p className="text-sm text-muted">{entry.notes}</p>}
+            </li>
+          ))}
+        </ul>
+      </section>
+      <section className="flex flex-col gap-7">
+        <h2 className="font-medium tracking-[0.16em] uppercase md:text-[17px]">Education</h2>
+        <ul className="flex flex-col gap-6">
+          {sortedEducation.map((entry) => (
+            <li key={entry.id} className="flex flex-col">
+              <h3>{entry.experience_name}</h3>
+              <p className="text-sm text-muted">
+                <time dateTime={String(entry.year_from)}>{entry.year_from}</time>
+                {entry.year_to && (
+                  <>
+                    <AccessibleEnDash />
+                    <time dateTime={String(entry.year_to)}>{entry.year_to}</time>
+                  </>
+                )}
+              </p>
+              {entry.notes && <p className="text-sm text-muted">{entry.notes}</p>}
+            </li>
+          ))}
+        </ul>
+      </section>
     </section>
   );
 }
