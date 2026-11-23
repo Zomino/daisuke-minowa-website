@@ -102,7 +102,7 @@ export default function Carousel<T>({
   return (
     <div
       // カルーセルが、入れ物の高さと幅をいっぱいに使うようにする。
-      className={`overflow-hidden bg-white text-black ${
+      className={`overflow-hidden bg-wall text-ink ${
         isFullScreen ? "fixed inset-0 h-screen w-screen" : "relative h-full w-full"
       } ${className}`}
       ref={emblaRef}

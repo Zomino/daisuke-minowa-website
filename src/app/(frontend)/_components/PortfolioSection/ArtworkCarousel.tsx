@@ -45,9 +45,9 @@ export default function ArtworkCarousel({ artwork, ...rest }: ArtworkCarouselPro
             >
               {/* 幅が変わるあいだに文章が折り返し直さないよう、中身の幅は固定する。 */}
               <div className="p-5 md:w-[calc((100vw-2.5rem)/3)]">
-                <h3 className="text-xl font-extralight uppercase">{item.title ?? "(untitled)"}</h3>
+                <h3 className="text-xl uppercase">{item.title ?? "(untitled)"}</h3>
                 {item.technique && (
-                  <p className="mt-5 text-sm tracking-wide text-black/70 uppercase">
+                  <p className="mt-5 text-sm tracking-wide text-muted uppercase">
                     {item.technique}
                   </p>
                 )}
