@@ -47,10 +47,9 @@ export default function Carousel<T>({
   }, [emblaApi, startIndex]);
 
   const close = useCallback(() => {
+    // 全画面の状態は戻さない。消えるアニメーションの途中で、表示が切り替わってしまうため。
+    // 閉じたあとはカルーセルごと取り除かれるので、次に開くときは全画面でない状態から始まる。
     onClose?.();
-    // 閉じるときに、全画面の状態を戻す。
-    // onClose がカルーセルを閉じる場合にちらつかないよう、onClose のあとで行う必要がある。
-    setIsFullScreen(false);
   }, [onClose]);
   const scrollNext = useCallback(() => emblaApi?.scrollNext(), [emblaApi]);
   const scrollPrev = useCallback(() => emblaApi?.scrollPrev(), [emblaApi]);
