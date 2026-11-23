@@ -2,17 +2,9 @@
 
 import useEmblaCarousel from "embla-carousel-react";
 import { FiMaximize, FiMinimize, FiChevronLeft, FiChevronRight, FiX } from "react-icons/fi";
-import { AnimatePresence, motion } from "motion/react";
 import { type JSX, useCallback, useEffect, useState } from "react";
 
 import CarouselButton from "@/components/Carousel/CarouselButton";
-
-const MotionCarouselButton = motion.create(CarouselButton);
-
-const buttonVariants = {
-  hidden: { opacity: 0 },
-  visible: { opacity: 1 },
-};
 
 // 型として使えるよう、undefined を除く必要がある。
 type EmblaOptions = Exclude<Parameters<typeof useEmblaCarousel>[0], undefined>;
@@ -133,57 +125,47 @@ export default function Carousel<T>({
           </div>
         ))}
       </div>
-      <AnimatePresence>
-        {isUserActive && (
-          <motion.div variants={buttonVariants} initial="hidden" animate="visible" exit="hidden">
-            <>
-              <MotionCarouselButton
-                ariaLabel="Close Carousel"
-                className="absolute top-4 right-4"
-                title="Close Carousel"
-                onClick={close}
-                variants={buttonVariants}
-              >
-                <FiX className="h-6 w-6" />
-              </MotionCarouselButton>
-              <motion.div
-                className="absolute bottom-4 left-1/2 z-50 flex -translate-x-1/2 gap-2 rounded-full bg-white p-2 text-black/80 shadow-sm"
-                variants={buttonVariants}
-              >
-                <CarouselButton
-                  ariaLabel="Previous Image"
-                  className="bg-transparent"
-                  title="Previous Image"
-                  onClick={scrollPrev}
-                >
-                  <FiChevronLeft className="h-6 w-6" />
-                </CarouselButton>
-                <CarouselButton
-                  ariaLabel="Toggle Fullscreen"
-                  aria-pressed={isFullScreen}
-                  className="bg-transparent"
-                  title={isFullScreen ? "Exit Fullscreen" : "Enter Fullscreen"}
-                  onClick={() => setIsFullScreen(!isFullScreen)}
-                >
-                  {isFullScreen ? (
-                    <FiMinimize className="h-6 w-6" />
-                  ) : (
-                    <FiMaximize className="h-6 w-6" />
-                  )}
-                </CarouselButton>
-                <CarouselButton
-                  ariaLabel="Next Image"
-                  className="bg-transparent"
-                  title="Next Image"
-                  onClick={scrollNext}
-                >
-                  <FiChevronRight className="h-6 w-6" />
-                </CarouselButton>
-              </motion.div>
-            </>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      {/* 隠れている間は、Tab キーで見えないボタンに移らないよう inert にする。 */}
+      <div
+        className={`transition-opacity duration-300 ${isUserActive ? "opacity-100" : "pointer-events-none opacity-0"}`}
+        inert={!isUserActive}
+      >
+        <CarouselButton
+          ariaLabel="Close Carousel"
+          className="absolute top-4 right-4"
+          title="Close Carousel"
+          onClick={close}
+        >
+          <FiX className="h-6 w-6" />
+        </CarouselButton>
+        <div className="absolute bottom-4 left-1/2 z-50 flex -translate-x-1/2 gap-2 rounded-full bg-white p-2 text-black/80 shadow-sm">
+          <CarouselButton
+            ariaLabel="Previous Image"
+            className="bg-transparent"
+            title="Previous Image"
+            onClick={scrollPrev}
+          >
+            <FiChevronLeft className="h-6 w-6" />
+          </CarouselButton>
+          <CarouselButton
+            ariaLabel="Toggle Fullscreen"
+            aria-pressed={isFullScreen}
+            className="bg-transparent"
+            title={isFullScreen ? "Exit Fullscreen" : "Enter Fullscreen"}
+            onClick={() => setIsFullScreen(!isFullScreen)}
+          >
+            {isFullScreen ? <FiMinimize className="h-6 w-6" /> : <FiMaximize className="h-6 w-6" />}
+          </CarouselButton>
+          <CarouselButton
+            ariaLabel="Next Image"
+            className="bg-transparent"
+            title="Next Image"
+            onClick={scrollNext}
+          >
+            <FiChevronRight className="h-6 w-6" />
+          </CarouselButton>
+        </div>
+      </div>
     </div>
   );
 }

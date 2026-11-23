@@ -1,6 +1,5 @@
 "use client";
 
-import { AnimatePresence, motion } from "motion/react";
 import Image from "next/image";
 
 import Carousel from "@/components/Carousel/Carousel";
@@ -24,10 +23,9 @@ export default function ArtworkCarousel({ artwork, ...rest }: ArtworkCarouselPro
           <figure
             className={`flex flex-col md:h-screen md:flex-row md:items-center ${isFullScreen ? "" : "md:p-5"}`}
           >
-            <motion.div
-              className={`z-50 md:flex md:h-full md:items-center md:justify-center md:overflow-hidden ${isFullScreen ? "cursor-zoom-out md:w-full" : "cursor-zoom-in md:w-2/3"}`}
+            <div
+              className={`z-50 md:flex md:h-full md:items-center md:justify-center md:overflow-hidden md:transition-[width] md:duration-300 ${isFullScreen ? "cursor-zoom-out md:w-full" : "cursor-zoom-in md:w-2/3"}`}
               onClick={toggleFullScreen}
-              layout
             >
               <Image
                 className={`object-contain ${isFullScreen ? "h-screen w-screen" : "h-full w-full"}`}
@@ -39,50 +37,40 @@ export default function ArtworkCarousel({ artwork, ...rest }: ArtworkCarouselPro
                 placeholder={item.blurDataURL ? "blur" : "empty"}
                 blurDataURL={item.blurDataURL}
               />
-            </motion.div>
+            </div>
             {!isFullScreen && (
-              <AnimatePresence>
-                <motion.figcaption
-                  className="p-5 md:w-1/3"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                >
-                  <h3 className="text-xl font-extralight uppercase">
-                    {item.title ?? "(untitled)"}
-                  </h3>
-                  {item.technique && (
-                    <p className="mt-5 text-sm tracking-wide text-black/70 uppercase">
-                      {item.technique}
-                    </p>
-                  )}
-                  {item.description && (
-                    <p className={item.technique ? "mt-3" : "mt-5"}>{item.description}</p>
-                  )}
-                  <dl className="mt-5 grid grid-cols-[auto_1fr] gap-2">
-                    <dt>Dimensions:</dt>
-                    {/* 掛け算の記号を使う。 */}
-                    <dd>{`${item.width_cm} \u00D7 ${item.height_cm} cm`}</dd>
-                    <dt>Date:</dt>
-                    <dd>
-                      {date ? (
-                        <time dateTime={date.toISOString()}>
-                          {date.toLocaleDateString("en-GB", {
-                            day: "numeric",
-                            month: "long",
-                            year: "numeric",
-                            // 日付は UTC の正午で保存しているので、日がずれないよう UTC で読む。
-                            timeZone: "UTC",
-                          })}
-                        </time>
-                      ) : (
-                        "(undated)"
-                      )}
-                    </dd>
-                  </dl>
-                  <p></p>
-                </motion.figcaption>
-              </AnimatePresence>
+              <figcaption className="p-5 transition-opacity duration-300 md:w-1/3 starting:opacity-0">
+                <h3 className="text-xl font-extralight uppercase">{item.title ?? "(untitled)"}</h3>
+                {item.technique && (
+                  <p className="mt-5 text-sm tracking-wide text-black/70 uppercase">
+                    {item.technique}
+                  </p>
+                )}
+                {item.description && (
+                  <p className={item.technique ? "mt-3" : "mt-5"}>{item.description}</p>
+                )}
+                <dl className="mt-5 grid grid-cols-[auto_1fr] gap-2">
+                  <dt>Dimensions:</dt>
+                  {/* 掛け算の記号を使う。 */}
+                  <dd>{`${item.width_cm} \u00D7 ${item.height_cm} cm`}</dd>
+                  <dt>Date:</dt>
+                  <dd>
+                    {date ? (
+                      <time dateTime={date.toISOString()}>
+                        {date.toLocaleDateString("en-GB", {
+                          day: "numeric",
+                          month: "long",
+                          year: "numeric",
+                          // 日付は UTC の正午で保存しているので、日がずれないよう UTC で読む。
+                          timeZone: "UTC",
+                        })}
+                      </time>
+                    ) : (
+                      "(undated)"
+                    )}
+                  </dd>
+                </dl>
+              </figcaption>
             )}
           </figure>
         );
