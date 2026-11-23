@@ -2,7 +2,7 @@
 
 [English](README.md)
 
-画家である父、簑輪大助の[作品サイト](https://www.daisukeminowa.com)です。作品や経歴は、父が自分で管理画面から更新できます。
+画家・簑輪大助の[作品サイト](https://www.daisukeminowa.com)です。作品や経歴は、管理画面から更新できます。
 
 Next.js、Payload、Neon（Postgres）、Vercel Blob で作り、Vercel で公開しています。
 
