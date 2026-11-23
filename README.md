@@ -2,7 +2,7 @@
 
 > Translated from the [Japanese original](README.ja.md).
 
-The [website](https://www.daisukeminowa.com) of my father, the painter Daisuke Minowa. He can update his artwork and background himself through an admin panel.
+The [website](https://www.daisukeminowa.com) of the painter Daisuke Minowa. His artwork and background can be updated through an admin panel.
 
 Built with Next.js, Payload, Neon (Postgres) and Vercel Blob, and hosted on Vercel.
 
