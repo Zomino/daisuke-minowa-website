@@ -1,12 +1,12 @@
 @import "tailwindcss";
 
+/* next/font が html に付ける変数を使うので、inline にして値をそのまま埋め込む。 */
+@theme inline {
+  --font-mincho: var(--font-shippori), "Hiragino Mincho ProN", "Yu Mincho", serif;
+}
+
 @theme {
-  --color-dark-gray: #232323;
-  --color-darker-gray: #2d2d2d;
-
-  --font-arial: "Arial", sans-serif;
-
-  --scroll-padding-18: calc(var(--spacing) * 18);
-  --scroll-padding-20: calc(var(--spacing) * 20);
-  --scroll-padding-22: calc(var(--spacing) * 22);
+  --color-wall: #fcfcfb;
+  --color-ink: #343532;
+  --color-muted: #686965;
 }

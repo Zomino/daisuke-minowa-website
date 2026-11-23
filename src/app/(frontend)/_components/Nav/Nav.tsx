@@ -12,7 +12,8 @@ interface NavProps {
 
 /** このナビは、トップページに #portfolio のアンカーが置かれていることを前提にしている。 */
 export default function Nav({ className = "" }: NavProps) {
-  const isHome = usePathname() === "/";
+  const pathname = usePathname();
+  const isHome = pathname === "/";
   const [isStickyNavVisible, setIsStickyNavVisible] = useState(false);
   const navRef = useRef<HTMLElement>(null);
   const isNavOutOfViewRef = useRef(false);
@@ -78,30 +79,44 @@ export default function Nav({ className = "" }: NavProps) {
     window.history.pushState(null, "", "#portfolio");
   };
 
-  const renderNav = ({ className, ...rest }: React.ComponentProps<"nav">) => (
-    <nav className={`align-center z-50 flex justify-center p-3 ${className}`} {...rest}>
-      <ul className="flex gap-4">
+  // showName：トップページの普段のナビでは、ヒーローに名前があるので出さない。
+  const renderNav = ({
+    className,
+    showName,
+    ...rest
+  }: React.ComponentProps<"nav"> & { showName: boolean }) => (
+    <nav
+      className={`z-50 flex flex-col items-center gap-1 px-4 py-4 font-medium tracking-[0.08em] md:flex-row md:px-8 ${showName ? "md:justify-between" : "md:justify-end"} ${className}`}
+      {...rest}
+    >
+      {showName && (
+        <Link
+          className="flex min-h-11 items-center text-lg tracking-[0.16em] hover:opacity-70 md:text-xl"
+          href="/"
+        >
+          DAISUKE MINOWA
+        </Link>
+      )}
+      <ul className="flex w-full justify-between md:w-auto md:gap-7 md:text-[17px]">
         <li>
           {isHome ? (
             <a
-              className="cursor-pointer text-lg uppercase hover:opacity-70 md:text-xl"
+              className="flex h-11 items-center hover:opacity-70"
               href="#portfolio"
               onClick={handlePortfolioClick}
             >
-              Portfolio
+              Works
             </a>
           ) : (
-            <Link
-              className="cursor-pointer text-lg uppercase hover:opacity-70 md:text-xl"
-              href="/#portfolio"
-            >
-              Portfolio
+            <Link className="flex h-11 items-center hover:opacity-70" href="/#portfolio">
+              Works
             </Link>
           )}
         </li>
         <li>
           <Link
-            className="cursor-pointer text-lg uppercase hover:opacity-70 md:text-xl"
+            aria-current={pathname === "/about" ? "page" : undefined}
+            className="flex h-11 items-center underline-offset-8 hover:opacity-70 aria-[current=page]:underline"
             href="/about"
           >
             About
@@ -109,7 +124,8 @@ export default function Nav({ className = "" }: NavProps) {
         </li>
         <li>
           <Link
-            className="cursor-pointer text-lg uppercase hover:opacity-70 md:text-xl"
+            aria-current={pathname === "/contact" ? "page" : undefined}
+            className="flex h-11 items-center underline-offset-8 hover:opacity-70 aria-[current=page]:underline"
             href="/contact"
           >
             Contact
@@ -126,9 +142,10 @@ export default function Nav({ className = "" }: NavProps) {
                 1つだけだと、アニメーションのクラスを付け外ししたときに、ナビが画面の横から入ってきてしまう。
                 きれいな設計ではないが、この程度の用途なら十分に動く。
             */}
-      {renderNav({ className, ref: navRef })}
+      {renderNav({ className, ref: navRef, showName: !isHome })}
       {renderNav({
-        className: `fixed top-0 left-0 w-full bg-white text-black shadow-md transition-all duration-300 ease-in-out ${isStickyNavVisible ? "translate-y-0 opacity-100" : "pointer-events-none -translate-y-full opacity-0"}`,
+        showName: true,
+        className: `fixed top-0 left-0 w-full bg-wall text-ink shadow-[0_1px_0_rgb(0_0_0/0.06)] transition-all duration-300 ease-in-out ${isStickyNavVisible ? "translate-y-0 opacity-100" : "pointer-events-none -translate-y-full opacity-0"}`,
         "aria-hidden": true, // 固定でない方のナビと内容が同じなので、スクリーンリーダーには不要。
       })}
     </>
