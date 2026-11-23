@@ -15,6 +15,7 @@ interface ArtworkProps extends React.ComponentProps<"div"> {
 
 export default function Artwork({ artwork, className, ...rest }: ArtworkProps) {
   const [isCarouselOpen, setIsCarouselOpen] = useState(false);
+  const [isCarouselClosing, setIsCarouselClosing] = useState(false);
   const [carouselStartIndex, setCarouselStartIndex] = useState(0);
 
   // カルーセルを開いている間は、ページのスクロールを止める。
@@ -32,7 +33,16 @@ export default function Artwork({ artwork, className, ...rest }: ArtworkProps) {
 
   const handleImageClick = (index: number) => {
     setCarouselStartIndex(index);
+    setIsCarouselClosing(false);
     setIsCarouselOpen(true);
+  };
+
+  // 消えるアニメーションのあいだは表示しておき、背景のトランジションが終わってから取り除く。
+  // 中の要素のトランジションも伝わってくるので、背景そのもののときだけ扱う。
+  const handleOverlayTransitionEnd = (event: React.TransitionEvent<HTMLDivElement>) => {
+    if (isCarouselClosing && event.target === event.currentTarget) {
+      setIsCarouselOpen(false);
+    }
   };
 
   return (
@@ -41,10 +51,13 @@ export default function Artwork({ artwork, className, ...rest }: ArtworkProps) {
       {...rest}
     >
       {isCarouselOpen && (
-        <div className="fixed inset-0 z-50 h-screen w-screen bg-black/70 backdrop-blur-md transition duration-300 starting:scale-95 starting:opacity-0">
+        <div
+          className={`fixed inset-0 z-50 h-screen w-screen bg-black/70 backdrop-blur-md transition duration-300 starting:scale-95 starting:opacity-0 ${isCarouselClosing ? "pointer-events-none scale-95 opacity-0" : ""}`}
+          onTransitionEnd={handleOverlayTransitionEnd}
+        >
           <ArtworkCarousel
             artwork={artwork}
-            onClose={() => setIsCarouselOpen(false)}
+            onClose={() => setIsCarouselClosing(true)}
             startIndex={carouselStartIndex}
           />
         </div>
