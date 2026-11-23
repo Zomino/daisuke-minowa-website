@@ -13,7 +13,8 @@ export default function Page() {
       <header>
         <Nav />
       </header>
-      <main className="mt-12 px-4 sm:px-6 md:px-8">
+      {/* 残りの高さいっぱいに広げて、リンクを画面の上下中央に置く。 */}
+      <main className="flex grow flex-col justify-center px-4 md:px-8">
         <ContactSection />
       </main>
     </>

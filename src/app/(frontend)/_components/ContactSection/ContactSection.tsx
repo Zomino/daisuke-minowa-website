@@ -1,29 +1,23 @@
-import { FaInstagram, FaEnvelope } from "react-icons/fa";
-
-export default async function ContactSection() {
+export default function ContactSection() {
   return (
-    <section id="contact">
-      <h2 className="text-center text-2xl tracking-widest uppercase md:text-3xl">Contact</h2>
-      <div className="mt-14 flex flex-col items-center justify-center gap-5 md:flex-row">
-        <span className="flex cursor-pointer items-center gap-2 hover:text-black/60">
-          <FaEnvelope aria-hidden className="h-6 w-6" />
-          <a href="mailto:dminowa@gmail.com" aria-label="Email Daisuke Minowa">
-            Email
-          </a>
-        </span>
-        <span className="flex cursor-pointer items-center gap-2 hover:text-black/60">
-          <FaInstagram aria-hidden className="h-6 w-6" />
-          <a
-            href="https://www.instagram.com/daisuke_minowa"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hover:text-black/60"
-            aria-label="Instagram profile of Daisuke Minowa"
-          >
-            Instagram
-          </a>
-        </span>
-      </div>
+    <section id="contact" className="flex flex-col items-center text-[19px] md:text-[22px]">
+      <h1 className="sr-only">Contact</h1>
+      <a
+        className="flex min-h-12 items-center hover:text-muted md:min-h-13"
+        href="mailto:dminowa@gmail.com"
+        aria-label="Email Daisuke Minowa"
+      >
+        Email
+      </a>
+      <a
+        className="flex min-h-12 items-center hover:text-muted md:min-h-13"
+        href="https://www.instagram.com/daisuke_minowa"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Instagram profile of Daisuke Minowa"
+      >
+        Instagram
+      </a>
     </section>
   );
 }

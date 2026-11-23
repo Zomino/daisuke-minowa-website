@@ -41,7 +41,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       data-scroll-behavior="smooth"
       lang="en"
     >
-      <body>
+      {/* 中身が短いページでも、フッターが画面の下に来るようにする。 */}
+      <body className="flex min-h-svh flex-col">
         {children}
         <footer className="mt-15 flex flex-wrap items-center justify-between gap-4 px-4 py-6 text-sm text-muted md:p-8">
           <p>
