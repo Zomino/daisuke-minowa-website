@@ -6,7 +6,8 @@ services:
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: daisuke_minowa
     ports:
-      - "5432:5432"
+      # 他の端末から接続されないよう、この Mac に限定する。
+      - "127.0.0.1:5432:5432"
     volumes:
       - db-data:/var/lib/postgresql/data
 

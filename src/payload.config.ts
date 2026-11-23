@@ -36,7 +36,8 @@ export default buildConfig({
   },
   db: postgresAdapter({
     pool: {
-      connectionString: process.env.DATABASE_URL || "",
+      connectionString:
+        process.env.DATABASE_URL || "postgres://postgres:postgres@localhost:5432/daisuke_minowa",
     },
   }),
   plugins: [
