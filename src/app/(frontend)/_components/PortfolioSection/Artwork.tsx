@@ -1,6 +1,5 @@
 "use client";
 
-import { AnimatePresence, motion } from "motion/react";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 
@@ -41,22 +40,15 @@ export default function Artwork({ artwork, className, ...rest }: ArtworkProps) {
       className={`mt-10 columns-1 gap-4 space-y-4 md:columns-2 lg:columns-3 xl:columns-4 2xl:columns-5 ${className}`}
       {...rest}
     >
-      <AnimatePresence>
-        {isCarouselOpen && (
-          <motion.div
-            className="fixed inset-0 z-50 h-screen w-screen bg-black/70 backdrop-blur-md"
-            animate={{ opacity: 1, scale: 1 }}
-            initial={{ opacity: 0, scale: 0.95 }}
-            exit={{ opacity: 0, scale: 0.95 }}
-          >
-            <ArtworkCarousel
-              artwork={artwork}
-              onClose={() => setIsCarouselOpen(false)}
-              startIndex={carouselStartIndex}
-            />
-          </motion.div>
-        )}
-      </AnimatePresence>
+      {isCarouselOpen && (
+        <div className="fixed inset-0 z-50 h-screen w-screen bg-black/70 backdrop-blur-md transition duration-300 starting:scale-95 starting:opacity-0">
+          <ArtworkCarousel
+            artwork={artwork}
+            onClose={() => setIsCarouselOpen(false)}
+            startIndex={carouselStartIndex}
+          />
+        </div>
+      )}
       {artwork.map((a, index) => (
         <button
           key={a.id}
