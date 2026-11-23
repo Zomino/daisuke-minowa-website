@@ -18,6 +18,10 @@ export const viewport: Viewport = {
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
+  // サーバーで描画するので、表示のたびに値が変わることはない。
+  // oxlint-disable-next-line react/purity
+  const year = new Date().getFullYear();
+
   return (
     <html
       className="scroll-pt-22 scroll-smooth bg-white font-arial text-black"
@@ -26,6 +30,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     >
       <body>
         {children}
+        <footer className="mt-15">
+          <p className="text-center text-xs md:text-sm">
+            &copy; <time dateTime={year.toString()}>{year}</time> Daisuke Minowa. All rights
+            reserved.
+          </p>
+        </footer>
         <Analytics />
       </body>
     </html>

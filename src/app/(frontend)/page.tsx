@@ -2,17 +2,10 @@ import Image from "next/image";
 
 import heroImage from "@/app/(frontend)/_images/hero.jpg";
 
-import AboutSection from "@/app/(frontend)/_components/AboutSection/AboutSection";
-import ContactSection from "@/app/(frontend)/_components/ContactSection/ContactSection";
-import Divider from "@/components/Divider/Divider";
 import Nav from "@/app/(frontend)/_components/Nav/Nav";
 import PortfolioSection from "@/app/(frontend)/_components/PortfolioSection/PortfolioSection";
 
 export default function Page() {
-  // サーバーで描画するので、表示のたびに値が変わることはない。
-  // oxlint-disable-next-line react/purity
-  const year = new Date().getFullYear();
-
   return (
     <>
       <header className="relative h-screen">
@@ -28,30 +21,13 @@ export default function Page() {
         <h1 className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 transform text-center text-4xl font-extralight tracking-widest text-white uppercase drop-shadow-lg md:text-5xl">
           Daisuke Minowa
         </h1>
-        <Nav />
+        <Nav className="absolute top-[calc(60%)] left-1/2 -translate-x-1/2 transform text-white" />
       </header>
       <main className="px-4 sm:px-6 md:px-8">
         <div className="mt-28">
           <PortfolioSection />
         </div>
-        <div className="my-20 md:my-24">
-          <Divider />
-        </div>
-        <div className="mt-20">
-          <AboutSection />
-        </div>
-        <div className="my-20 md:my-24">
-          <Divider />
-        </div>
-        <div className="mt-20">
-          <ContactSection />
-        </div>
       </main>
-      <footer className="mt-15">
-        <p className="text-center text-xs md:text-sm">
-          &copy; <time dateTime={year.toString()}>{year}</time> Daisuke Minowa. All rights reserved.
-        </p>
-      </footer>
     </>
   );
 }

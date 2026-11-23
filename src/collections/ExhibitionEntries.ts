@@ -1,12 +1,12 @@
 import type { CollectionConfig } from "payload";
 
-import { revalidateHome } from "@/collections/revalidateHome";
+import { revalidateSite } from "@/collections/revalidateSite";
 
 export const ExhibitionEntries: CollectionConfig = {
   slug: "exhibition-entries",
   hooks: {
-    afterChange: [revalidateHome],
-    afterDelete: [revalidateHome],
+    afterChange: [revalidateSite],
+    afterDelete: [revalidateSite],
   },
   labels: {
     singular: { ja: "展示歴", en: "Exhibition" },
