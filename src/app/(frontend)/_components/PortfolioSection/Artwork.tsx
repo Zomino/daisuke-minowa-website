@@ -1,9 +1,7 @@
 "use client";
 
 import { AnimatePresence, motion } from "motion/react";
-// 新しい Image の実装は、残念ながら blurDataURL に base64 の文字列しか受け付けず、URL は使えない。
-// 今のところ、回避策を考えるほどの価値はない。
-import Image from "next/legacy/image";
+import Image from "next/image";
 import { useEffect, useState } from "react";
 
 import { type Artwork as PayloadArtwork, type Media } from "@/payload-types";
@@ -67,7 +65,7 @@ export default function Artwork({ artwork, className, ...rest }: ArtworkProps) {
           onClick={() => handleImageClick(index)}
         >
           <Image
-            className="transition duration-300 group-hover:brightness-50 group-focus-visible:brightness-50"
+            className="h-auto w-full transition duration-300 group-hover:brightness-50 group-focus-visible:brightness-50"
             src={a.image.sizes?.display?.url || ""}
             alt={a.image.alt || a.title}
             width={a.image.sizes?.display?.width ?? undefined}

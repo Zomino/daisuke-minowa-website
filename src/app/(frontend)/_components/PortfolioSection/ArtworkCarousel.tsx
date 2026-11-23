@@ -1,8 +1,6 @@
 "use client";
 
 import { AnimatePresence, motion } from "motion/react";
-// 新しい Image の実装は、残念ながら blurDataURL に base64 の文字列しか受け付けず、URL は使えない。
-// 今のところ、回避策を考えるほどの価値はない。
 import Image from "next/image";
 
 import Carousel from "@/components/Carousel/Carousel";
