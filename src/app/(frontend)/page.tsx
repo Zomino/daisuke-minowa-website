@@ -9,6 +9,10 @@ import Nav from "@/app/(frontend)/_components/Nav/Nav";
 import PortfolioSection from "@/app/(frontend)/_components/PortfolioSection/PortfolioSection";
 
 export default function Page() {
+  // サーバーで描画するので、表示のたびに値が変わることはない。
+  // oxlint-disable-next-line react/purity
+  const year = new Date().getFullYear();
+
   return (
     <>
       <header className="relative h-screen">
@@ -45,9 +49,7 @@ export default function Page() {
       </main>
       <footer className="mt-15">
         <p className="text-center text-xs md:text-sm">
-          &copy;{" "}
-          <time dateTime={new Date().getFullYear().toString()}>{new Date().getFullYear()}</time>{" "}
-          Daisuke Minowa. All rights reserved.
+          &copy; <time dateTime={year.toString()}>{year}</time> Daisuke Minowa. All rights reserved.
         </p>
       </footer>
     </>
