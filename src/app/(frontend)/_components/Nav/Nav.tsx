@@ -59,6 +59,10 @@ export default function Nav({ className = "" }: NavProps) {
     window.addEventListener("touchmove", cancelNavigationIfUserScrolls, { passive: true });
     window.addEventListener("keydown", handleKeydown, { passive: true });
 
+    // ほかのページから /#portfolio に来たときは、ページ内で移動したときと同じく固定ナビを出しておく。
+    // 出さないと、作品の位置から始まるのでナビがどこにも見えない。ユーザーがスクロールすると消える。
+    if (window.location.hash) navigationActiveRef.current = true;
+
     handleScroll(); // 最初の位置に合わせて、表示するかどうかを決める。
 
     return () => {
