@@ -4,7 +4,7 @@ import Image from "next/image";
 
 import Carousel from "@/components/Carousel/Carousel";
 
-import { type ArtworkItem } from "@/app/(frontend)/_components/PortfolioSection/Artwork";
+import { type ArtworkItem } from "@/app/(frontend)/_components/Artwork/Artwork";
 
 interface ArtworkCarouselProps extends Omit<
   React.ComponentProps<typeof Carousel>,

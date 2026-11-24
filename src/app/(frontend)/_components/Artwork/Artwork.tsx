@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 
 import { type Artwork as PayloadArtwork, type Media } from "@/payload-types";
 
-import ArtworkCarousel from "@/app/(frontend)/_components/PortfolioSection/ArtworkCarousel";
+import ArtworkCarousel from "@/app/(frontend)/_components/Artwork/ArtworkCarousel";
 
 export type ArtworkItem = PayloadArtwork & { image: Media; blurDataURL?: string };
 
