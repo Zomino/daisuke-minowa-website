@@ -92,11 +92,13 @@ export default function Nav({ className = "" }: NavProps) {
   };
 
   // showName：トップページの普段のナビでは、ヒーローに名前があるので出さない。
+  // isSticky：上スクロールで出る固定ナビかどうか。
   const renderNav = ({
     className,
     showName,
+    isSticky,
     ...rest
-  }: React.ComponentProps<"nav"> & { showName: boolean }) => (
+  }: React.ComponentProps<"nav"> & { showName: boolean; isSticky: boolean }) => (
     <nav
       className={`z-50 flex flex-col items-center gap-1 px-4 py-4 font-medium tracking-[0.08em] md:flex-row md:px-8 ${showName ? "md:justify-between" : "md:justify-end"} ${className}`}
       {...rest}
@@ -112,8 +114,11 @@ export default function Nav({ className = "" }: NavProps) {
       <ul className="flex w-full justify-between md:w-auto md:gap-7 md:text-[17px]">
         <li>
           {isHome ? (
+            // ホームは作品の一覧のページなので、ホームにいる間は Works を今のページとして示す。
+            // 下線はヒーローの上では付けず、固定ナビだけに付ける。
             <a
-              className="flex h-11 items-center hover:opacity-70"
+              aria-current="page"
+              className={`flex h-11 items-center underline-offset-8 hover:opacity-70 ${isSticky ? "underline" : ""}`}
               href="#portfolio"
               onClick={handlePortfolioClick}
             >
@@ -154,9 +159,10 @@ export default function Nav({ className = "" }: NavProps) {
                 1つだけだと、アニメーションのクラスを付け外ししたときに、ナビが画面の横から入ってきてしまう。
                 きれいな設計ではないが、この程度の用途なら十分に動く。
             */}
-      {renderNav({ className, ref: navRef, showName: !isHome })}
+      {renderNav({ className, ref: navRef, showName: !isHome, isSticky: false })}
       {renderNav({
         showName: true,
+        isSticky: true,
         className: `fixed top-0 left-0 w-full bg-wall text-ink shadow-[0_1px_0_rgb(0_0_0/0.06)] ${shouldAnimate ? "transition-all duration-300 ease-in-out" : ""} ${isStickyNavVisible ? "translate-y-0 opacity-100" : "pointer-events-none -translate-y-full opacity-0"}`,
         "aria-hidden": true, // 固定でない方のナビと内容が同じなので、スクリーンリーダーには不要。
       })}
