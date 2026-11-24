@@ -21,14 +21,14 @@ export default function ArtworkCarousel({ artwork, ...rest }: ArtworkCarouselPro
 
         return (
           <figure
-            className={`flex flex-col md:h-screen md:flex-row md:items-center ${isFullScreen ? "" : "md:p-5"}`}
+            className={`flex flex-col md:h-full md:flex-row md:items-center ${isFullScreen ? "" : "md:px-5"}`}
           >
             <div
               className={`z-50 md:flex md:h-full md:items-center md:justify-center md:overflow-hidden md:transition-[width] md:duration-300 ${isFullScreen ? "cursor-zoom-out md:w-full" : "cursor-zoom-in md:w-2/3"}`}
               onClick={toggleFullScreen}
             >
               <Image
-                className={`object-contain ${isFullScreen ? "h-screen w-screen" : "h-full w-full"}`}
+                className="h-full w-full object-contain"
                 src={item.image.sizes?.display?.url || ""}
                 alt={item.image.alt || item.title}
                 height={item.image.sizes?.display?.height ?? undefined}

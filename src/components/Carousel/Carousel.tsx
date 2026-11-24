@@ -111,8 +111,15 @@ export default function Carousel<T>({
       {/* 高さと幅に overflow-auto を付けると、それぞれの項目が自分でスクロールできるようになる。 */}
       <div className="flex h-full w-full">
         {items.map((item, i) => (
-          // スマホでは説明が下に続くので、最後の行が下の操作の帯に隠れないよう余白をとる。
-          <div key={i} className="flex-[0_0_100%] overflow-auto max-md:pb-16">
+          // 上下の操作の分だけ余白をとり、写真が操作の下に入り込まないようにする。
+          // 操作に背景を付けずに済むので、次の写真に移るときも壁の色だけが見える。
+          // 全画面でも白い壁の余白は残し、少しだけ狭めて写真を大きくする。
+          <div
+            key={i}
+            // 余白の変化もなめらかにして、写真が画像の幅の変化と一緒に広がるようにする。
+            // 上の余白は、Close の下にもう少し空きができるよう、下より広くとる。
+            className={`h-full flex-[0_0_100%] overflow-auto pt-20 pb-20 transition-[padding] duration-300 ${isFullScreen ? "md:pt-24" : "md:pt-28 md:pb-24"}`}
+          >
             {children(item, i, {
               scrollNext,
               scrollPrev,
@@ -126,20 +133,26 @@ export default function Carousel<T>({
       {/* 美術館の案内のように、操作は文字で常に出しておく。 */}
       <CarouselButton
         ariaLabel="Close carousel"
-        className="absolute top-2 right-2 bg-wall/90 md:top-4 md:right-4"
+        className="absolute top-4 right-4 px-3 md:top-8 md:right-8"
         onClick={close}
       >
         Close
       </CarouselButton>
-      <div className="absolute inset-x-0 bottom-0 z-50 flex items-center justify-between gap-2 bg-wall/90 px-2 md:px-6">
-        <CarouselButton ariaLabel="Previous image" onClick={scrollPrev}>
+      {/* サイトの左右の余白（スマホ 16px、PC 32px）と揃え、下にも同じだけ余裕をとる。 */}
+      {/* 左右の幅が違っても枚数が真ん中に来るよう、両端の列を同じ幅にする。 */}
+      <div className="absolute inset-x-0 bottom-0 z-50 grid grid-cols-[1fr_auto_1fr] items-center gap-2 px-4 pt-2 pb-4 md:px-8 md:pt-3 md:pb-6">
+        <CarouselButton
+          ariaLabel="Previous image"
+          className="justify-self-start"
+          onClick={scrollPrev}
+        >
           <span aria-hidden>←</span> Previous
         </CarouselButton>
         <p className="text-sm tracking-[0.08em] text-muted">
           <span className="sr-only">Image </span>
           {selectedIndex + 1} / {items.length}
         </p>
-        <div className="flex gap-2 md:gap-6">
+        <div className="flex gap-2 justify-self-end md:gap-6">
           <CarouselButton ariaLabel="Next image" onClick={scrollNext}>
             Next <span aria-hidden>→</span>
           </CarouselButton>
@@ -148,7 +161,15 @@ export default function Carousel<T>({
             className="max-md:hidden"
             onClick={toggleFullScreen}
           >
-            {isFullScreen ? "View smaller" : "View larger"}
+            {/* 2つの文字を同じ場所に重ねて、長い方の幅を確保する。切り替えても Next の位置が動かない。 */}
+            <span className="grid">
+              <span className={`col-start-1 row-start-1 ${isFullScreen ? "invisible" : ""}`}>
+                View larger
+              </span>
+              <span className={`col-start-1 row-start-1 ${isFullScreen ? "" : "invisible"}`}>
+                View smaller
+              </span>
+            </span>
           </CarouselButton>
         </div>
       </div>
