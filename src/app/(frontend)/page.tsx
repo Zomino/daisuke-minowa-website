@@ -1,57 +1,50 @@
-import Image from "next/image";
+import config from "@payload-config";
+import { getPayload } from "payload";
 
-import heroImage from "@/app/(frontend)/_images/hero.jpg";
+import { type Media } from "@/payload-types";
 
-import AboutSection from "@/app/(frontend)/_components/AboutSection/AboutSection";
-import ContactSection from "@/app/(frontend)/_components/ContactSection/ContactSection";
-import Divider from "@/components/Divider/Divider";
-import Nav from "@/app/(frontend)/_components/Nav/Nav";
-import PortfolioSection from "@/app/(frontend)/_components/PortfolioSection/PortfolioSection";
+import Artwork, { type ArtworkItem } from "@/app/(frontend)/_components/Artwork/Artwork";
 
-export default function Page() {
-  // サーバーで描画するので、表示のたびに値が変わることはない。
-  // oxlint-disable-next-line react/purity
-  const year = new Date().getFullYear();
+// next/image のぼかしは base64 のデータしか受け付けないので、ここで小さいサムネイルを取ってくる。
+// ぼかしがなくてもページが壊れないよう、取れなかったときはぼかしなしにする。
+async function toBlurDataURL(image: Media) {
+  const thumbUrl = image.sizes?.thumb?.url;
+  if (!thumbUrl) return undefined;
+  try {
+    const response = await fetch(thumbUrl);
+    if (!response.ok) return undefined;
+    const base64 = Buffer.from(await response.arrayBuffer()).toString("base64");
+    return `data:${image.sizes?.thumb?.mimeType ?? "image/jpeg"};base64,${base64}`;
+  } catch (error) {
+    console.error(`Could not load blur placeholder from ${thumbUrl}`, error);
+    return undefined;
+  }
+}
+
+export default async function Page() {
+  const payload = await getPayload({ config });
+  const { docs } = await payload.find({
+    collection: "artworks",
+    where: { _status: { equals: "published" } },
+    sort: "-date",
+    limit: 0,
+    depth: 1,
+  });
+
+  const artwork: ArtworkItem[] = await Promise.all(
+    docs
+      .filter((doc) => typeof doc.image === "object" && doc.image.sizes?.display?.url)
+      .map(async (doc) => {
+        const image = doc.image as Media;
+        return { ...doc, image, blurDataURL: await toBlurDataURL(image) };
+      }),
+  );
 
   return (
-    <>
-      <header className="relative h-screen">
-        <Image
-          alt="Hero background image" // Next.js の Image では必須の項目。
-          aria-hidden // 飾りの画像なので、支援技術からは隠す。代替テキストがページに出てしまうのも防ぐ。
-          className="absolute inset-0 object-cover"
-          fill // fill にすると、幅と高さを指定しなくてもレイアウトのずれを防げる。
-          placeholder="blur" // 読み込み中はぼかした画像を出して、なめらかに表示する。
-          priority // この画像はすぐに読み込む。
-          src={heroImage} // 読み込んだ画像をそのまま src に渡す。Next.js が正しく最適化できるようにするため。
-        />
-        <h1 className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 transform text-center text-4xl font-extralight tracking-widest text-white uppercase drop-shadow-lg md:text-5xl">
-          Daisuke Minowa
-        </h1>
-        <Nav />
-      </header>
-      <main className="px-4 sm:px-6 md:px-8">
-        <div className="mt-28">
-          <PortfolioSection />
-        </div>
-        <div className="my-20 md:my-24">
-          <Divider />
-        </div>
-        <div className="mt-20">
-          <AboutSection />
-        </div>
-        <div className="my-20 md:my-24">
-          <Divider />
-        </div>
-        <div className="mt-20">
-          <ContactSection />
-        </div>
-      </main>
-      <footer className="mt-15">
-        <p className="text-center text-xs md:text-sm">
-          &copy; <time dateTime={year.toString()}>{year}</time> Daisuke Minowa. All rights reserved.
-        </p>
-      </footer>
-    </>
+    <section className="pt-18 md:pt-24">
+      <h2 className="sr-only">Portfolio</h2>
+      {/* Works で移ってきたとき、上の余白ではなく作品の頭が固定ナビのすぐ下に来るよう、アンカーは一覧に付ける。 */}
+      <Artwork id="portfolio" artwork={artwork} />
+    </section>
   );
 }

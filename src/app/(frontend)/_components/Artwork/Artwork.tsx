@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 
 import { type Artwork as PayloadArtwork, type Media } from "@/payload-types";
 
-import ArtworkCarousel from "@/app/(frontend)/_components/PortfolioSection/ArtworkCarousel";
+import ArtworkCarousel from "@/app/(frontend)/_components/Artwork/ArtworkCarousel";
 
 export type ArtworkItem = PayloadArtwork & { image: Media; blurDataURL?: string };
 
@@ -13,7 +13,7 @@ interface ArtworkProps extends React.ComponentProps<"div"> {
   artwork: ArtworkItem[];
 }
 
-export default function Artwork({ artwork, className, ...rest }: ArtworkProps) {
+export default function Artwork({ artwork, className = "", ...rest }: ArtworkProps) {
   const [isCarouselOpen, setIsCarouselOpen] = useState(false);
   const [isCarouselClosing, setIsCarouselClosing] = useState(false);
   const [carouselStartIndex, setCarouselStartIndex] = useState(0);
@@ -46,10 +46,7 @@ export default function Artwork({ artwork, className, ...rest }: ArtworkProps) {
   };
 
   return (
-    <div
-      className={`mt-10 columns-1 gap-4 space-y-4 md:columns-2 lg:columns-3 xl:columns-4 2xl:columns-5 ${className}`}
-      {...rest}
-    >
+    <div className={`columns-1 gap-4 space-y-4 md:columns-2 lg:columns-3 ${className}`} {...rest}>
       {isCarouselOpen && (
         <div
           className={`fixed inset-0 z-50 h-screen w-screen bg-black/70 backdrop-blur-md transition duration-300 starting:scale-95 starting:opacity-0 ${isCarouselClosing ? "pointer-events-none scale-95 opacity-0" : ""}`}
@@ -66,7 +63,7 @@ export default function Artwork({ artwork, className, ...rest }: ArtworkProps) {
         <button
           key={a.id}
           type="button"
-          className="group relative block w-full overflow-hidden shadow-[0_18px_40px_-18px_rgba(0,0,0,0.45)] hover:cursor-pointer"
+          className="group relative block w-full overflow-hidden hover:cursor-pointer"
           onClick={() => handleImageClick(index)}
         >
           <Image
@@ -80,13 +77,13 @@ export default function Artwork({ artwork, className, ...rest }: ArtworkProps) {
             blurDataURL={a.blurDataURL}
             // sizes はグリッドのメディアクエリに合わせる。
             // Next.js が画像の読み込みを最適化するための、おおよその値。
-            sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 25vw"
+            sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
           />
           <div
             aria-hidden
             className="absolute inset-0 flex items-center justify-center opacity-0 transition duration-300 group-hover:opacity-100 group-focus-visible:opacity-100"
           >
-            <span className="text-white">{a.title}</span>
+            <span className="text-lg text-white">{a.title}</span>
           </div>
         </button>
       ))}

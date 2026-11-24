@@ -17,7 +17,7 @@ export default function CarouselButton({
   return (
     <button
       aria-label={ariaLabel}
-      className={`cursor-pointer rounded-full border border-black/10 bg-white p-3 text-black/70 shadow-sm hover:bg-black/5 ${className}`}
+      className={`flex min-h-11 cursor-pointer items-center gap-2 px-2 text-sm tracking-[0.08em] text-ink hover:text-muted ${className}`}
       onClick={onClick}
       {...rest}
     >

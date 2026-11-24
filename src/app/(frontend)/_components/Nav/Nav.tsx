@@ -1,22 +1,39 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 
 const SCROLL_KEYS = ["ArrowUp", "ArrowDown", "PageUp", "PageDown", "Home", "End", "Space"];
 
-/** このナビは、ページのほかの場所に正しいアンカーが置かれていることを前提にしている。 */
-export default function Nav() {
+interface NavProps {
+  className?: string; // 固定でない方のナビに付けるクラス。ページごとに位置と色が違う。
+}
+
+/** このナビは、トップページに #portfolio のアンカーが置かれていることを前提にしている。 */
+export default function Nav({ className = "" }: NavProps) {
+  const pathname = usePathname();
+  const isHome = pathname === "/";
   const [isStickyNavVisible, setIsStickyNavVisible] = useState(false);
+  // 最初の表示ではアニメーションさせない。ページを移ったときに、固定ナビが上から入ってくる間だけ消えて見えるため。
+  const [shouldAnimate, setShouldAnimate] = useState(false);
+  const navRef = useRef<HTMLElement>(null);
+  const isNavOutOfViewRef = useRef(false);
   const lastScrollYRef = useRef(0);
   const navigationActiveRef = useRef(false);
 
   useEffect(() => {
+    const frame = requestAnimationFrame(() => setShouldAnimate(true));
+    return () => cancelAnimationFrame(frame);
+  }, []);
+
+  // 画面に描く前に表示するかを決めるため、useLayoutEffect にする。useEffect だと、隠れたナビが1回描かれてしまう。
+  useLayoutEffect(() => {
     const handleScroll = () => {
-      const isNavPastOriginalPosition = window.scrollY > window.innerHeight * 0.75;
       const isScrollingUp = window.scrollY < lastScrollYRef.current;
 
-      // プログラムで移動している間か、ヒーローより下で上にスクロールしているときに表示する。
-      if (navigationActiveRef.current || (isNavPastOriginalPosition && isScrollingUp)) {
+      // プログラムで移動している間か、固定でない方のナビが見えない位置で上にスクロールしているときに表示する。
+      if (navigationActiveRef.current || (isNavOutOfViewRef.current && isScrollingUp)) {
         setIsStickyNavVisible(true);
       } else {
         setIsStickyNavVisible(false);
@@ -24,6 +41,13 @@ export default function Nav() {
 
       lastScrollYRef.current = window.scrollY;
     };
+
+    // ナビの位置はページごとに違うので、スクロール量ではなく、ナビが画面に見えているかで判断する。
+    const observer = new IntersectionObserver(([entry]) => {
+      isNavOutOfViewRef.current = !entry.isIntersecting;
+      handleScroll();
+    });
+    if (navRef.current) observer.observe(navRef.current);
 
     const cancelNavigationIfUserScrolls = () => {
       if (!navigationActiveRef.current) return;
@@ -43,9 +67,14 @@ export default function Nav() {
     window.addEventListener("touchmove", cancelNavigationIfUserScrolls, { passive: true });
     window.addEventListener("keydown", handleKeydown, { passive: true });
 
+    // ほかのページから /#portfolio に来たときは、ページ内で移動したときと同じく固定ナビを出しておく。
+    // 出さないと、作品の位置から始まるのでナビがどこにも見えない。ユーザーがスクロールすると消える。
+    if (window.location.hash) navigationActiveRef.current = true;
+
     handleScroll(); // 最初の位置に合わせて、表示するかどうかを決める。
 
     return () => {
+      observer.disconnect();
       window.removeEventListener("scroll", handleScroll);
       window.removeEventListener("wheel", cancelNavigationIfUserScrolls);
       window.removeEventListener("touchmove", cancelNavigationIfUserScrolls);
@@ -53,47 +82,87 @@ export default function Nav() {
     };
   }, []);
 
-  const handleClick = (event: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+  // トップページの中では、作品の位置までなめらかにスクロールする。
+  const handlePortfolioClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
     event.preventDefault();
     navigationActiveRef.current = true;
     setIsStickyNavVisible(true);
-    document.querySelector(href)?.scrollIntoView({ behavior: "smooth" });
-    window.history.pushState(null, "", href);
+    document.querySelector("#portfolio")?.scrollIntoView({ behavior: "smooth" });
+    window.history.pushState(null, "", "#portfolio");
   };
 
-  const renderNav = ({ className, ...rest }: React.ComponentProps<"nav">) => (
-    <nav className={`align-center z-50 flex justify-center p-3 ${className}`} {...rest}>
-      <ul className="flex gap-4">
+  // showName：トップページの普段のナビでは、ヒーローに名前があるので出さない。
+  // isSticky：上スクロールで出る固定ナビかどうか。
+  const renderNav = ({
+    className,
+    showName,
+    isSticky,
+    ...rest
+  }: React.ComponentProps<"nav"> & { showName: boolean; isSticky: boolean }) => (
+    <nav
+      data-sticky={isHome ? undefined : true}
+      className={`z-50 flex flex-col items-center gap-1 px-4 py-4 font-medium tracking-[0.08em] md:flex-row md:px-8 ${showName ? "md:justify-between" : "md:justify-end"} ${className}`}
+      {...rest}
+    >
+      {showName && (
+        <Link
+          className="flex min-h-11 items-center text-lg tracking-[0.16em] hover:opacity-70 md:text-xl"
+          href="/"
+        >
+          DAISUKE MINOWA
+        </Link>
+      )}
+      <ul className="flex w-full justify-between md:w-auto md:gap-7 md:text-[17px]">
         <li>
-          <a
-            className="cursor-pointer text-lg uppercase hover:opacity-70 md:text-xl"
-            href="#portfolio"
-            onClick={(event) => handleClick(event, "#portfolio")}
-          >
-            Portfolio
-          </a>
+          {isHome ? (
+            // ホームは作品の一覧のページなので、ホームにいる間は Works を今のページとして示す。
+            // 下線はヒーローの上では付けず、固定ナビだけに付ける。
+            <a
+              aria-current="page"
+              className={`flex h-11 items-center underline-offset-8 hover:opacity-70 ${isSticky ? "underline" : ""}`}
+              href="#portfolio"
+              onClick={handlePortfolioClick}
+            >
+              Works
+            </a>
+          ) : (
+            <Link className="flex h-11 items-center hover:opacity-70" href="/#portfolio">
+              Works
+            </Link>
+          )}
         </li>
         <li>
-          <a
-            className="cursor-pointer text-lg uppercase hover:opacity-70 md:text-xl"
-            href="#about"
-            onClick={(event) => handleClick(event, "#about")}
+          <Link
+            aria-current={pathname === "/about" ? "page" : undefined}
+            className="flex h-11 items-center underline-offset-8 hover:opacity-70 aria-[current=page]:underline"
+            href="/about"
           >
             About
-          </a>
+          </Link>
         </li>
         <li>
-          <a
-            className="cursor-pointer text-lg uppercase hover:opacity-70 md:text-xl"
-            href="#contact"
-            onClick={(event) => handleClick(event, "#contact")}
+          <Link
+            aria-current={pathname === "/contact" ? "page" : undefined}
+            className="flex h-11 items-center underline-offset-8 hover:opacity-70 aria-[current=page]:underline"
+            href="/contact"
           >
             Contact
-          </a>
+          </Link>
         </li>
       </ul>
     </nav>
   );
+
+  // ホーム以外では、ナビを1つだけ出し、header ごと画面の上に貼り付ける（data-sticky を Header が見る）。
+  // 消えてから戻る動きをなくすため、上スクロールで出す固定ナビは使わない。
+  if (!isHome) {
+    // 下の細い線は、ホームの固定ナビと同じもの。スクロールした中身とナビの境目を見せる。
+    return renderNav({
+      className: "bg-wall shadow-[0_1px_0_rgb(0_0_0/0.06)]",
+      showName: true,
+      isSticky: false,
+    });
+  }
 
   return (
     <>
@@ -102,11 +171,11 @@ export default function Nav() {
                 1つだけだと、アニメーションのクラスを付け外ししたときに、ナビが画面の横から入ってきてしまう。
                 きれいな設計ではないが、この程度の用途なら十分に動く。
             */}
+      {renderNav({ className, ref: navRef, showName: !isHome, isSticky: false })}
       {renderNav({
-        className: "absolute top-[calc(60%)] left-1/2 -translate-x-1/2 transform text-white",
-      })}
-      {renderNav({
-        className: `fixed top-0 left-0 w-full bg-white text-black shadow-md transition-all duration-300 ease-in-out ${isStickyNavVisible ? "translate-y-0 opacity-100" : "pointer-events-none -translate-y-full opacity-0"}`,
+        showName: true,
+        isSticky: true,
+        className: `fixed top-0 left-0 w-full bg-wall text-ink shadow-[0_1px_0_rgb(0_0_0/0.06)] ${shouldAnimate ? "transition-all duration-300 ease-in-out" : ""} ${isStickyNavVisible ? "translate-y-0 opacity-100" : "pointer-events-none -translate-y-full opacity-0"}`,
         "aria-hidden": true, // 固定でない方のナビと内容が同じなので、スクリーンリーダーには不要。
       })}
     </>

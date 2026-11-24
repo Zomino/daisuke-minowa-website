@@ -1,6 +1,6 @@
 import { APIError, type CollectionBeforeDeleteHook, type CollectionConfig } from "payload";
 
-import { revalidateHome } from "@/collections/revalidateHome";
+import { revalidateSite } from "@/collections/revalidateSite";
 
 /**
  * 作品（公開中か最新の下書き）で使われている写真は、削除できないようにする。
@@ -36,8 +36,8 @@ const preventDeletingImagesInUse: CollectionBeforeDeleteHook = async ({ id, req 
 export const Media: CollectionConfig = {
   slug: "media",
   hooks: {
-    afterChange: [revalidateHome],
-    afterDelete: [revalidateHome],
+    afterChange: [revalidateSite],
+    afterDelete: [revalidateSite],
     beforeDelete: [preventDeletingImagesInUse],
   },
   labels: {

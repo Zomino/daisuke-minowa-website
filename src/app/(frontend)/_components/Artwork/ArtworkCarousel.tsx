@@ -4,7 +4,7 @@ import Image from "next/image";
 
 import Carousel from "@/components/Carousel/Carousel";
 
-import { type ArtworkItem } from "@/app/(frontend)/_components/PortfolioSection/Artwork";
+import { type ArtworkItem } from "@/app/(frontend)/_components/Artwork/Artwork";
 
 interface ArtworkCarouselProps extends Omit<
   React.ComponentProps<typeof Carousel>,
@@ -21,14 +21,14 @@ export default function ArtworkCarousel({ artwork, ...rest }: ArtworkCarouselPro
 
         return (
           <figure
-            className={`flex flex-col md:h-screen md:flex-row md:items-center ${isFullScreen ? "" : "md:p-5"}`}
+            className={`flex flex-col md:h-full md:flex-row md:items-center ${isFullScreen ? "" : "md:px-5"}`}
           >
             <div
               className={`z-50 md:flex md:h-full md:items-center md:justify-center md:overflow-hidden md:transition-[width] md:duration-300 ${isFullScreen ? "cursor-zoom-out md:w-full" : "cursor-zoom-in md:w-2/3"}`}
               onClick={toggleFullScreen}
             >
               <Image
-                className={`object-contain ${isFullScreen ? "h-screen w-screen" : "h-full w-full"}`}
+                className="h-full w-full object-contain"
                 src={item.image.sizes?.display?.url || ""}
                 alt={item.image.alt || item.title}
                 height={item.image.sizes?.display?.height ?? undefined}
@@ -45,9 +45,9 @@ export default function ArtworkCarousel({ artwork, ...rest }: ArtworkCarouselPro
             >
               {/* 幅が変わるあいだに文章が折り返し直さないよう、中身の幅は固定する。 */}
               <div className="p-5 md:w-[calc((100vw-2.5rem)/3)]">
-                <h3 className="text-xl font-extralight uppercase">{item.title ?? "(untitled)"}</h3>
+                <h3 className="text-xl uppercase">{item.title ?? "(untitled)"}</h3>
                 {item.technique && (
-                  <p className="mt-5 text-sm tracking-wide text-black/70 uppercase">
+                  <p className="mt-5 text-sm tracking-wide text-muted uppercase">
                     {item.technique}
                   </p>
                 )}

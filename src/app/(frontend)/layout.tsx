@@ -2,6 +2,13 @@ import { Analytics } from "@vercel/analytics/next";
 import { type Metadata, type Viewport } from "next";
 
 import "@/app/(frontend)/globals.css";
+
+import Body from "@/app/(frontend)/_components/Body/Body";
+import Footer from "@/app/(frontend)/_components/Footer/Footer";
+import Header from "@/app/(frontend)/_components/Header/Header";
+import Html from "@/app/(frontend)/_components/Html/Html";
+import Main from "@/app/(frontend)/_components/Main/Main";
+
 export const metadata: Metadata = {
   title: "Daisuke Minowa",
   description:
@@ -17,17 +24,22 @@ export const viewport: Viewport = {
   viewportFit: "cover",
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+// header は @header スロットから受け取る。ページごとに中身が違う（ホームは写真つき）ため。
+export default function RootLayout({
+  children,
+  header,
+}: {
+  children: React.ReactNode;
+  header: React.ReactNode;
+}) {
   return (
-    <html
-      className="scroll-pt-22 scroll-smooth bg-white font-arial text-black"
-      data-scroll-behavior="smooth"
-      lang="en"
-    >
-      <body>
-        {children}
+    <Html>
+      <Body>
+        <Header>{header}</Header>
+        <Main>{children}</Main>
+        <Footer />
         <Analytics />
-      </body>
-    </html>
+      </Body>
+    </Html>
   );
 }
