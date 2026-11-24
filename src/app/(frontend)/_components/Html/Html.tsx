@@ -13,8 +13,9 @@ const mincho = Shippori_Mincho({
 export default function Html({ children }: { children: React.ReactNode }) {
   return (
     <html
-      // 固定ナビに隠れないよう、ナビの高さだけ余白をとってスクロールを止める。スマホではナビが2段になる。
-      className={`${mincho.variable} scroll-pt-32 scroll-smooth bg-wall font-mincho text-ink md:scroll-pt-22`}
+      // 固定ナビに隠れないよう、ナビの高さに左右の余白と同じ空き（スマホ 16px、PC 32px）を足してスクロールを止める。
+      // ナビの高さは、スマホでは2段で 124px、PC では 76px。
+      className={`${mincho.variable} scroll-pt-35 scroll-smooth bg-wall font-mincho text-ink md:scroll-pt-27`}
       data-scroll-behavior="smooth"
       lang="en"
     >

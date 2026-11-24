@@ -41,9 +41,10 @@ export default async function Page() {
   );
 
   return (
-    <section id="portfolio" className="pt-18 md:pt-24">
+    <section className="pt-18 md:pt-24">
       <h2 className="sr-only">Portfolio</h2>
-      <Artwork artwork={artwork} />
+      {/* Works で移ってきたとき、上の余白ではなく作品の頭が固定ナビのすぐ下に来るよう、アンカーは一覧に付ける。 */}
+      <Artwork id="portfolio" artwork={artwork} />
     </section>
   );
 }
