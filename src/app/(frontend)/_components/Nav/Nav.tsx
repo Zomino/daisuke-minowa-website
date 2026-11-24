@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 
 const SCROLL_KEYS = ["ArrowUp", "ArrowDown", "PageUp", "PageDown", "Home", "End", "Space"];
 
@@ -15,12 +15,20 @@ export default function Nav({ className = "" }: NavProps) {
   const pathname = usePathname();
   const isHome = pathname === "/";
   const [isStickyNavVisible, setIsStickyNavVisible] = useState(false);
+  // 最初の表示ではアニメーションさせない。ページを移ったときに、固定ナビが上から入ってくる間だけ消えて見えるため。
+  const [shouldAnimate, setShouldAnimate] = useState(false);
   const navRef = useRef<HTMLElement>(null);
   const isNavOutOfViewRef = useRef(false);
   const lastScrollYRef = useRef(0);
   const navigationActiveRef = useRef(false);
 
   useEffect(() => {
+    const frame = requestAnimationFrame(() => setShouldAnimate(true));
+    return () => cancelAnimationFrame(frame);
+  }, []);
+
+  // 画面に描く前に表示するかを決めるため、useLayoutEffect にする。useEffect だと、隠れたナビが1回描かれてしまう。
+  useLayoutEffect(() => {
     const handleScroll = () => {
       const isScrollingUp = window.scrollY < lastScrollYRef.current;
 
@@ -149,7 +157,7 @@ export default function Nav({ className = "" }: NavProps) {
       {renderNav({ className, ref: navRef, showName: !isHome })}
       {renderNav({
         showName: true,
-        className: `fixed top-0 left-0 w-full bg-wall text-ink shadow-[0_1px_0_rgb(0_0_0/0.06)] transition-all duration-300 ease-in-out ${isStickyNavVisible ? "translate-y-0 opacity-100" : "pointer-events-none -translate-y-full opacity-0"}`,
+        className: `fixed top-0 left-0 w-full bg-wall text-ink shadow-[0_1px_0_rgb(0_0_0/0.06)] ${shouldAnimate ? "transition-all duration-300 ease-in-out" : ""} ${isStickyNavVisible ? "translate-y-0 opacity-100" : "pointer-events-none -translate-y-full opacity-0"}`,
         "aria-hidden": true, // 固定でない方のナビと内容が同じなので、スクリーンリーダーには不要。
       })}
     </>
