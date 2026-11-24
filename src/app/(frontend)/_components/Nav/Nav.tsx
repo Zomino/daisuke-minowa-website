@@ -156,7 +156,12 @@ export default function Nav({ className = "" }: NavProps) {
   // ホーム以外では、ナビを1つだけ出し、header ごと画面の上に貼り付ける（data-sticky を Header が見る）。
   // 消えてから戻る動きをなくすため、上スクロールで出す固定ナビは使わない。
   if (!isHome) {
-    return renderNav({ className: "bg-wall", showName: true, isSticky: false });
+    // 下の細い線は、ホームの固定ナビと同じもの。スクロールした中身とナビの境目を見せる。
+    return renderNav({
+      className: "bg-wall shadow-[0_1px_0_rgb(0_0_0/0.06)]",
+      showName: true,
+      isSticky: false,
+    });
   }
 
   return (
