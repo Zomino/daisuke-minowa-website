@@ -100,6 +100,7 @@ export default function Nav({ className = "" }: NavProps) {
     ...rest
   }: React.ComponentProps<"nav"> & { showName: boolean; isSticky: boolean }) => (
     <nav
+      data-sticky={isHome ? undefined : true}
       className={`z-50 flex flex-col items-center gap-1 px-4 py-4 font-medium tracking-[0.08em] md:flex-row md:px-8 ${showName ? "md:justify-between" : "md:justify-end"} ${className}`}
       {...rest}
     >
@@ -151,6 +152,12 @@ export default function Nav({ className = "" }: NavProps) {
       </ul>
     </nav>
   );
+
+  // ホーム以外では、ナビを1つだけ出し、header ごと画面の上に貼り付ける（data-sticky を Header が見る）。
+  // 消えてから戻る動きをなくすため、上スクロールで出す固定ナビは使わない。
+  if (!isHome) {
+    return renderNav({ className: "bg-wall", showName: true, isSticky: false });
+  }
 
   return (
     <>
